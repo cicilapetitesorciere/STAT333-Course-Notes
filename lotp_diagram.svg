@@ -1,0 +1,15 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Layer 1</title>
+  <ellipse rx="0.5" id="svg_8" cy="239" cx="442.5" stroke="#000" fill="none"/>
+  <line stroke-width="3" stroke="#000" id="svg_10" y2="600" x2="400" y1="0" x1="400" fill-opacity="0.49" fill="none"/>
+  <path stroke-width="3" id="svg_11" d="m0,295l800,5" opacity="undefined" stroke="#000" fill-opacity="0.49" fill="none"/>
+  <path id="svg_12" d="m420.5,537c40.45303,92 -263.5,-45.36188 -310.5,-226.5c-47,-181.13814 132.95303,-34.50003 310.5,-226.50002c177.547,-191.99999 270.5,166.36189 293.5,353.50002c23,187.13812 -333.95303,7.5 -293.5,99.5z" opacity="undefined" stroke="#000" fill-opacity="0.26" fill="#0067bc"/>
+  <text stroke="#000" transform="matrix(1.53953 0 0 1.24506 -32.0366 541.726)" font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Brygada 1918'" font-size="24" stroke-width="0" id="svg_13" y="-388.51606" x="49.25674" fill="#191919">B₁</text>
+  <text style="cursor: move;" stroke="#000" transform="matrix(1.53953 0 0 1.24506 -32.0366 541.726)" font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Brygada 1918'" font-size="24" stroke-width="0" id="svg_14" y="-370.04305" x="484.45448" fill="#191919">B₂</text>
+  <text style="cursor: move;" stroke="#000" transform="matrix(1.53953 0 0 1.24506 -32.0366 541.726)" font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Brygada 1918'" font-size="24" stroke-width="0" id="svg_15" y="-23.07181" x="58.35042" fill="#191919">B₃</text>
+  <text style="cursor: move;" stroke="#000" transform="matrix(1.53953 0 0 1.24506 -32.0366 541.726)" font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Brygada 1918'" font-size="24" stroke-width="0" id="svg_16" y="8.25198" x="490.94997" fill="#191919">B₄</text>
+  <text stroke="#000" transform="matrix(1.53953 0 0 1.24506 -32.0366 541.726)" font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Brygada 1918'" font-size="24" stroke-width="0" id="svg_17" y="-246.35423" x="316.87087" fill="#191919">A</text>
+ </g>
+</svg>

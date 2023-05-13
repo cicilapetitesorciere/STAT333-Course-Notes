@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{svg}
 
 \usepackage{nicefrac}
 
@@ -158,18 +159,18 @@ We often call $P(A)$ the \textbf{Prior Probability} and $P(A\vert B)$ the \textb
 The definition of $P(A\vert B)$ is deceptively simple, but it has wide-ranging consequences. But first, we must establish yet more terminology: A \textbf{Partition} of $\Omega$ is any set of Mutually Exclusive Events $B_1,B_2,...,B_n$ such that $B_1\cup B_2\cup\cdots \cup B_n=\Omega$.
 
 \begin{theorem}{Law of Total Probability (LOTP)}
-Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$:
+Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$
 \[
     P(A)=\sum_{i=1}^n P(A\vert B_i) P(B_i)
 \]
 \tcblower
 \begin{proof}
-    Since $B_1,B_2,...,B_n$ form a Partition of $\Omega$, we can decompose $A$ as follows:
+    Since $B_1,B_2,...,B_n$ form a Partition of $\Omega$, we can decompose $A$ into the following union of Mutually Exclusive Events:
     \[
         A=(A\cap B_1)\cup (A\cap B_2) \cup \cdots \cup (A\cap B_n)
     \]
-    \todo: make figure
-    Moreover, each of these sets are Mutually Exclusive. Then by Definition \ref{def:probability}
+    \includesvg[width=\textwidth]{lotp_diagram.svg}
+    Then by Definition \ref{def:probability}
     \[
         P(A)=P(A\cap B_1)+ P(A\cap B_2)+ \cdots + P(A\cap B_n)
     \]
