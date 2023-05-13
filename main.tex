@@ -1,0 +1,337 @@
+\documentclass{report}
+
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage{nicefrac}
+
+\begin{document}
+
+\setlength\parindent{0pt}
+
+\newcommand{\todo}{TODO\quad}
+
+\newtcolorbox[auto counter,number within=section]{example}[2][]{%
+    colback=green!5!white,
+    colframe=green!75!black,
+    fonttitle=\bfseries,
+    title=Example.~\thetcbcounter: #2
+}
+
+\newtcolorbox[auto counter,number within=section]{definition}[2][]{%
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    fonttitle=\bfseries,
+    title=Definition~\thetcbcounter: #2
+}
+
+\newtcolorbox[auto counter,number within=section]{theorem}[2][]{%
+    colback=yellow!5!white,
+    colframe=yellow!75!black,
+    fonttitle=\bfseries,
+    title=Theorem~\thetcbcounter: #2
+}
+
+\newtcolorbox[auto counter,number within=section]{lemma}[1][]{%
+    colback=yellow!5!white,
+    colframe=yellow!75!black,
+    fonttitle=\bfseries,
+    title=Lemma~\thetcbcounter
+}
+
+\newtcolorbox[auto counter,number within=section]{notsofast}[1][]{%
+    colback=red!5!white,
+    colframe=red!75!black,
+    fonttitle=\bfseries,
+    title=\emph{Not So Fast!}
+}
+
+\tableofcontents
+
+\chapter{Univariate Distributions and Generating Functions}
+
+\section{Laws of Probability}
+Imagine you have have a coin and you flip it twice in a row. One of several things may happen. Perhaps you get two heads ($HH$), or two tails ($TT$), or perhaps some combination of the two ($HT$ or $TH$). We can list all the possibilities of what might happen, \emph{however} we do not know what \emph{will} happen. We will observe many situations like this this course and in real life, and we refer to them as \textbf{Random Experiments}. The \textbf{Sample Space} of a Random Experiment (often denoted as $S$ or $\Omega$) is the set of all possible outcomes we may observe. For instance:
+\[
+    \Omega=\{HH,HT,TH,TT\}
+\]
+
+\begin{notsofast}
+The Sample Space is not unique! We may define it differently depending on what properties we are interested in. For instance, suppose we do not care about the order of the coins but simply how many heads we observe. In this case we could define the Sample Space as
+\[
+    \Omega=\{0,1,2\}
+\]
+which is equally valid.
+\end{notsofast}
+We may also be interested in certain subsets of the Sample Space. For instance: what are the different ways we can get the same coin twice?
+\[
+    \{HH,TT\}\subseteq \Omega
+\]
+We refer to such subsets as \textbf{Events}. For the purposes of this course, any subset of the Sample Space can be considered an Event (\todo CONFIRM!). Any two Events $A$ and $B$ are \textbf{Mutually Exclusive} if $A\cup B=\emptyset$. From here we get the definition of \textbf{Probability}:
+\begin{definition}{Probability}
+Probability is a function which maps Events to $\mathbb R$ and satisfies the following axioms:
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item $P(\emptyset) = 0$
+        \item $P(\Omega)=1$
+    \end{enumerate}
+    \item If $A_1, A_2,...$ are Mutually Exclusive Events, then
+    \[
+        P\left(\ \bigcup_{i=1}^\infty A_i\ \right) = \sum_{i=1}^\infty P(A_i)
+    \]
+\end{enumerate}
+\end{definition}
+\label{def:probability}
+From this one small definition, we can derive the entire field of probability theory:
+
+\begin{lemma}
+    For any Event $A$ with compliment $\bar A$, $P(\bar A)=1-P(A)$
+\tcblower
+\begin{proof}
+    Since $A$ and $\bar A$ are compliments of one another, they are mutually exclusive and satisfy
+    \[
+        A\cup \bar A = \Omega
+    \]
+    and hence
+    \[
+        P(A)+P(\bar A) = P(\Omega) = 1
+    \]
+    giving us
+    \[
+        P(\bar A)=1-P(A)
+    \]
+\end{proof}
+\end{lemma}
+
+\begin{lemma}
+    For any two Events $A$ and $B$ such that $A\subseteq B$, $P(A)\le P(B)$.
+    \tcblower
+    \begin{proof}
+    Consider the Event $B\backslash A$, which is mutually exclusive to $A$. Since $A\subseteq B$ we may express $B$ as
+    \[
+        B=A\cup (B\backslash A)
+    \]
+    giving us
+    \[
+        P(B)=P(A)+P(B\backslash A)
+    \]
+    It can be shown that the probability of any Event is greater than or equal to zero (this is left as an exercise to the reader), and therefore $P(B)\le P(A)$.
+    \end{proof}
+\end{lemma}
+
+One special case of Definition \ref{def:probability} is known as \textbf{The Classical Definition of Probability}. \todo CLASSICAL DEFINITION
+
+\subsection*{End-of-the-section Problems}\label{sec:problaw_eosp}
+
+\begin{enumerate}
+    \item Which of the following has the highest probability?
+    \begin{enumerate}
+        \item Observing at least one six in 6 rolls of a fair die
+        \item At least two sixes in 12 rolls of a fair die
+        \item At least three sixes in 18 rolls of a fair die
+    \end{enumerate}
+    \item Suppose $n$ random strangers meet at a party. Assuming all birthdays are equally likely (and ignoring leap years, twins, etc.) show that if $n\ge 23$ then the probability of two people sharing the same birthday is greater than \nicefrac 12.
+    \item Suppose two fair dice are rolled. What is the probability of getting at least one six?
+    \item Suppose we have two doctors (we will call them Dr. Bart and Dr. Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate?
+    \item \textbf{(DeMontfort's Problem)} 
+    \begin{enumerate}
+        \item Suppose you have 4 envelopes and 4 letters which you place in the envelopes at random such that each envelope contains exactly one letter. Find the probability that at least one of of the 4 letters ends up in the correct envelope.
+        \item Find the general solution for $n$ letters and $n$ envelopes, and show what happens when $n\to\infty$.
+        
+    \end{enumerate}
+\end{enumerate}
+
+\section{Conditional Probability}
+Let $A$ and $B$ be two Events. Then the probability of $A$ given that $B$ has occurred, denoted b y $P(A\vert B)$ is given by
+\[
+    P(A\vert B)=\frac{P(A\cap B)}{P(B)}
+\]
+We often call $P(A)$ the \textbf{Prior Probability} and $P(A\vert B)$ the \textbf{Posterior Probability}.
+\begin{notsofast}
+    A common mistake is to assume that $P(A\vert B)=P(B\vert A)$, however this is not the case. This mistake is often known as ``the Prosecutor's Fallacy". We will discuss the high-profile case from where this name originated later in the section.
+\end{notsofast}
+
+\subsection{LOTP and Bayes Rule}
+The definition of $P(A\vert B)$ is deceptively simple, but it has wide-ranging consequences. But first, we must establish yet more terminology: A \textbf{Partition} of $\Omega$ is any set of Mutually Exclusive Events $B_1,B_2,...,B_n$ such that $B_1\cup B_2\cup\cdots \cup B_n=\Omega$.
+
+\begin{theorem}{Law of Total Probability (LOTP)}
+Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$:
+\[
+    P(A)=\sum_{i=1}^n P(A\vert B_i) P(B_i)
+\]
+\tcblower
+\begin{proof}
+    Since $B_1,B_2,...,B_n$ form a Partition of $\Omega$, we can decompose $A$ as follows:
+    \[
+        A=(A\cap B_1)\cup (A\cap B_2) \cup \cdots \cup (A\cap B_n)
+    \]
+    \todo: make figure
+    Moreover, each of these sets are Mutually Exclusive. Then by Definition \ref{def:probability}
+    \[
+        P(A)=P(A\cap B_1)+ P(A\cap B_2)+ \cdots + P(A\cap B_n)
+    \]
+\end{proof}
+\end{theorem}
+
+\begin{example}{The Unfair Coin}
+    \todo
+\end{example}
+
+\begin{theorem}{Bayes Rule}
+    Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$ and any $i\in \{1,2,...,n\}$:
+    \[
+        P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{P(A)}= \frac{P(A\vert B_i)P(B_i)}{\sum_{i=1}^n P(A|B_i)P(B_i)}
+    \]
+    \tcblower
+    \todo Proof
+\end{theorem}
+
+\begin{example}{The Unfair Coin Revisited}
+    \todo
+\end{example}
+\subsection{The case of Sally Clark and the Prosecutor's Fallacy}
+Sally Clark was a British woman who lost both of her two children (apparently) to SIDS the late 1990s. This raised suspicion leading her to be tried for murder. The prosecution's case hinged on Sir Roy Meadows' argument that SIDS is very rare, only affecting around 1 in every 8500 children. Therefore the probability of two children dying of SIDS $(1/8500)^2$. In other words, there is a $99.9999986\%$ chance that she is guilty, which clearly goes beyond any reasonable doubt one could have, and so the jury convicted her (though this conviction was later overturned). There are two issues with Meadows' argument:
+First of all, the it assumes that the two deaths are are Independent Events. But are they? Perhaps there is a genetic component to SIDS which both children had, or something in the shared environment. Hence the probability of two children in the same family dying may not be all that much higher than the probability of just one. This is an important point, however on its own it does little do dispel the evidence against Mrs. Clark, since even the probability of only one child dying is rather low. In fact, had the courts tried Mrs. Clark after her only her first child, they could have made a similar argument and claimed there was a $99.988\%$ chance she was guilty based on that alone. So then by this logic, should all cases of SIDS be treated not only with suspicion but as outright proof of fowl play? Clearly this would be preposterous, and it is here we begin to really see the cracks in the Meadows' argument.
+\\\\
+Let $E$ be the probability of having two children die of SIDS, and let $I$ be the probability of the mother being innocent. If we do assume that each child dying is an Independent Event, then it is true that $P(E|I)=1/8500^2$. However, Meadows claim conflated this with $P(I|E)$. These quantities are not necessarily equal, however they are related, so it is worth asking: what \emph{can} we learn about $P(I|E)$ from $P(E|I)$. Using Bayes Rule, 
+\[
+    P(I|E)=\frac{P(E|I)P(I)}{P(E)}=\frac 1 {72\,250\,000}\times \frac{P(I)}{P(E)}
+\]
+
+\todo finish????
+
+\todo https://forensicstats.org/blog/2018/02/16/misuse-statistics-courtroom-sally-clark-case/
+
+\section{Statistical Independence}
+Two Events $A$ and $B$ are \textbf{Independent} if they do not have any "information" about the other. In other words knowing that $B$ has occurred does not change the probability of $A$ having occurred. In other words, the Posterior Probability is equal to the Prior Probability:
+\[
+    P(A|B)=P(A)
+\]
+or equivalently:
+\[
+    P(A\cap B)=P(A)P(B)
+\]
+\begin{notsofast}
+    Independence is \emph{not} the same as Mutual Exclusivity. In fact if $A$ and $B$ are Mutually Exclusive then they cannot be independent. 
+    \begin{proof}
+        Suppose $A$ and $B$ are two Mutually Exclusive Events and we know that $B$ has occurred. Then we also know $A$ must not have occurred. In other words, knowing $B$ has occurred has given us information about the probability of $A$ (namely that the probability is zero). 
+    \end{proof}
+\end{notsofast}
+
+\begin{lemma}
+Let $A$ and $B$ be Independent Events. Then the following pairs are also Independent:
+\begin{enumerate}
+    \item[i.] $A$ and $\bar B$
+    \item[ii.] $\bar A$ and $B$
+    \item[iii.] $\bar A$ and $\bar B$
+\end{enumerate}
+\tcblower
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item[i.] 
+        \item[ii.] 
+        \item[iii.] 
+    \end{enumerate}
+\end{proof}
+\end{lemma}
+
+\subsection{Simpson's Paradox}
+Let us return to one of the problems we considered at the end of \ref{sec:problaw_eosp}: Suppose we have two doctors (we will call them Bart and Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate? Counter-intuitively, the answer is "yes". How is this possible? Well consider the following data set:
+\vspace{15px}
+\begin{center}
+Dr. Lisa (total success rate: 80\%)\\
+\vspace{5px}
+\begin{tabular}{c|cc }
+& \textbf{Neurosurgery} & \textbf{Bandaging} \\ 
+\hline
+\textbf{Successes} & 70 & 10 \\  
+\textbf{Failures} & 20 & 0 \\
+\hline
+\textbf{Success Rate} & 78\% & 100\% 
+\end{tabular}
+\end{center}
+
+\vspace{15px}
+\begin{center}
+Dr. Bart (total success rate: 83\%)\\
+\vspace{5px}
+\begin{tabular}{c|cc}
+&\textbf{Neurosurgery} & \textbf{Bandaging} \\ 
+\hline
+\textbf{Successes} & 2 & 81 \\  
+\textbf{Failures} & 8 & 9 \\
+\hline
+\textbf{Success Rate} & 20\% & 90\% 
+\end{tabular}
+\vspace{15px}
+\end{center}
+
+The lesson here is that sometimes if we just add up the totals and don't account for confounding variables, our results will be misleading. If you were to choose one of these doctors based on their overall success rate alone, you might choose Dr. Bart, despite the fact that Dr. Lisa is clearly a better doctor. This phenomenon is known as Simpson's paradox, named not after the hit television series but rather British statistician Edward H. Simpson who first described it in 1951 (\todo http://math.bme.hu/~marib/bsmeur/simpson.pdf). And since then, there have been many cases of analysts falling victim to it.
+
+\subsection{Jeter and Justice}
+\todo One of the things that matters in baseball is a players batting average -- i.e. the proportion of times that a batter is successful. 300 means 30\%, which is very very good. Derek Jeter and David Justice. In 1995 and 1996 Justice has a better average than Jeter (CONFIRM). However if you just add them up, 
+??????????????
+\subsection{Racism on Death Row}
+\todo Florida looked at all convicted murderers, and looked at what proportion were sentanced to death. They wanted to see if black people were sentenced to death more often then white people. Was there discrimination. Is there discrimination when it comes to the death penalty? They found that white defindents got sentenced to death 11\% of the time, but blakc people only got sent to death 7.9\% of the time. So this would seem to oppose the hypothesis. In fact, it seems that white people are being sent to death far more often. 
+
+However lets look a little more deeply into the data and look at the victim's race, where you can see that this is really what matters. ???? Black people murder more black people, white people murder more white people, and those who murder white people get the death penalty more often. 
+
+This is called a confounding variable
+
+
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+\section{Prosecutor's Fallacy}
+
+
+\section{Simpsons's Paradox in Real Life}
+\subsection{Jeter and Justice}
+
+
+\subsection{Racism and the Death Penalty}
+
+
+\subsection{Secretary Problem}
+The problem: Imagine you are an employer and you are trying to hire a co-op student. There are a stream of people in a line outside your door, and you want to hire the best of them. However you do not know which is the best (it's unifomrly distributied). Here's the catch however. You have to make a decision before each. The optimal strategy is to reject the first 3. From the fourth person onwards, you 
+
+
+Suppose there are three candidates: 
+A - Best
+B - Second best
+C - Third best
+
+However there are 3! orders that they could walk in. 
+
+
+ABC - unlucky, best person walked in firsts
+BAC - Lucky you hire the best person
+BCA - Luck 
+CAB - Lucky
+CBA - Unlucky
+
+
+
+However let's generalize this this to $n$ people. (Answer 1/e). This is often known as the 37\% rule. 
+
+\chapter{Multivariate and Conditional Distributions}
+
+\chapter{Stochastic Process}
+
+
+
+\end{document}
