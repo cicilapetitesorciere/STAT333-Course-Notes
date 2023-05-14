@@ -2,16 +2,16 @@
     <g>
         <rect fill-opacity="0.25" height="150" width="150" y="50" x="30" stroke="#000000" fill="#007fff"/>
         <rect fill-opacity="0.25" height="125" width="195" y="135" x="70" stroke="#000000" fill="#bf0000"/>
-        <circle cx="118" cy="090" r="3"/>
+        <circle cx="200" cy="090" r="3"/>
         <circle cx="90" cy="70" r="3"/>
-        <circle cx="053" cy="100" r="3"/>
+        <circle cx="050" cy="100" r="3"/>
         <circle cx="150" cy="230" r="3"/>
         <circle cx="200" cy="060" r="3"/>
         <circle cx="250" cy="100" r="3"/>
         <circle cx="220" cy="220" r="3"/>
         <circle cx="090" cy="170" r="3"/>
         <circle cx="120" cy="150" r="3"/>
-        <circle cx="200" cy="160" r="3"/>
+        <circle cx="150" cy="170" r="3"/>
         <image y="145" x="235" xlink:href="../symbols/a.svg"/>
         <image x="35" y="60" xlink:href="../symbols/b.svg"/>
     </g>
