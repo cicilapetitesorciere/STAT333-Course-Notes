@@ -5,8 +5,11 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{svg}
+\usepackage{tabularx}
 
 \usepackage{nicefrac}
+
+
 
 \begin{document}
 
@@ -86,7 +89,7 @@ Probability is a function which maps Events to $\mathbb R$ and satisfies the fol
 \end{enumerate}
 \end{definition}
 \label{def:probability}
-From this one small definition, we can derive the entire field of probability theory:
+From this one small definition, we can derive the entire field of probability theory, including the following lemmas:
 
 \begin{lemma}
     For any Event $A$ with compliment $\bar A$, $P(\bar A)=1-P(A)$
@@ -136,13 +139,14 @@ One special case of Definition \ref{def:probability} is known as \textbf{The Cla
     \end{enumerate}
     \item Suppose $n$ random strangers meet at a party. Assuming all birthdays are equally likely (and ignoring leap years, twins, etc.) show that if $n\ge 23$ then the probability of two people sharing the same birthday is greater than \nicefrac 12.
     \item Suppose two fair dice are rolled. What is the probability of getting at least one six?
-    \item Suppose we have two doctors (we will call them Dr. Bart and Dr. Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate?
+    \item\textbf{(The Secretary's Problem)}
+    Suppose you have applied to three jobs and are waiting to hear back. You are pretty sure that all three companies will give you an offer, but you do not know what salary they will offer you. And after each company presents their offer, you will have to decide whether to accept or reject it, and will not have time wait around to see what the next company is planning to offer you. What is the optimal strategy for maximizing your chances of accepting the best offer?
     \item \textbf{(DeMontfort's Problem)} 
     \begin{enumerate}
         \item Suppose you have 4 envelopes and 4 letters which you place in the envelopes at random such that each envelope contains exactly one letter. Find the probability that at least one of of the 4 letters ends up in the correct envelope.
         \item Find the general solution for $n$ letters and $n$ envelopes, and show what happens when $n\to\infty$.
-        
     \end{enumerate}
+    \item \textbf{(Simpson's Paradox)} Suppose we have two doctors (we will call them Dr. Bart and Dr. Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate? How might this strategy generalize to $n$ offers.
 \end{enumerate}
 
 \section{Conditional Probability}
@@ -178,22 +182,44 @@ Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$
 \end{theorem}
 
 \begin{example}{The Unfair Coin}
-    \todo
+    Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. One coin is picked at random and tossed 3 times. Find the probability that all three tosses return \emph{Heads}.
+\tcblower
+Let $F$ be the Event that a fair coin is chosen out of the two, and let $H^3$ be the probability of observing 3 heads. If we assume that there is an equal chance of choosing each coin, then the Prior Probability of observing $F$ and $\bar F$ are $P(F)=P(\bar F)=\nicefrac 12$, and the Posterior Probabilities of $H^3$ are
+\[
+    P(H^3 | F) = \left(\frac 12\right)^3;\quad P(H^3 | \bar F) = \left(\frac 34\right)^3
+\]
+Since $F$ and $\bar F$ are a Partition of the Sample Space, we may then use the Law of Total Probability to find
+\[
+    P(H^3) = P(H^3|F)P(F)+P(H^3|\bar F)P(\bar F)= \left(\frac 12\right)^3\times \frac 12 + \left(\frac 34\right)^3\times\frac 12
+\]
+or around $27\%$.
 \end{example}
+    
 
 \begin{theorem}{Bayes Rule}
     Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$ and any $i\in \{1,2,...,n\}$:
     \[
-        P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{P(A)}= \frac{P(A\vert B_i)P(B_i)}{\sum_{i=1}^n P(A|B_i)P(B_i)}
+        P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{P(A)}
+    \]
+    or equivalently, using the Law of Total Probability
+    \[
+        P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{\sum_{i=j}^n P(A|B_j)P(B_j)}
     \]
     \tcblower
-    \todo Proof
+    The proof of this is left as an exercise to the reader. 
 \end{theorem}
 
 \begin{example}{The Unfair Coin Revisited}
-    \todo
+    Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. You pick one coin at random and flip it three times. All three tosses turn up heads. What is the probability that the fair coin was chosen?
+\tcblower
+    We are trying to find $P(F|H^3)$. By Bayes Rule
+    \[
+        P(F | H^3) = \frac {P(H^3| F)P(F)}{P(H^3)} = \frac{(\nicefrac 12)^3\times \nicefrac 12}{\left(\nicefrac 12\right)^3\times \nicefrac 12 + \left(\nicefrac 34\right)^3\times\nicefrac 12}
+    \]
+    or around $23\%$.
 \end{example}
-\subsection{The case of Sally Clark and the Prosecutor's Fallacy}
+
+\subsection{The Prosecutor's Fallacy}
 Sally Clark was a British woman who lost both of her two children (apparently) to SIDS the late 1990s. This raised suspicion leading her to be tried for murder. The prosecution's case hinged on Sir Roy Meadows' argument that SIDS is very rare, only affecting around 1 in every 8500 children. Therefore the probability of two children dying of SIDS $(1/8500)^2$. In other words, there is a $99.9999986\%$ chance that she is guilty, which clearly goes beyond any reasonable doubt one could have, and so the jury convicted her (though this conviction was later overturned). There are two issues with Meadows' argument:
 First of all, the it assumes that the two deaths are are Independent Events. But are they? Perhaps there is a genetic component to SIDS which both children had, or something in the shared environment. Hence the probability of two children in the same family dying may not be all that much higher than the probability of just one. This is an important point, however on its own it does little do dispel the evidence against Mrs. Clark, since even the probability of only one child dying is rather low. In fact, had the courts tried Mrs. Clark after her only her first child, they could have made a similar argument and claimed there was a $99.988\%$ chance she was guilty based on that alone. So then by this logic, should all cases of SIDS be treated not only with suspicion but as outright proof of fowl play? Clearly this would be preposterous, and it is here we begin to really see the cracks in the Meadows' argument.
 \\\\
@@ -207,7 +233,8 @@ Let $E$ be the probability of having two children die of SIDS, and let $I$ be th
 \todo https://forensicstats.org/blog/2018/02/16/misuse-statistics-courtroom-sally-clark-case/
 
 \section{Statistical Independence}
-Two Events $A$ and $B$ are \textbf{Independent} if they do not have any "information" about the other. In other words knowing that $B$ has occurred does not change the probability of $A$ having occurred. In other words, the Posterior Probability is equal to the Prior Probability:
+\subsection{Two Events}
+Two Events $A$ and $B$ are \textbf{Independent} if they do not have any ``information" about the other. In other words knowing that $B$ has occurred does not change the probability of $A$ having occurred. We can express this symbolically as follows
 \[
     P(A|B)=P(A)
 \]
@@ -240,8 +267,19 @@ Let $A$ and $B$ be Independent Events. Then the following pairs are also Indepen
 \end{proof}
 \end{lemma}
 
-\subsection{Simpson's Paradox}
-Let us return to one of the problems we considered at the end of \ref{sec:problaw_eosp}: Suppose we have two doctors (we will call them Bart and Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate? Counter-intuitively, the answer is "yes". How is this possible? Well consider the following data set:
+\subsection{More than two Events}
+
+\newpage
+
+
+
+
+
+
+
+
+\section{Simpson's Paradox}
+Let us return to one of the problems we considered at the end of \ref{sec:problaw_eosp}: Suppose we have two doctors (we will call them Bart and Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate? Counter-intuitively, the answer is ``yes". How is this possible? Well consider the following data set:
 \vspace{15px}
 \begin{center}
 Dr. Lisa (total success rate: 80\%)\\
@@ -273,10 +311,10 @@ Dr. Bart (total success rate: 83\%)\\
 
 The lesson here is that sometimes if we just add up the totals and don't account for confounding variables, our results will be misleading. If you were to choose one of these doctors based on their overall success rate alone, you might choose Dr. Bart, despite the fact that Dr. Lisa is clearly a better doctor. This phenomenon is known as Simpson's paradox, named not after the hit television series but rather British statistician Edward H. Simpson who first described it in 1951 (\todo http://math.bme.hu/~marib/bsmeur/simpson.pdf). And since then, there have been many cases of analysts falling victim to it.
 
-\subsection{Jeter and Justice}
+\subsection{Batting averages}
 \todo One of the things that matters in baseball is a players batting average -- i.e. the proportion of times that a batter is successful. 300 means 30\%, which is very very good. Derek Jeter and David Justice. In 1995 and 1996 Justice has a better average than Jeter (CONFIRM). However if you just add them up, 
 ??????????????
-\subsection{Racism on Death Row}
+\subsection{Racism on death row}
 \todo Florida looked at all convicted murderers, and looked at what proportion were sentanced to death. They wanted to see if black people were sentenced to death more often then white people. Was there discrimination. Is there discrimination when it comes to the death penalty? They found that white defindents got sentenced to death 11\% of the time, but blakc people only got sent to death 7.9\% of the time. So this would seem to oppose the hypothesis. In fact, it seems that white people are being sent to death far more often. 
 
 However lets look a little more deeply into the data and look at the victim's race, where you can see that this is really what matters. ???? Black people murder more black people, white people murder more white people, and those who murder white people get the death penalty more often. 
@@ -287,47 +325,62 @@ This is called a confounding variable
 
 
 
-\newpage
 
 
+\section{The Secretary Problem}
+Suppose you have applied to three jobs and are waiting to hear back. You are pretty sure that all three companies will give you an offer, but you do not know what salary they will offer you. And after each company presents their offer, you will have to decide whether to accept or reject it, and will not have time wait around to see what the next company is planning to offer you. What is the optimal strategy for maximizing your chances of accepting the best offer?
+\\\\ 
+As it turns out, the best strategy is to reject the first regardless of what they offer, and then accept any offer better than that. To illustrate this, let us suppose we have three companies $A$ (best offer), $B$ (second-best offer), and $C$ (worst offer). There are $3!=6$ orders in which they may call you. We will assume that all orders are equally likely, and consider what happens in each scenario:
+\\\\
+\allowdisplaybreaks
+\begin{tabularx}{325pt}{cXc}
 
+1.\ \textbf{ABC:} 
+&
+So far, our strategy is not off to a great start. We reject $A$ and are left disappointed by the remaining two offers. 
+&
+\raisebox{-0.75\height}{\includesvg[width=25px]{svg_symbols/xcheck-red-x.svg}}
+\\\\
+2.\ \textbf{BAC:} 
+&
+This works out better a bit better. We reject $B$ and and then get the better offer $A$, which turns out to be the best.
+&
+\raisebox{-0.75\height}{\includesvg[width=25px]{svg_symbols/xcheck-green-check.svg}}
+\\\\
+3.\ \textbf{BCA:} 
+&
+Here we reject $B$ and then $C$, and finally accept the best offer $A$.
+&
+\raisebox{-0.75\height}{\includesvg[width=25px]{svg_symbols/xcheck-green-check.svg}}
+\\\\
+4.\ \textbf{CBA:} 
+&
+Here we do a little worse. By starting with $C$ we end up setting our standards too low and accept $B$ instead of holding out for the better offer
+&
+\raisebox{-0.75\height}{\includesvg[width=25px]{svg_symbols/xcheck-red-x.svg}}
+\\\\
 
+5.\ \textbf{CAB:} 
+&
+But here, those low standards don't end up mattering, since the best offer happens to be the very next one.
+&
+\raisebox{-0.75\height}{\includesvg[width=25px]{svg_symbols/xcheck-green-check.svg}}
+\\\\
 
+6.\ \textbf{ACB:} 
+&
+And once again, we end up the same problem we encountered in the first round, setting our standards too high and missing out on our best offer.
+&
+\raisebox{-0.75\height}{\includesvg[width=25px]{svg_symbols/xcheck-red-x.svg}}
 
+\end{tabularx}
+\\\\
 
+All in all, we end up getting the best offer half of the time.
 
+\todo JUSTIFY THE GENERALIZATION
 
-\section{Prosecutor's Fallacy}
-
-
-\section{Simpsons's Paradox in Real Life}
-\subsection{Jeter and Justice}
-
-
-\subsection{Racism and the Death Penalty}
-
-
-\subsection{Secretary Problem}
-The problem: Imagine you are an employer and you are trying to hire a co-op student. There are a stream of people in a line outside your door, and you want to hire the best of them. However you do not know which is the best (it's unifomrly distributied). Here's the catch however. You have to make a decision before each. The optimal strategy is to reject the first 3. From the fourth person onwards, you 
-
-
-Suppose there are three candidates: 
-A - Best
-B - Second best
-C - Third best
-
-However there are 3! orders that they could walk in. 
-
-
-ABC - unlucky, best person walked in firsts
-BAC - Lucky you hire the best person
-BCA - Luck 
-CAB - Lucky
-CBA - Unlucky
-
-
-
-However let's generalize this this to $n$ people. (Answer 1/e). This is often known as the 37\% rule. 
+However let's generalize this this to $n$ people. (Answer $\nicefrac 1e$). This is often known as the 37\% rule. 
 
 \chapter{Multivariate and Conditional Distributions}
 
