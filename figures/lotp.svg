@@ -1,0 +1,12 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <line x1="150" y1="0" x2="150" y2="300" stroke="#000000"/>
+        <line y1="150" x1="0" y2="150" x2="300" stroke="#000000"/>
+        <path stroke="#000000" transform="rotate(-9.34196 138.745 150.231)" fill="#0067bc" fill-opacity="0.26" opacity="undefined" d="m142.84186,268.84775c14.09892,45.60861 -91.83648,-22.48799 -108.21717,-112.28644c-16.3807,-89.79845 46.33753,-17.10324 108.21717,-112.28641c61.87967,-95.18317 94.27617,82.47319 102.29228,175.24613c8.01607,92.77295 -116.39119,3.71811 -102.29228,49.32672z"/>
+        <image x="50" y="50" xlink:href="symbols/b1.svg" />
+        <image x="250" y="50" xlink:href="symbols/b2.svg" />
+        <image x="50" y="250" xlink:href="symbols/b3.svg" />
+        <image x="250" y="250" xlink:href="symbols/b4.svg" />
+        <image x="170" y="100" xlink:href="symbols/a.svg" />  
+    </g>
+</svg>
