@@ -162,7 +162,7 @@ We often call $P(A)$ the \textbf{Prior Probability} and $P(A\vert B)$ the \textb
 \begin{figure}
     \centering
     \includesvg{figures/dependence.svg}
-    \caption{An illustration of Conditional Probability. The Prior Probability $P(A)$ is $\nicefrac 4{10}$, however the Posterior Probability $P(B|A)$ is }
+    \caption{An illustration of Conditional Probability. The Prior Probability $P(A)$ is $\nicefrac 5{10}$, however the Posterior Probability $P(A|B)$ is $\nicefrac 35$}
     \label{fig:dependence}
 \end{figure}
 
@@ -278,6 +278,16 @@ Let $A$ and $B$ be Independent Events. Then the following pairs are also Indepen
 
 \subsection{More than two Events}
 
+\subsection{Conditional Independence}
+
+
+Two events are \textbf{Conditionally Independent} given $C$ if 
+\[
+    P(A\cap B | C)= P(A|C)P(B|C)
+\]
+
+\todo
+
 \newpage
 
 
@@ -390,6 +400,249 @@ All in all, we end up getting the best offer half of the time.
 \todo JUSTIFY THE GENERALIZATION
 
 However let's generalize this this to $n$ people. (Answer $\nicefrac 1e$). This is often known as the 37\% rule. 
+
+
+\section{Discrete Random Variables}
+A \textbf{Discrete Random Variable} (DRV) $X$ is a function which map Events to integers. For instance, it could represent the face of a die we roll, or the number of heads we get flipping two coins. There is little in the way of properties which a DRV must satisfy, and it is perfectly possible for them to return negative integers as well as positive ones. For instance, if we measure the difference between the face of two dice or the total profits made from playing a casino game. We should however be able to define either a \textbf{Probability Mass Function} to a \textbf{Cumulative Distribution Function}
+
+\subsection{Probability Mass Function}
+Probability Mass Functions (PMFs) describe the probability of observing a given realization $x$ of a DRV $X$, and are often represented as either $P(X=x)$ or $f(x)$. We may define them in any way so long as they satisfy the following properties:
+\begin{enumerate}
+    \item For all $x\in \mathbb Z$, $f(x)\ge 0$
+    \item $\displaystyle\sum_{x\in\mathbb Z} f(x)=1$
+\end{enumerate}
+Often PMFs are expressed with a table listing $(x, f(x))$ for all $x$-values such that $f(x)\ne 0$.
+
+\begin{example}{Flipping Coins}
+    Suppose we toss a (fair) coin twice and let $X$ be a Random Variable representing the number of heads we observe. Define a PMF which describes this situation and show that it satisfies the necessary properties.
+\tcblower
+We may use
+    \[
+        \begin{array}{c|c}
+            x & f(x) \\
+            \hline
+            0 & (\nicefrac 12)^2 \\
+            1 & 2(\nicefrac 12)^2 \\
+            2 & (\nicefrac 12)^2 
+        \end{array}
+    \]
+We can see that $f(x)\ge 0$ for all values shown (and equal to zero for all values omitted), thus it satisfies Property 1. If we add the values up we see
+\[
+    \sum_{x\in\mathbb Z}f(x)=\frac 14 + \frac 12 + \frac 14 = 1
+\]
+\end{example}
+\begin{notsofast}
+    Do not confuse DRVs with their distributions! For instance, it is sometimes mistakenly assumed that the PMF of $2X$ is simply $2f(x)$. However this is not the case, and it is not even possible for $2f(x)$ to be \emph a PMF in the first place, let alone the PMF which correctly describes $2X$. Transforming DRVs is not so simple.
+    \\\\
+    For another common mistake, consider two DRVs $X$ and $Y$ which both have the same PMF. Are $X$ and $Y$ equal? Absolutely not! In fact, it may not even be possible to observe the same value from each of them at the same time. For a concrete example of this, suppose we flip three coins and let $X$ be the number of heads we observe, and let $Y$ be the number of tails we observe. Then the PMFs for $X$ and $Y$ are as follows:
+    \[
+        \begin{array}{ccc}
+            \begin{array}{c|c}
+                x & f(x) \\
+                \hline
+                0 & \nicefrac 18 \\
+                1 & \nicefrac 38 \\
+                2 & \nicefrac 38 \\
+                3 & \nicefrac 18
+            \end{array}
+            & \hspace{100px} &
+            \begin{array}{c|c}
+                y & f(y) \\
+                \hline
+                0 & \nicefrac 18 \\
+                1 & \nicefrac 38 \\
+                2 & \nicefrac 38 \\
+                3 & \nicefrac 18
+            \end{array}
+        \end{array}
+    \]
+    Yet there is no scenario in which we can flip three coins and get the same number of heads as tails.
+    \begin{proof}
+        Since all coins must be either heads or tails, $x+y=3$. Suppose that $x=y$. Then we may write $2x=3$ and therefore $x$ (and by extension $y$) must not be an integer, which contradicts the real-world interpretation of $x$ and $y$.
+    \end{proof}
+\end{notsofast}
+
+\subsection{The Cumulative Distribution Function}
+Another way we can describe a Random Variable is using the Cumulative Distribution Function (CDF), often represented by $F(x)$. This describes, not the probability of observing $x$, but rather the probability of observing some value less than or equal to $x$. CDFs must satisfy the following properties:
+\begin{enumerate}
+    \item For all $x\in\mathbb Z$, $0\le F(x) \le 1$
+    \item $F$ must be nondecreasing. In other words for any $x,y\in\mathbb Z$ such that $x<y$, $F(x)\le F(y)$
+    \item For \emph{Discrete} Random Variables (we will discuss Continuous Random Variables in the next section) the $F$ is a step function
+    \item $F$ is right continuous
+\end{enumerate}
+\todo
+
+It is possible to determine the CDF from the PMF and vice versa using the following relation
+\begin{lemma}
+    \[
+        f(x)=F(x)-F(x-1)
+    \]
+\end{lemma}\label{lem:cdf2pmf}
+
+
+\begin{example}{PMF v. CDF}
+    Suppose you roll 4 dice and let $X_i$ be the face of the $i$th die. Then let $X=\max\{X_1, X_2, X_3, X_4\}$. Find the PMF of $X$
+\tcblower
+\subsubsection{The Bad Way}
+$X$ will return some value between 1 and 6 inclusive. For the maximum to be a $1$, we must have $X_1=X_2=X_3=X_4=1$, which has a probability of $(\nicefrac 1 6)^4$. Then the probability of the maximum being 2 is given by the probability that one of the 4 is 2 and the rest are either 1 or 2. Determining the probability of this Event would be tedious to calculate, and 3 4 and 5 will be just as tedious, so we will stop here hoping we have sufficiently made the point that this is a bad way to determine the PMF.
+
+\subsubsection{The Good Way}
+The CDF of $X_i$ for $i=1,2,3,4$ is
+\[
+    P(X_i\le x)=\frac x 6
+\]
+for all $x=1,2,...,6$ (for all other $x$-values it is zero) Then $X$ will return a value less than or equal to $x=1,2,...,6$ if and only if $X_1, X_2,X_3,X_4$ all return values less than or equal to $x$. Thus
+\[
+    P(X\le x)=\prod_{i=1}^4 P(X_i\le x)=\left(\frac x 6\right)^4
+\]
+Then using Lemma \ref{lem:cdf2pmf} we get
+\[
+    P(X=x)= \left(\frac x 6\right)^4-\left(\frac {x-1} 6\right)^4
+\]
+\end{example}
+
+
+
+\subsection{Expectation}
+\newcommand{\E}{\text E}
+The \textbf{Expectation} of a Random Variable describes where the average observation of a Random Variable will tend towards when repeated many many times.
+\begin{definition}{Expectation of a DRV}
+Let $X$ be a DRV with PMF $f$. Then
+    \[
+        E(X)=\sum_{x\in\mathbb Z} x f(x)
+    \]
+    
+\end{definition}
+\begin{theorem}{Properties of Expectation}
+    Let $X$ and $Y$ be two DRVs
+    \begin{enumerate}
+        \item $E(X+Y)=E(X)+E(Y)$
+        \item For any transformation $g:\mathbb R\to\mathbb R$
+        \[
+            E\left[g(X)\right] = \sum_{x\in \mathbb Z} P(X=x) g(x)
+        \]
+    \end{enumerate}
+\tcblower
+    The proof of the first property may seem relatively straightforward. However it is trickier than one might expect, especially since it applies even when $X$ and $Y$ are Dependent. We will come back to it later.
+    \todo PROOF OF SECOND
+\end{theorem}
+
+\begin{example}{Expectation of a transformed DRV}
+    Find $E(X^2)$ where
+    \[
+        \begin{array}{c|c}
+             x & f(x) \\
+             \hline
+             -1 & \nicefrac 13\\
+             0 & \nicefrac 13 \\
+             1 & \nicefrac 13
+        \end{array}
+    \]
+\tcblower
+    \subsubsection*{The Bad Way}
+    Let $Y=X^2$. Then the PMF of $Y$ is as follows
+    \[
+        \begin{array}{c|c}
+             y & f(y) \\
+             \hline
+             0 & \nicefrac 13 \\
+             1 & \nicefrac 13 + \nicefrac 13
+        \end{array}
+    \]
+    Then 
+    \[
+        \E(Y)=\frac 23
+    \]
+    \subsubsection*{The Good Way}
+    \[
+        E(X^2)=(-1)^2\times \frac 13 + 0^2\times \frac 13 + 1^2 \frac 13 = \frac 13
+    \]
+\end{example}
+
+\subsection{The St. Petersberg Paradox}
+There was ostensibly once a casino in St. Petersberg which offered a certain coin-flipping game. For some relatively large ticket-price, you could flip a coin. If the coin lands on heads, you would get your payout (starting out at a value much smaller than the ticket price). On the other hand, if the coin landed tails you got another flip with the payout doubled. The game could go on and on like this until the coin hits heads.
+\begin{example}{The St. Petersberg Paradox}
+    Calculate the Expected payout for the coin flip game of the St. Petersberg paradox, assuming that the initial payout is $\$2$.
+\tcblower
+    Let $X$ be the payout received from playing the coin game. Then the PMF of $X$ is
+    \[
+        \begin{array}{c|c}
+             x & f(x) \\
+             \hline
+             2 & \nicefrac 12 \\
+             4 & \nicefrac 14 \\
+             16 & \nicefrac 1{16} \\
+             \vdots & \vdots
+        \end{array}
+    \]
+    From this we get
+    \[
+        E(X) = 2\times \frac 12 + 4 \times \frac 1 4 + \cdots = \infty
+    \]
+\end{example}
+Thus this would not seem to be a particularly profitable game for a casino to run, since no matter what ticket price we set, the casino would in theory always lose money. So suppose we set a ticket price of $\$50$. Would playing be a good idea? Well, though the Expectation is technically infinite, we only have a 1 in 64 chance of actually winning any money. In other words, we could easily find ourselves over $\$3000$ in debt before seeing any winnings.  So clearly Expectation is not everything. This brings us to \textbf{Variance}.
+
+\subsection{Variance}
+\newcommand{\Var}{\text{Var}}
+The Variance of a DRV is the average of the squared deviation from the mean. In other words
+\begin{definition}{Variance of a DRV}
+    Let $X$ be a DRV 
+    \[
+        \Var(X)=E[(X-E(X))^2]   
+    \]
+    However this is not the most convenient formula to work with. More often we can use the equivalent formula
+    \[
+        \Var(X)=E(X^2)-[E(X)]^2
+    \]
+\end{definition}
+
+
+\begin{theorem}{Properties of the Variance}
+    Suppose $X$ and $Y$ are two Independent Random Variable, and $a$ and $b$ are constants
+    \begin{enumerate}
+        \item $\Var(a)=0$
+        \item $\Var(aX+b)=a^2\Var(X)$
+        \item $\Var(X+Y)=\Var(X)+\Var(Y)$
+    \end{enumerate}
+\end{theorem}
+
+\begin{notsofast}
+    The above Property 3 only applies if $X$ and $Y$ are Independent. For Dependent Random Variables, there are different rules.
+\end{notsofast}
+
+
+\subsection*{End-of-the-section Problems}
+\begin{enumerate}
+    \item Prove the linearity property of Expectation
+    \item Show that $E[(X-E(X))^2]=E(X^2)-[E(X)]^2$
+\end{enumerate}
+
+\section{Named Distributions for DRVs}
+\subsection{The Bernoulli Distribution}
+Let $X$ be some $p\in[0,1]$ and consider some DRV with the following PMF
+\[
+    \begin{array}{c|c}
+         x & f(x) \\
+         \hline
+         0 & 1-p \\
+         1 & p
+    \end{array}
+\]
+This is a valid PMF since $(1-p)+p=1$. It is a very simple distribution, but an important one none the less -- important enough to warrant a name: \textbf{The Bernoulli Distribution}. 
+
+
+\newpage
+
+
+The \textbf{Bernoulli Distribution} takes one parameter $p\in[0,1]$ and has the following P.M.F:
+\[
+    \todo
+\]
+
+This is a very simple distribution, and perhaps feels almmost not worth learning. However it is the building block for many other distributions as well as indicator variables which we will dicuss later???? \todo CONFIRM???
+
+
+\section{Continuous Random Variables}
 
 \chapter{Multivariate and Conditional Distributions}
 
