@@ -1,0 +1,20 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.0">
+    <g>
+        <line stroke-width="2" y2="250" x2="98" y1="250" x1="0" stroke="#000" fill="none"/>
+        <line stroke-width="2" y2="50" x2="300" y1="50" x1="200" stroke="#000" fill="none"/>
+        <ellipse ry="2" rx="2" id="svg_13" cy="250" cx="100" stroke="#000" fill="none"/>
+        <ellipse ry="2" rx="2" id="svg_14" cy="100" cx="200" stroke="#000" fill="none"/>
+        <ellipse ry="2" rx="2" id="svg_15" cy="50" cx="200" stroke="#000" fill="#000000"/>
+        <ellipse ry="2" rx="2" id="svg_17" cy="200" cx="100" stroke="#000" fill="#000000"/>
+        <path stroke-width="2" d="m100,200c43.94653,-12.3731 8.88806,-43.05839 52.34081,-52.46195c43.45275,-9.40356 46.90922,-45.03809 46.90922,-45.03815" opacity="NaN" stroke="#000" fill="none"/>
+        <line y2="0" x2="100" y1="300" x1="100" stroke-dasharray="5,5" stroke="#000" fill="none"/>
+        <line y2="0" x2="200" y1="300" x1="200" stroke-dasharray="5,5" stroke="#000" fill="none"/>
+        <line y2="50.31743" x2="200" y1="50" x1="0" stroke-dasharray="5,5" stroke="#000" fill="none"/>
+        <line y2="249.63495" x2="300" y1="250" x1="100" stroke-dasharray="5,5" stroke="#000" fill="none"/>
+        <image x="80" y="275" xlink:href="../symbols/small_a.svg" />
+        <image x="180" y="275" xlink:href="../symbols/small_b.svg" />
+        <image x="20" y="260" xlink:href="../symbols/zero.svg" />
+        <image x="20" y="60" xlink:href="../symbols/one.svg" />
+        <image x="140" y="155" xlink:href="../symbols/phi_of_x.svg" />
+    </g>
+</svg>
