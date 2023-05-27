@@ -1193,9 +1193,9 @@ And thus, dividing both sides by $2\pi$ we get $c=\nicefrac 1 {2\pi}$. More gene
     Let $X\sim U(a,b)$ for some $a<b$ and let $F(x)$ and $f(x)$ be the CDF and PDF of $X$ respectively. Then
     \begin{enumerate}
         \item $F(x) = \begin{cases}
-            0 & x < a\\
+            0 & x \le a\\
             \displaystyle\frac{x-a}{b-a} & a\le x \le b\\
-            1 & x>b
+            1 & x \le b
         \end{cases}$
         \item $M_X(t)=\displaystyle\frac{e^{bt}-e^{at}}{(b-a)t}$
         \item $\E(X)=\displaystyle\frac{a+b} 2$
@@ -1244,62 +1244,75 @@ And thus, dividing both sides by $2\pi$ we get $c=\nicefrac 1 {2\pi}$. More gene
 \subsubsection{Universality of the Uniform Distribution}
 One very useful property of Uniform Distributions is that they are often very easy for computers to simulate, especially $U(0,1)$. It is for this reason that the following theorem is incredibly useful in numerical computation:
 \begin{theorem}[The Universality Theorem]
-    Let $X$ be some CRV with CDF 
+    Let $X$ be some continuous CRV with CDF 
     \[
         F(x)=\begin{cases}
-            0 & x<a
+            0 & x\le a
             \\
-            \varphi(x) & a\le x < b
+            \varphi(x) & a\le x \le b
             \\
             1 & x\le b
         \end{cases}
     \]
-    for some invertible function $\varphi(x)$ and $[a,b]\subset\mathbb R$. And let $Y=F(X)$. Since $X$ (not to be confused with $x$) is not a real number but rather a CRV, $F$ acts as a transformation producing CRV $Y$. The distribution of $Y$ is known. Namely $Y\sim U(0,1)$
+    for some interval $a\in\mathbb R$, some $b\in\mathbb R\cup\{\infty\}$ and some invertible function $\varphi(x)$ such that $\varphi(a)=0$ and $\lim_{x\to b}\varphi(x)=1$. Then let $Y=F(X)$. Since $X$ (not to be confused with $x$) is not a real number but rather a CRV, $F$ acts as a transformation producing CRV $Y$. The distribution of $Y$ is known. Namely $Y\sim U(0,1)$
     \begin{proof}
-        The CDF of $Y$ is given by
+        The CDF of $Y$ is 
         \[
-            P(Y\le y) = P(F(X)\le y)
+            P(Y\le y)= P(F(X)\le y)
         \]
         Since $F$ is a CDF, its range is $[0,1]$. From this we are able to conclude that 
         \begin{align*}
             y\ge 1 &\implies P(F(X)\le y)=1
             \\
-            y<0 &\implies P(F(X)\le y)=0
+            y\le 0 &\implies P(F(X)\le y)=0
         \end{align*}
-        We will now consider the case that $0<y<0$.
+        We will now consider the case that $0 \le y\le 1$. On this interval, $F(x)=\varphi(x)$ and is therefore invertible, giving us
+        \[
+            P(Y\le y)=P(X\le\varphi^{-1}(y))=\varphi(\varphi^{-1}(y))=y
+        \]
+        Thus we get
+        \[
+            P(Y\le y)=\begin{cases}
+                0 & y \le 0
+                \\
+                y & 0\le y \le 1
+                \\
+                1 & y \ge 1
+            \end{cases}
+        \]
+        which is simply the CDF for a $U(0,1)$.
     \end{proof}
 \end{theorem}
 
-Suppose we want to simulate some CRV $Y$ with CDF $F(y)$.
-
-
-it's often easy to generate numbers on a $U(0,1)$, and from this we can generate any other distribution. Suppose we want to generate $n$ outcomes of a random variable $X$ with some CDF $F$. 
-\begin{enumerate}
-    \item[Step 1] Generate $n$ numbers from a $U(0,1)$, $u_1,u_2,...,u_n$.
-    \item[Step 2] Then we just take $F^{-1}(u_i)$ for $i=1,2,...,n$. 
-\end{enumerate}
+This gives us an easy way to simulate almost all other possible distributions using just the $U(0,1)$. We start by generating some $u$ from a $U(0,1)$ and then transform it to our new distribution using $F^{-1}(u)$.
 \begin{example}
-    Suppose your boss is interested in a distribution with a a PDF
+    Suppose your boss is interested in a distribution with the following PDF
     \[
-        f(x)=\left\{\begin{array}{cc}
-            e^{-x} & \text{if $x> 0$}\\
+        f(x)=\begin{cases}
+            e^{-x} & x> 0
+            \\
             0 & \text{otherwise}
-            \end{array}\right.
+            \end{cases}
     \]
-
-    We can calclate the CDF $F(x)=1-e^x$ \todo\todo\todo
-    We can ge\todo
+    You are given $n$ readings from a $U(0,1)$: $u_1, u_2,...,u_n$. Generate $n$ samples following the distribution your boss is interested in.
+    \solution
+    We first need to calculate the CDF associated with $f(x)$, which we can do by integrating
+    \[
+        F(x)=\int_{\infty}^x f(z)dz = \begin{cases}
+            0 & x < 0
+            \\
+            1-e^{-x}& x\ge 0
+        \end{cases}
+    \]
+    Notice that for $\phi(x)=1-e^{-x}$
+    \begin{enumerate}
+        \item $\varphi(0)=0$
+        \item $\displaystyle\lim_{x\to\infty}\varphi(x)=1$
+        \item $\varphi(x)$ has an inverse, namely $\varphi^{-1}(x)=-\ln(1-y)$
+    \end{enumerate}
+    Thus $-\ln(1-u_i)$ for $i=1,2,...,n$ follows the distriubtion your boss is interested in.
 \end{example}
-
-$X\sim U(a,b)$
-\[
-    f(x)=\begin{cases}
-        \frac 1 {b-a} & a\le x \le b \\
-        0 & \text{otherwise}
-    \end{cases}
-\]
-
-
+\todo: THIS FEELS... THERE'S STILL SOME HOLES HERE THAT NEED PATCHING
 
 \subsection{The Exponential Distribution}
 $X\sim Exp(\lambda)$ if
