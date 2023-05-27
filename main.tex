@@ -1,10 +1,12 @@
 \documentclass{report}
 
 \usepackage{tcolorbox}
+\usepackage{mdframed}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{svg}
+\usepackage{times}
 \usepackage{tabularx}
 
 \usepackage{nicefrac}
@@ -17,40 +19,45 @@
 
 \newcommand{\todo}{TODO\quad}
 
-\newtcolorbox[auto counter,number within=section]{example}[2][]{%
-    colback=green!5!white,
-    colframe=green!75!black,
-    fonttitle=\bfseries,
-    title=Example.~\thetcbcounter: #2
-}
+\newmdtheoremenv[
+    backgroundcolor=green!5!white,
+    linecolor=green!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{example}{Example}[section]
 
-\newtcolorbox[auto counter,number within=section]{definition}[2][]{%
-    colback=blue!5!white,
-    colframe=blue!75!black,
-    fonttitle=\bfseries,
-    title=Definition~\thetcbcounter: #2
-}
+\newmdtheoremenv[
+    backgroundcolor=blue!5!white,
+    linecolor=blue!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{definition}{Definition}[section]
 
-\newtcolorbox[auto counter,number within=section]{theorem}[2][]{%
-    colback=yellow!5!white,
-    colframe=yellow!75!black,
-    fonttitle=\bfseries,
-    title=Theorem~\thetcbcounter: #2
-}
+\newmdtheoremenv[
+    backgroundcolor=yellow!5!white,
+    linecolor=yellow!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{theorem}{Theorem}[section]
 
-\newtcolorbox[auto counter,number within=section]{lemma}[1][]{%
-    colback=yellow!5!white,
-    colframe=yellow!75!black,
-    fonttitle=\bfseries,
-    title=Lemma~\thetcbcounter
-}
+\newmdtheoremenv[
+    backgroundcolor=yellow!5!white,
+    linecolor=yellow!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{lemma}{Lemma}[section]
 
-\newtcolorbox[auto counter,number within=section]{notsofast}[1][]{%
+\newtcolorbox[auto counter,number within=section]{notsofast}[1][]{
     colback=red!5!white,
     colframe=red!75!black,
     fonttitle=\bfseries,
     title=\emph{Not So Fast!}
 }
+
 
 \tableofcontents
 
@@ -74,8 +81,8 @@ We may also be interested in certain subsets of the Sample Space. For instance: 
     \{HH,TT\}\subseteq \Omega
 \]
 We refer to such subsets as \textbf{Events}. For the purposes of this course, any subset of the Sample Space can be considered an Event (\todo CONFIRM!). Any two Events $A$ and $B$ are \textbf{Mutually Exclusive} if $A\cup B=\emptyset$. From here we get the definition of \textbf{Probability}:
-\begin{definition}{Probability}
-Probability is a function which maps Events to $\mathbb R$ and satisfies the following axioms:
+\begin{definition}[Probability]
+A Probability is any function which maps Events to $\mathbb R$ and satisfies the following axioms:
 \begin{enumerate}
     \item 
     \begin{enumerate}
@@ -93,7 +100,6 @@ From this one small definition, we can derive the entire field of probability th
 
 \begin{lemma}
     For any Event $A$ with compliment $\bar A$, $P(\bar A)=1-P(A)$
-\tcblower
 \begin{proof}
     Since $A$ and $\bar A$ are compliments of one another, they are mutually exclusive and satisfy
     \[
@@ -112,7 +118,7 @@ From this one small definition, we can derive the entire field of probability th
 
 \begin{lemma}
     For any two Events $A$ and $B$ such that $A\subseteq B$, $P(A)\le P(B)$.
-    \tcblower
+    
     \begin{proof}
     Consider the Event $B\backslash A$, which is mutually exclusive to $A$. Since $A\subseteq B$ we may express $B$ as
     \[
@@ -169,12 +175,11 @@ We often call $P(A)$ the \textbf{Prior Probability} and $P(A\vert B)$ the \textb
 \subsection{LOTP and Bayes Rule}
 The definition of $P(A\vert B)$ is deceptively simple, but it has wide-ranging consequences. But first, we must establish yet more terminology: A \textbf{Partition} of $\Omega$ is any set of Mutually Exclusive Events $B_1,B_2,...,B_n$ such that $B_1\cup B_2\cup\cdots \cup B_n=\Omega$.
 
-\begin{theorem}{Law of Total Probability (LOTP)}
-Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$
+\begin{theorem}[Law of Total Probability] Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$
 \[
     P(A)=\sum_{i=1}^n P(A\vert B_i) P(B_i)
 \]
-\tcblower
+
 \begin{proof}
     Since $B_1,B_2,...,B_n$ form a Partition of $\Omega$, we can decompose $A$ into the following union of Mutually Exclusive Events:
     \[
@@ -190,9 +195,9 @@ Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$
 \end{proof}
 \end{theorem}
 
-\begin{example}{The Unfair Coin}
+\begin{example}
     Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. One coin is picked at random and tossed 3 times. Find the probability that all three tosses return \emph{Heads}.
-\tcblower
+
 Let $F$ be the Event that a fair coin is chosen out of the two, and let $H^3$ be the probability of observing 3 heads. If we assume that there is an equal chance of choosing each coin, then the Prior Probability of observing $F$ and $\bar F$ are $P(F)=P(\bar F)=\nicefrac 12$, and the Posterior Probabilities of $H^3$ are
 \[
     P(H^3 | F) = \left(\frac 12\right)^3;\quad P(H^3 | \bar F) = \left(\frac 34\right)^3
@@ -205,7 +210,7 @@ or around $27\%$.
 \end{example}
     
 
-\begin{theorem}{Bayes Rule}
+\begin{theorem}[Bayes Rule]
     Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$ and any $i\in \{1,2,...,n\}$:
     \[
         P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{P(A)}
@@ -214,13 +219,13 @@ or around $27\%$.
     \[
         P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{\sum_{i=j}^n P(A|B_j)P(B_j)}
     \]
-    \tcblower
+    
     The proof of this is left as an exercise to the reader. 
 \end{theorem}
 
-\begin{example}{The Unfair Coin Revisited}
+\begin{example}
     Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. You pick one coin at random and flip it three times. All three tosses turn up heads. What is the probability that the fair coin was chosen?
-\tcblower
+
     We are trying to find $P(F|H^3)$. By Bayes Rule
     \[
         P(F | H^3) = \frac {P(H^3| F)P(F)}{P(H^3)} = \frac{(\nicefrac 12)^3\times \nicefrac 12}{\left(\nicefrac 12\right)^3\times \nicefrac 12 + \left(\nicefrac 34\right)^3\times\nicefrac 12}
@@ -265,7 +270,7 @@ Let $A$ and $B$ be Independent Events. Then the following pairs are also Indepen
     \item[ii.] $\bar A$ and $B$
     \item[iii.] $\bar A$ and $\bar B$
 \end{enumerate}
-\tcblower
+
 \begin{proof}
     \begin{enumerate}
         \item[]
@@ -409,9 +414,9 @@ Probability Mass Functions (PMFs) describe the probability of observing a given 
 \end{enumerate}
 Often PMFs are expressed with a table listing $(x, f(x))$ for all $x$-values such that $f(x)\ne 0$.
 
-\begin{example}{Flipping Coins}
+\begin{example}
     Suppose we toss a (fair) coin twice and let $X$ be a Random Variable representing the number of heads we observe. Define a PMF which describes this situation and show that it satisfies the necessary properties.
-\tcblower
+
 We may use
     \[
         \begin{array}{c|c}
@@ -476,9 +481,9 @@ It is possible to determine the CDF from the PMF and vice versa using the follow
 \end{lemma}\label{lem:cdf2pmf}
 
 
-\begin{example}{PMF v. CDF}
+\begin{example}
     Suppose you roll 4 dice and let $X_i$ be the face of the $i$th die. Then let $X=\max\{X_1, X_2, X_3, X_4\}$. Find the PMF of $X$
-\tcblower
+
 \subsubsection{The Bad Way}
 $X$ will return some value between 1 and 6 inclusive. For the maximum to be a $1$, we must have $X_1=X_2=X_3=X_4=1$, which has a probability of $(\nicefrac 1 6)^4$. Then the probability of the maximum being 2 is given by the probability that one of the 4 is 2 and the rest are either 1 or 2. Determining the probability of this Event would be tedious to calculate, and 3 4 and 5 will be just as tedious, so we will stop here hoping we have sufficiently made the point that this is a bad way to determine the PMF.
 
@@ -502,14 +507,14 @@ Then using Lemma \ref{lem:cdf2pmf} we get
 \subsection{Expectation}
 \newcommand{\E}{\text E}
 The \textbf{Expectation} of a Random Variable describes where the average observation of a Random Variable will tend towards when repeated many many times.
-\begin{definition}{Expectation of a DRV}
+\begin{definition}[Expectation of a DRV]
 Let $X$ be a DRV with PMF $f$. Then
     \[
         E(X)=\sum_{x\in\mathbb Z} x f(x)
     \]
     
 \end{definition}
-\begin{theorem}{Properties of Expectation}
+\begin{theorem}[Properties of Expectation]
     Let $X$ and $Y$ be two DRVs
     \begin{enumerate}
         \item $E(X+Y)=E(X)+E(Y)$
@@ -518,12 +523,11 @@ Let $X$ be a DRV with PMF $f$. Then
             E\left[g(X)\right] = \sum_{x\in \mathbb Z} P(X=x) g(x)
         \]
     \end{enumerate}
-\tcblower
     The proof of the first property may seem relatively straightforward. However it is trickier than one might expect, especially since it applies even when $X$ and $Y$ are Dependent. We will come back to it later.
     \todo PROOF OF SECOND
 \end{theorem}
 
-\begin{example}{Expectation of a transformed DRV}
+\begin{example}
     Find $E(X^2)$ where
     \[
         \begin{array}{c|c}
@@ -534,7 +538,7 @@ Let $X$ be a DRV with PMF $f$. Then
              1 & \nicefrac 13
         \end{array}
     \]
-\tcblower
+
     \subsubsection*{The Bad Way}
     Let $Y=X^2$. Then the PMF of $Y$ is as follows
     \[
@@ -557,9 +561,9 @@ Let $X$ be a DRV with PMF $f$. Then
 
 \subsection{The St. Petersberg Paradox}
 There was ostensibly once a casino in St. Petersberg which offered a certain coin-flipping game. For some relatively large ticket-price, you could flip a coin. If the coin lands on heads, you would get your payout (starting out at a value much smaller than the ticket price). On the other hand, if the coin landed tails you got another flip with the payout doubled. The game could go on and on like this until the coin hits heads.
-\begin{example}{The St. Petersberg Paradox}
+\begin{example}
     Calculate the Expected payout for the coin flip game of the St. Petersberg paradox, assuming that the initial payout is $\$2$.
-\tcblower
+
     Let $X$ be the payout received from playing the coin game. Then the PMF of $X$ is
     \[
         \begin{array}{c|c}
@@ -581,7 +585,7 @@ Thus this would not seem to be a particularly profitable game for a casino to ru
 \subsection{Variance}
 \newcommand{\Var}{\text{Var}}
 The Variance of a DRV is the average of the squared deviation from the mean. In other words
-\begin{definition}{Variance of a DRV}
+\begin{definition}[Variance of a DRV]
     Let $X$ be a DRV 
     \[
         \Var(X)=E[(X-E(X))^2]   
@@ -590,7 +594,7 @@ The Variance of a DRV is the average of the squared deviation from the mean. In 
 
 
 
-\begin{theorem}{Properties of the Variance}
+\begin{theorem}[Properties of the Variance]
     Suppose $X$ and $Y$ are two Independent Random Variable, and $a$ and $b$ are constants
     \begin{enumerate}
         \item $\Var(X)=E(X^2)-[E(X)]^2$
@@ -623,13 +627,13 @@ Let $X$ be some $p\in[0,1]$ and consider some DRV with the following PMF
     \end{array}
 \]
 This is a valid PMF since $(1-p)+p=1$. It is a very simple distribution, but an important gateway to several other distributions -- important enough to warrant a name: \textbf{The Bernoulli Distribution}. We may state that a DRV $X$ has a Bernoulli distribution with a given $p$-value as $X\sim\text{Ber}(p)$.
-\begin{theorem}{Properties of the Bernoulli Distribution}
+\begin{theorem}[Properties of the Bernoulli Distribution]
     Let $X\sim\text{Ber}(p)$ for some $p\in[0,1]$. Then
     \begin{enumerate}
         \item $\E(X)=p$
         \item $\Var(X)=p(1-p)$
     \end{enumerate}
-\tcblower
+
     The proof of this is left as an exercise to the reader.
 \end{theorem}
 \label{thm:propsbin}
@@ -642,9 +646,9 @@ Another important use for Bernoulli distribution is \textbf{Indicator Random Var
     \end{array}\right.
 \]
 This gives us a bridge from probabilities to averages.
-\begin{example}{DeMontfort's Revistied}
+\begin{example}[DeMontfort's Problem Revistied]
     Recall DeMontfrot's Problem. Let $X$ be the number of letters that end up in the correct envelope. Find $\E(X)$.
-\tcblower
+
     Let $I_i$ be an Indicator Variable signalling hat the $i$th letter is in the correct envelope. We can then write
     \[
         X=\sum_{i=1}^n I_i
@@ -654,9 +658,9 @@ This gives us a bridge from probabilities to averages.
          E(X)=\sum_{i=1}^n E(I_i) = \sum_{i=1}^n \frac 1n = 1
     \]
 \end{example}
-\begin{example}{Bluejays v. Redsox}
+\begin{example}[Bluejays v. Redsox]
     Suppose the Bluejays are playing 17 games against the Redsox, and that the Bluejays have a 60\% chance of winning any given game. It may happen that the Redsox win one game, but then the Bluejays win the next, or that the Bluejays win one game, and the Redsox win the next. We call this a "turnover". Find the expected number of turnovers $\E(X)$.
-\tcblower
+
     Let $I_i$ be an Indicator Random Varianle signalling that the $i$th game was a turnover. Since the first game cannot be a turnover but all others can, $i\in[2,17]\cap\mathbb Z$. Then
     \[
         \E(X)=\sum_{i=2}^{17} E(I_i)=\sum_{i=2}^{17} \frac {60}{100} \times \frac{40}{100}=16\times 0.48 = 7.68
@@ -665,16 +669,20 @@ This gives us a bridge from probabilities to averages.
 
 \subsection{The Binomial Distribution}
 \newcommand{\simiid}{\overset{iid}\sim}
-Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber}(p)$ (where ``$\simiid$" means ``independent and identically distributed"). Then we say that $X=I_1+I_2+\cdots + I_n$ has a \textbf{Binomial Distribution} or $X\sim \text{Bin}(n,p)$. 
-\begin{theorem}{Properties of the Binomial Distribution}
+Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber}(p)$ (where ``$\simiid$" means ``independent and identically distributed"). Then we say that $X=I_1+I_2+\cdots + I_n$ has a \textbf{Binomial Distribution} or $X\sim \text{Bin}(n,p)$.
+
+
+
+
+\begin{theorem}[Properties of the Binomial Distribution]
     If $X=I_1+I_2+\cdots +I_n \sim \text{Bin}(n,p)$ for some $n\in\{1,2,...\}$ and $p\in[0,1]$. Then
     \begin{enumerate}
         \item $\forall x\in\{1,2,...,n\}, P(X=x)=\binom n x p^x(1-p)^{n-x}$
         \item $\E(X)=np$
         \item $\Var(X)=np(1-p)$
     \end{enumerate}
-\tcblower
     \begin{proof}
+    
         \begin{enumerate}
             \item[]
             \item There are $\binom nx$ possible ways for $x$ out of $n$ Bernoulli trials to return 1 and the remaining $(n-x)$ to return 0. The probability of $x$ Independent Bernoulli trials all returning 1 is $p^x$, and the probability of $n-x$ Independent Bernoulli trials all returning $0$ is $(1-p)^{n-x}$. Thus the probability of exactly $x$ out of $n$ Bernoulli trials returning 1 is $P(X=x)=\binom n x p^x(1-p)^{n-x}$. 
@@ -705,16 +713,16 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
     
 \end{theorem}
 
-\begin{example}{The Random Walk}
+\begin{example}
     Imagine a drunk man staggering home. He takes 20 steps, each in a random direction. What is the probability that he ends up 4 steps from where he started. We will assume that there are only two directions that he can go, and that each step has a fifty-fifty chance for going forwards versus backwards.
-\tcblower
+
     We can cast this as a coin flipping problem. 
     \todo
 \end{example}
 
-\begin{example}{Coin Tosses}
+\begin{example}
     A fair coin is tossed $n$ times. What is the probability that the first toss is a head given that exactly $r $ of the first $n$ tosses are heads.
-\tcblower
+
     Let $A$ be the Event that the first toss was a head and let $B_{n,r}$ be the event that $r$ of the $n$ first tosses were heads. Then the quantity we are trying to find is equal to
     \[
         P(A|B_{n,r})=\frac{P(A\cap B_{n,r})}{P(B_{n,r})} 
@@ -737,44 +745,79 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
     \]
 \end{example}
 
-
-
 \subsection{The Geometric Distribution}
-    We once again consider an infinite sequence of Bernoulli trials $I_1,I_2,...\simiid \text{Ber}(p)$. This time we let $X$ be the waiting time for the first success. For instance if $I_1$ returned $1$ then $X$ returns 1. If $I_1$ returns 0 and $I_2$ returns 1 then $X$ returns 2, etc. Or more generally $I_x=1$ and $I_1=I_2=\cdots =I_{x-1}=0$, then $X=x$. We say
+    \newcommand{\geom}{\text{Geom}}
+    We once again consider a sequence of independent Bernoulli trials, however we will now assume that there are an infinite number of them $I_1,I_2,...\simiid \text{Ber}(p)$. This time we let $X$ be the waiting time for the first success. For instance if $I_1$ is a success then $X$ returns 1. If $I_1$ is a failure and $I_2$ is a success then $X$ returns 2, etc. Or more generally if $I_x=1$ and $I_1=I_2=\cdots =I_{x-1}=0$, then $X=x$. In this case we say $X$ has a \textbf{Geometric Distribution} or
     \[
-        X\sim \text{Geom}(p)
+        X\sim\geom(p)
     \]
+    The parameter $p$ here represents the probability of success on any given trial. Another useful quanitiy is the probability of failure on any given trial $q=1-p$
     \begin{definition}{Memorylessness}
         A DRV is said to be \textbf{Memoryless} if for all $s$ and $t$
         \[
             P(X>s+t\ |\ X>s)=P(X>t)
         \]
     \end{definition}
-    \begin{theorem}{Properties of the Geometric Distribution}
-        Let $X\sim \text{Geom}(p)$ then
+    \begin{theorem}[Properties of the Geometric Distribution]
+        Let $X\sim \geom(p)$ for some $p\in [0,1]$ and $q=1-p$. Then
         \begin{enumerate}
-            \item $\forall x\in\{1,2,...\}, P(X=x)=(1-p)^{x-1}p$
-            \item $\E(X)=\nicefrac 1 p$
-            \item $\Var(X)=\displaystyle \frac{1-p} {p^2}$
+            \item 
+            $
+                P(X=x)=\begin{cases}
+                    q^{x-1}p & x\ge 1 \\
+                    0 & \text{otherwise}
+                \end{cases}
+            $
+            \item 
+            $
+                P(X\le x)=\begin{cases}
+                    1-q^x & x\ge 1 \\
+                    0 & \text{otherwise}
+                \end{cases}
+            $
+            \item $\E(X)=\displaystyle\frac 1 p$
+            \item $\Var(X)=\displaystyle \frac q {p^2}$
             \item The Geometric distribution is Memoryless (in fact it is the only Discrete Distribution with this property)
         \end{enumerate}
-    \tcblower
-        \todo PROOF
+        \begin{proof}
+            \begin{enumerate}
+                \item[]
+                \item $X$ will return $x$ when the first $x-1$ trials fail and the $x$th trial succeeds. The former probability is $q^{x-1}$ and the latter is $p$.
+                \item We interpret $X>x$ to mean that that $I_1,I_2,...,I_x$ all failed (and $I_{x+1}, I_{x+2},...$ may or may not have failed or succeeded). Thus $P(X>x)=q^x$ and hence $P(X\le x)=1-q^x$.
+                \item By the definition of Expectation of a DRV
+                \[
+                    \E(X)=\sum_{x=1}^\infty xq^{x-1}p=p+2qp+3q^2p+\cdots
+                \]
+                and therefore
+                \[
+                    q\E(X)=\sum_{x=1}^\infty xq^x p=\sum_{x=1}^\infty (x-1)q^{x-1} p =  qp+2q^2p+3q^3p+\cdots
+                \]
+                From these we get
+                \[
+                    p\E(X)=\E(X)-q\E(X)=\sum_{x=1}^\infty q^{x-1}p=\sum_{x=1}^\infty P(X=x)=1
+                \]
+                We then divide both sides by $p$ to get
+                \[
+                    \E(X)=\frac 1p
+                \]
+                \item \todo
+                \item \todo
+            \end{enumerate}
+        \end{proof}
     \end{theorem}
 
-    \begin{example}{Jeopardy}
-        Jeopardy is a quiz show played by 3 people. Ifyou win Jeopardy you get to come back the next time. An average jeopardy player will have a 1 in 3 chance of winning a game. What is the probability of playing exactly 75 games
-    \tcblower
-    \[
-        \left(\frac 1 3\right)^{74}\times \frac 2 3
-    \]
+    \begin{example}
+        Jeopardy is a quiz show played by 3 people. Ifyou win Jeopardy you get to come back the next time. An average jeopardy player will have a 1 in 3 chance of winning a game. What is the probability of playing exactly 75 games.
+        \[
+            \left(\frac 1 3\right)^{74}\times \frac 2 3
+        \]
     \end{example}
 
     \todo I defined $X$ as the waiting time for the first success, but some learned $Y$ as the number of failures before the first success. Some look at number of trials and some look at number of failures. In this class we use the first definition, however there is an easy conversion. $Y=X-1$. This chances the expected value to $q/p$ where $q=1-p$, but it does not change the variance
     
 \subsection{Negative Binomial}
-We can generalize the geometric distriution, and let $X$ be the number of Bernoulli trials before we get $k$ successes. Then we say $X$ has a \textbf{Negative Binomial Distribution} or $X\sim \text{NB}(p,k)$.
-\begin{theorem}{Properties of the Negative Binomial Distribution}
+We can generalize the geometric distribution, and let $X$ be the number of Bernoulli trials before we get $k$ successes. Then we say $X$ has a \textbf{Negative Binomial Distribution} or $X\sim \text{NB}(p,k)$.
+\begin{theorem}\textbf{Properties of the Negative Binomial Distribution}\\
     Let $X\sim \text{NB}(p,k)$. Then
     \begin{enumerate}
         \item $P(X=x)=\displaystyle{\left\{\begin{array}{ll}
@@ -784,7 +827,7 @@ We can generalize the geometric distriution, and let $X$ be the number of Bernou
         \item $\E(X)=k/p$
         \item $\Var(X)=\frac{k(1-p)}{p^2}$
     \end{enumerate}
-\tcblower
+
     \begin{proof}
     \begin{enumerate}
         \item[]
@@ -810,7 +853,7 @@ Suppose each matchbox has $20$ matches. Suppose he finds that matchbox right is 
 
 \begin{example}
     Supose a fair coin is tossed repeatedly and independelnytl and $X$ is the waitng time for 2 heads. Find the $E(X|HTT)$ and $E(X|TTT)$.
-\tcblower
+
     The remaining waiting time is still $\text{Geom}(\nicefrac 12)$. 
 
     For $TTT$ you wait for the first head and then the second head. The first 3 tosses have happened so we add that . And then its'
@@ -828,7 +871,7 @@ Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ bal
 
 
 
-\begin{definition}{The Hypergeometric Distribution}
+\begin{definition}[The Hypergeometric Distribution]
     For some $r,n,N\in \{0,1,...\}$ such that $N\ge r$ let $X\sim \text{Hyp}(N,n,r)$. Then the PMF of $X$ is 
     \[
         f(x)=\left\{\begin{array}{cl}
@@ -837,7 +880,7 @@ Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ bal
             \end{array}\right.
     \]
 \end{definition}
-\begin{theorem}{Properties of the Hypergeometric Distribution}
+\begin{theorem}[Properties of the Hypergeometric Distribution]
     Let $X\sim \text{Hyp}(N,n,p)$. Then
     \begin{enumerate}
         \item $\E(x)=\todo$
@@ -845,9 +888,9 @@ Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ bal
     \end{enumerate}
 \end{theorem}
 
-\begin{example}{Loto 649}
+\begin{example}[Loto 649]
     There is a very famous lottery in Canada called ``Loto 649". Players choose 6 numbers from 49 options. Later, the organizers of the game also choose 6 numbers from the same 49 randomly. If you as a player have all of those same numbers, you win first prize. With that in mind, what is the probability of winning Loto 649?
-\tcblower
+
     We can use the bag metaphor with a success being the commission drawing a number you selected, and a failure being them drawing a number you didn't select. This gives us $N=49$ and $n=r=x=6$ giving us a probability of
     \[
         \displaystyle\frac{\binom 6 6 \binom {43}{0}}{\binom {49}{6}}=\frac 1{\binom {49} 6}=\frac 1 {13\,983\,816}
@@ -865,7 +908,7 @@ Suppose we have $N=10, r=5$. Then the probability of success in the first draw i
     Furthermore for any large fi
     \todo
     tl;dr The Hypergeometric is approximated by the binomail
-\tcblower
+
 
     \begin{proof}
 
@@ -901,7 +944,7 @@ We will now talk about arguably the most important discrete distribution of all:
 \begin{definition}{The Poisson Distribution}
     $P(X=x)=\frac{e^{-\lambda \lambda^2}}{x!}$
 \end{definition}
-\begin{theorem}{Poisson Distribution}
+\begin{theorem}[Poisson Distribution]
     \begin{enumerate}
         \item $\forall x\in\{0,1,..\}, P(X=x)$
         \item $\E(X)=\lambda$
@@ -918,7 +961,7 @@ Suppose we're loojing at eath quakes in LA in 6 months. Every instance, the chan
 
 \begin{lemma}
     Let $X\sim\text{Bin}(n,p)$ for $p\to 0$ and $n\to \infty$, but where $np=\lambda$. This is a Posson.
-\tcblower
+
     \begin{proof}
     
     
@@ -939,7 +982,7 @@ Suppose we're loojing at eath quakes in LA in 6 months. Every instance, the chan
 
 \begin{example}
     Suppose there are 200 people in a class and you want to find the probability that two of them were born on January 1st. We will assume there are no leap years or twins etc. 
-\tcblower
+
     Let $X\sim\todo$ be the number of people born on January 1st. Then we have $n=200, p=1/365$
     \[
         P(X=2)=\binom {200}2 \frac 1 {365} \frac{364}{364}
@@ -954,9 +997,9 @@ Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson
     \item The number of arrivals in $[0,t]$ is $Poi(\lambda t)$
     \item Arrivals in disjoint intervals are independent
 \end{enumerate}
-\begin{example}{Earthquakes}
+\begin{example}[Earthquakes]
     The number of earthquakes in an area follow a Poisson process with $\lambda = 6$ (earthquakes per year). Here you're doing lots of trials. You can think of each second as a trial. Find the probability that there are 4 earthquakes in 6 months. Then find the probability that in the next five years, two ofthem will have exactly five earthquakes. 
-\tcblower
+
     \begin{enumerate}
         \item Let $N_t$ be the number of earthquakes in 6 months. Then $N_t\sim \text{Poi}(3)$. Thus we just need to find
         \[
@@ -973,13 +1016,6 @@ Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson
     \end{enumerate}   
 \end{example}
 
-
-\subsection{Overview}
-\begin{tabular}{|c|c|c|c|c|c|c|}
-     Distribution & Support & PMF & CDF & Expectation & Variances \\
-     \hline
-\end{tabular}
-
 \subsection{End-of-the-Section Problems}
 \begin{enumerate}
     \item Prove Theorem \ref{thm:propsbin}
@@ -989,7 +1025,10 @@ Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson
 
 
 \section{Continuous Random Variables}
-Suppose you through a dart in a dartboard. The probability that you hit any one point is $0$, since there are an infinite number of points. $P(X=a)$ in all continuous distributions. We can use a CDF. Just as with DRVs it's
+Suppose you through a dart at a dartboard. What is the probab
+
+
+Suppose you through a dart in a dartboard. The probability that you hit any one point is $0$, since there are an infinite number of points. $P(X=a)$ in all continuous distributions. We can use a CDF. Just as with DRVs it's 
 PROPERTIES
 \[
     F(X)=P(X\le x)
@@ -1016,11 +1055,73 @@ However in the continuous case
 \[
     F(x)=\int_a^x f(x)dx
 \]
+
+\section{Moment Generating Functions}
+Let $X$ be a Random Variable (either Discrete or Continuous). 
+We define the \textbf{Moment} of $X$ as
+\[
+    M_X(t)=\E(e^{tx})
+\]
+Moments don't have
+
+can be useful for finding different statistics such as variance and skewness.
+This is just a mathematical tool with no real-world representation of things. 
+
+
+So why do we care about this? There are three reasons
+\begin{enumerate}
+    \item We can use the Moment Generating Function to find Moments. The $n$th derivative of the Moment generating function at $t=0$ is the $n$th Moment of $X$. 
+    \begin{proof}
+        If we Taylor expand the defintion of $M_X$ we get
+        \[
+            M_X(t)=1+\frac{t\cdot \E(X)}{1!}+\frac{t^2\cdot \E(X^2)}{2!}+\cdots
+        \]
+        Then for some Higher Order Terms (H.O.T.)
+        \[
+            \frac{d^n M_X}{d t^n}=E(X^n)+t\times \text{H.O.T.}
+        \]
+        giving us
+        \[
+            M_X^{(n)}(0)=E(X^n)
+        \]
+    \end{proof}
+    \item A given MGF uniquely identifies a Random Variable. 
+    \begin{example}
+        Suppose for some Random Variable $Y$
+        \[
+            M_Y(t)=\frac 23 + \frac 13 e^t
+        \]
+        What is $Y$
+        
+        $M_Y(t)$ is the MGF for a Ber($1/3$). Therefore that is the Distribution of $Y$
+    \end{example}
+    \item If $X$ and $Y$ are two Independent Randovm Variables, then
+    \[
+        M_{X+Y}(t)= M_X(t) M_Y(t)
+    \]
+\end{enumerate}
+
+\begin{example}
+    Find the MGF of $\text{Bin}(n,p)$
+    
+    Recall that for $I_i\simiid \text{Ber}(p)$ for $i=1,2,...,n$
+    \[
+        \sum_{i=1}^n I_i \sim \text{Bin}(n,p)
+    \] We know that 
+    \[
+        \forall i\in\{1,2,...,n\}, M_{I_i}(t)=q+pe^t
+    \]
+    Hence the MGF for $\text{Bin}(n,p)$ is
+    \[
+        M_{I_1+I_2+\cdots + I_n}(t)=(q+pe^t)^n
+    \]
+\end{example}
+
 \section{Named Continuous Distributions}
 \subsection{The Uniform Distribution}
-\todo
+\todo 
 
-\begin{example}{Denisty Bigger than 1}
+\begin{example}
 
 \end{example}
 $\E(X)=\frac{a+b} 2$
@@ -1040,10 +1141,136 @@ Suppose you want to simulate a Continuous Random Variable. it's often easy to ge
             0 & \text{otherwise}
             \end{array}\right.
     \]
-\tcblower
+
     We can calclate the CDF $F(x)=1-e^x$ \todo\todo\todo
     We can ge\todo
 \end{example}
+
+$X\sim U(a,b)$
+\[
+    f(x)=\begin{cases}
+        \frac 1 {b-a} & a\le x \le b \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+
+\begin{theorem}
+    {The Universality Theorem}
+
+    \todo
+    
+    \todo
+\end{theorem}
+
+\subsection{The Exponential Distribution}
+$X\sim Exp(\lambda)$ if
+\[
+    f(x)=\begin{cases}
+        \lambda e^{-\lambda x} & x \ge 0
+        \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+Sometimes the Exponential distributoon uses $\mu=1/\lambda $ as its parammeter. We call $\mu$ the mean and $\lambda $ the rate. We get the CDF by integrating
+\[
+    F(x)=1-e^{-\lambda x}
+\]
+
+$\E(X)=\mu$
+$\Var(X)=\mu^2$
+
+The Exponential Distribution is the only Memoryless distribtuion.
+
+Recall the definition of Memorylessness
+\[
+    P(X\ge s+t| X>s)=\frac{1-F(s+t)}{1-F(s)}
+    =\frac{e^{-\lambda (s+t)}}{e^{-\lambda s}}
+    =e^{-\lambda s}
+    =P(X>t)
+\]
+
+\subsection{The Weibull Distribution}
+Is the Exponential Distribtuion good for measuring human life. Suppose $s=60$
+ and $t=40$, By the definition of Memorylessness.
+ The Weibull Distribution is like the Exponential Distribution but with some decay.
+ 
+\subsection{The Gamma and Erlang Distributions}
+To talk about the \textbf{Gamma Distribution} we must talk about the \textbf{Gamma Function}
+\[
+    \Gamma(\alpha)=\int_0^\infty x^{\alpha - 1} e^x dx
+\]
+\begin{theorem}
+    {Properties of the Gamma Function}
+    \begin{enumerate}
+        \item $\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$
+        \item For any integer $n$, $\Gamma(n+1)=n!$
+    \end{enumerate}
+    \
+    \begin{enumerate}
+        \item We can show this using integration by parts.
+        \item Using the first property, we get that $\Gamma(n)=n\Gamma(n$\todo
+    \end{enumerate}
+\end{theorem}
+
+From this we define the Gama Distribtuion
+\begin{definition}
+    We say $X\sim\Gamma(\alpha,\beta)$ if the PDF of $X$ is
+    \[
+        f(x)=\begin{cases}
+            \todo
+        \end{cases}
+    \]
+\end{definition}
+We can show that $f(x)$ as defined above is a valid PDF
+\begin{proof}
+    If we let $t=x/\beta$, we get
+    \[
+        f(x)=\int_0^\int \frac{(t\beta)^{}\alpha-1 e^{-t}}{\beta^{\alpha} \Gamma(\alpha)}=\frac{\Gamma(\alpha)}{\Gamma(\alpha)}
+    \]
+\end{proof}
+
+There are some notable special cases of the $\Gamma $ Distribtuin. If $\alpha = 1 $
+\[
+    f(x)=\frac 1\beta e^{-\frac x \beta}
+\]
+We should recognize this as the PDF for the Exponential distribution with mean $\beta$. In other words, the Exponential Distribution is simply a special case of the Gamma Distribution. When $\beta=1$ we get
+\[
+    f(x)=\frac{x^{\alpha-1}e^{-x}}{\Gamma(\alpha)}
+\]
+This function is interesting since the numerator is simple te integrand of the denominator. In cases where $\alpha$ is an integer, we may call the Gamma Distribtuion the Erlang distribution.
+\begin{theorem}
+    Let $k$ be any positive integer and let $X\sim \Gamma(\alpha,\beta)$. Then
+    \[
+        \E(X^k)=\beta^k \frac{\Gamma(\alpha+k)}{F(\alpha}
+    \]
+    
+\end{theorem}
+
+\begin{theorem}
+    {Properties of the Gamma Distribution}
+    \begin{enumerate}
+        \item 
+        \item 
+        \item The MGF of $X$ is 
+        \[
+            M_X(t)=\frac 1 {(1-\beta t)^\alpha}
+        \]
+        %\item If $\alpha$ is an integer, then $X=Y_1+Y_2+\cdots Y_\alpha$ where $Y_i\simiid \text{Exp(\beta)}$ for $i=1,2,...,\alpha$.
+    \end{enumerate}
+    \begin{enumerate}
+        \item This can be shown using Theorem \todo using $k=1$
+        \item We can also find $\E(X^2)$ similarly which gives us
+    \end{enumerate}
+\end{theorem}
+
+From this we see that the Erlang Distribtuion is the continous analogue of the Negative Binomial.
+
+
+
+\subsection*{End-of-the-section Problems}
+\begin{enumerate}
+    \item Show that the MGF of $X\sim \text{Exp}(\mu)$ \todo
+\end{enumerate}
 
 \chapter{Multivariate and Conditional Distributions}
 
