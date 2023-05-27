@@ -26,6 +26,16 @@
     innertopmargin=6pt,
     splittopskip=\topskip,
 ]{example}{Example}[section]
+\NewDocumentCommand{\solution}{o}{%
+    \par\medskip% Add some vertical space
+    \noindent% Remove paragraph indentation
+    \IfValueTF{#1}{% If an optional argument is provided
+        \textbf{\textup{#1:}}% Use the provided argument as the solution heading
+    }{%
+        \textbf{\textup{Solution:}}% Default solution heading
+    }%
+    \quad% Add some horizontal space
+}
 
 \newmdtheoremenv[
     backgroundcolor=blue!5!white,
@@ -198,15 +208,16 @@ The definition of $P(A\vert B)$ is deceptively simple, but it has wide-ranging c
 \begin{example}
     Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. One coin is picked at random and tossed 3 times. Find the probability that all three tosses return \emph{Heads}.
 
-Let $F$ be the Event that a fair coin is chosen out of the two, and let $H^3$ be the probability of observing 3 heads. If we assume that there is an equal chance of choosing each coin, then the Prior Probability of observing $F$ and $\bar F$ are $P(F)=P(\bar F)=\nicefrac 12$, and the Posterior Probabilities of $H^3$ are
-\[
-    P(H^3 | F) = \left(\frac 12\right)^3;\quad P(H^3 | \bar F) = \left(\frac 34\right)^3
-\]
-Since $F$ and $\bar F$ are a Partition of the Sample Space, we may then use the Law of Total Probability to find
-\[
-    P(H^3) = P(H^3|F)P(F)+P(H^3|\bar F)P(\bar F)= \left(\frac 12\right)^3\times \frac 12 + \left(\frac 34\right)^3\times\frac 12
-\]
-or around $27\%$.
+    \solution
+    Let $F$ be the Event that a fair coin is chosen out of the two, and let $H^3$ be the probability of observing 3 heads. If we assume that there is an equal chance of choosing each coin, then the Prior Probability of observing $F$ and $\bar F$ are $P(F)=P(\bar F)=\nicefrac 12$, and the Posterior Probabilities of $H^3$ are
+    \[
+        P(H^3 | F) = \left(\frac 12\right)^3;\quad P(H^3 | \bar F) = \left(\frac 34\right)^3
+    \]
+    Since $F$ and $\bar F$ are a Partition of the Sample Space, we may then use the Law of Total Probability to find
+    \[
+        P(H^3) = P(H^3|F)P(F)+P(H^3|\bar F)P(\bar F)= \left(\frac 12\right)^3\times \frac 12 + \left(\frac 34\right)^3\times\frac 12
+    \]
+    or around $27\%$.
 \end{example}
     
 
@@ -266,17 +277,17 @@ or equivalently:
 \begin{lemma}
 Let $A$ and $B$ be Independent Events. Then the following pairs are also Independent:
 \begin{enumerate}
-    \item[i.] $A$ and $\bar B$
-    \item[ii.] $\bar A$ and $B$
-    \item[iii.] $\bar A$ and $\bar B$
+    \item $A$ and $\bar B$
+    \item $\bar A$ and $B$
+    \item $\bar A$ and $\bar B$
 \end{enumerate}
 
 \begin{proof}
     \begin{enumerate}
         \item[]
-        \item[i.] 
-        \item[ii.] 
-        \item[iii.] 
+        \item\todo
+        \item\todo
+        \item \todo
     \end{enumerate}
 \end{proof}
 \end{lemma}
@@ -412,25 +423,27 @@ Probability Mass Functions (PMFs) describe the probability of observing a given 
     \item For all $x\in \mathbb Z$, $f(x)\ge 0$
     \item $\displaystyle\sum_{x\in\mathbb Z} f(x)=1$
 \end{enumerate}
-Often PMFs are expressed with a table listing $(x, f(x))$ for all $x$-values such that $f(x)\ne 0$.
+Often PMFs are expressed with a table listing $(x, f(x))$ for all $x$-values for which $f(x)\ne 0$.
+
+
 
 \begin{example}
-    Suppose we toss a (fair) coin twice and let $X$ be a Random Variable representing the number of heads we observe. Define a PMF which describes this situation and show that it satisfies the necessary properties.
-
-We may use
+    Suppose we toss a (fair) coin twice and let $X$ be a DRV representing the number of heads we observe. Define a PMF which describes this situation and show that it satisfies the necessary properties.
+    \solution
+    We may use
+        \[
+            \begin{array}{c|c}
+                x & f(x) \\
+                \hline
+                0 & (\nicefrac 12)^2 \\
+                1 & 2(\nicefrac 12)^2 \\
+                2 & (\nicefrac 12)^2 
+            \end{array}
+        \]
+    We can see that $f(x)\ge 0$ for all values shown (and equal to zero for all values omitted), thus it satisfies Property 1. If we add the values up we see
     \[
-        \begin{array}{c|c}
-            x & f(x) \\
-            \hline
-            0 & (\nicefrac 12)^2 \\
-            1 & 2(\nicefrac 12)^2 \\
-            2 & (\nicefrac 12)^2 
-        \end{array}
+        \sum_{x\in\mathbb Z}f(x)=\frac 14 + \frac 12 + \frac 14 = 1
     \]
-We can see that $f(x)\ge 0$ for all values shown (and equal to zero for all values omitted), thus it satisfies Property 1. If we add the values up we see
-\[
-    \sum_{x\in\mathbb Z}f(x)=\frac 14 + \frac 12 + \frac 14 = 1
-\]
 \end{example}
 \begin{notsofast}
     Do not confuse DRVs with their distributions! For instance, it is sometimes mistakenly assumed that the PMF of $2X$ is simply $2f(x)$. However this is not the case, and it is not even possible for $2f(x)$ to be \emph a PMF in the first place, let alone the PMF which correctly describes $2X$. Transforming DRVs is not so simple.
@@ -464,51 +477,48 @@ We can see that $f(x)\ge 0$ for all values shown (and equal to zero for all valu
 \end{notsofast}
 
 \subsection{The Cumulative Distribution Function}
-Another way we can describe a Random Variable is using the Cumulative Distribution Function (CDF), often represented by $F(x)$. This describes, not the probability of observing $x$, but rather the probability of observing some value less than or equal to $x$. CDFs must satisfy the following properties:
+Another way we can describe a Random Variable is using the Cumulative Distribution Function (CDF), often represented by $P(X\le x)$ or $F(x)$. This describes, not the probability of observing $x$, but rather the probability of observing some value less than or equal to $x$. CDFs must satisfy the following properties:
 \begin{enumerate}
     \item For all $x\in\mathbb Z$, $0\le F(x) \le 1$
     \item $F$ must be nondecreasing. In other words for any $x,y\in\mathbb Z$ such that $x<y$, $F(x)\le F(y)$
     \item For \emph{Discrete} Random Variables (we will discuss Continuous Random Variables in the next section) the $F$ is a step function
     \item $F$ is right continuous
 \end{enumerate}
-\todo
-
-It is possible to determine the CDF from the PMF and vice versa using the following relation
+\label{cdf_axioms}
+It is possible to convert between a CDF and PMF using the following relation:
 \begin{lemma}
-    \[
-        f(x)=F(x)-F(x-1)
-    \]
+    $f(x)=F(x)-F(x-1)$
 \end{lemma}\label{lem:cdf2pmf}
 
 
 \begin{example}
     Suppose you roll 4 dice and let $X_i$ be the face of the $i$th die. Then let $X=\max\{X_1, X_2, X_3, X_4\}$. Find the PMF of $X$
 
-\subsubsection{The Bad Way}
-$X$ will return some value between 1 and 6 inclusive. For the maximum to be a $1$, we must have $X_1=X_2=X_3=X_4=1$, which has a probability of $(\nicefrac 1 6)^4$. Then the probability of the maximum being 2 is given by the probability that one of the 4 is 2 and the rest are either 1 or 2. Determining the probability of this Event would be tedious to calculate, and 3 4 and 5 will be just as tedious, so we will stop here hoping we have sufficiently made the point that this is a bad way to determine the PMF.
-
-\subsubsection{The Good Way}
-The CDF of $X_i$ for $i=1,2,3,4$ is
-\[
-    P(X_i\le x)=\frac x 6
-\]
-for all $x=1,2,...,6$ (for all other $x$-values it is zero) Then $X$ will return a value less than or equal to $x=1,2,...,6$ if and only if $X_1, X_2,X_3,X_4$ all return values less than or equal to $x$. Thus
-\[
-    P(X\le x)=\prod_{i=1}^4 P(X_i\le x)=\left(\frac x 6\right)^4
-\]
-Then using Lemma \ref{lem:cdf2pmf} we get
-\[
-    P(X=x)= \left(\frac x 6\right)^4-\left(\frac {x-1} 6\right)^4
-\]
+    \solution[The Bad Way]
+    $X$ will return some value between 1 and 6 inclusive. For the maximum to be a $1$, we must have $X_1=X_2=X_3=X_4=1$, which has a probability of $(\nicefrac 1 6)^4$. Then the probability of the maximum being 2 is given by the probability that one of the 4 is 2 and the rest are either 1 or 2. Determining the probability of this Event would be tedious to calculate, and 3 4 and 5 will be just as tedious, so we will stop here hoping we have sufficiently made the point that this is a bad way to determine the PMF.
+    
+    \solution[The Good Way]
+    The CDF of $X_i$ for $i=1,2,3,4$ is
+    \[
+        P(X_i\le x)=\frac x 6
+    \]
+    for all $x=1,2,...,6$ (for all other $x$-values it is zero) Then $X$ will return a value less than or equal to $x=1,2,...,6$ if and only if $X_1, X_2,X_3,X_4$ all return values less than or equal to $x$. Thus
+    \[
+        P(X\le x)=\prod_{i=1}^4 P(X_i\le x)=\left(\frac x 6\right)^4
+    \]
+    Then using Lemma \ref{lem:cdf2pmf} we get
+    \[
+        P(X=x)= \left(\frac x 6\right)^4-\left(\frac {x-1} 6\right)^4
+    \]
 \end{example}
 
 
 
-\subsection{Expectation}
-\newcommand{\E}{\text E}
+\subsection{Expectation of a DRV}
+\newcommand{\E}{\textup{E}}
 The \textbf{Expectation} of a Random Variable describes where the average observation of a Random Variable will tend towards when repeated many many times.
 \begin{definition}[Expectation of a DRV]
-Let $X$ be a DRV with PMF $f$. Then
+Let $X$ be a DRV with PMF $f(x)$. Then
     \[
         E(X)=\sum_{x\in\mathbb Z} x f(x)
     \]
@@ -539,7 +549,7 @@ Let $X$ be a DRV with PMF $f$. Then
         \end{array}
     \]
 
-    \subsubsection*{The Bad Way}
+    \solution[The Bad Way]
     Let $Y=X^2$. Then the PMF of $Y$ is as follows
     \[
         \begin{array}{c|c}
@@ -553,7 +563,7 @@ Let $X$ be a DRV with PMF $f$. Then
     \[
         \E(Y)=\frac 23
     \]
-    \subsubsection*{The Good Way}
+    \solution[The Good Way]
     \[
         E(X^2)=(-1)^2\times \frac 13 + 0^2\times \frac 13 + 1^2 \frac 13 = \frac 13
     \]
@@ -563,7 +573,7 @@ Let $X$ be a DRV with PMF $f$. Then
 There was ostensibly once a casino in St. Petersberg which offered a certain coin-flipping game. For some relatively large ticket-price, you could flip a coin. If the coin lands on heads, you would get your payout (starting out at a value much smaller than the ticket price). On the other hand, if the coin landed tails you got another flip with the payout doubled. The game could go on and on like this until the coin hits heads.
 \begin{example}
     Calculate the Expected payout for the coin flip game of the St. Petersberg paradox, assuming that the initial payout is $\$2$.
-
+    \solution
     Let $X$ be the payout received from playing the coin game. Then the PMF of $X$ is
     \[
         \begin{array}{c|c}
@@ -580,12 +590,14 @@ There was ostensibly once a casino in St. Petersberg which offered a certain coi
         E(X) = 2\times \frac 12 + 4 \times \frac 1 4 + \cdots = \infty
     \]
 \end{example}
-Thus this would not seem to be a particularly profitable game for a casino to run, since no matter what ticket price we set, the casino would in theory always lose money. So suppose we set a ticket price of $\$50$. Would playing be a good idea? Well, though the Expectation is technically infinite, we only have a 1 in 64 chance of actually winning any money. In other words, we could easily find ourselves over $\$3000$ in debt before seeing any winnings.  So clearly Expectation is not everything. This brings us to \textbf{Variance}.
+Thus this would not seem to be a particularly profitable game for a casino to run, since no matter what ticket price we set, the casino would in theory always lose money. 
+
+So suppose you were offered a chance to play this game with a ticket price of $\$50$. Would you take take it? Though the Expectation is technically infinite, we only have a 1 in 64 chance of actually winning any money. In other words, we could easily find ourselves over $\$3\,000$ in debt before seeing any winnings.  So clearly Expectation is not everything. This brings us to \textbf{Variance}.
 
 \subsection{Variance}
-\newcommand{\Var}{\text{Var}}
-The Variance of a DRV is the average of the squared deviation from the mean. In other words
-\begin{definition}[Variance of a DRV]
+\newcommand{\Var}{\textup{Var}}
+The Variance of a Random Variable is the average of the squared deviation from the mean. In other words
+\begin{definition}[Variance of a Random Variable]
     Let $X$ be a DRV 
     \[
         \Var(X)=E[(X-E(X))^2]   
@@ -593,15 +605,15 @@ The Variance of a DRV is the average of the squared deviation from the mean. In 
 \end{definition}
 
 
-
 \begin{theorem}[Properties of the Variance]
-    Suppose $X$ and $Y$ are two Independent Random Variable, and $a$ and $b$ are constants
+    Suppose $X$ and $Y$ are two Independent DRVs, and $a$ and $b$ are constants
     \begin{enumerate}
         \item $\Var(X)=E(X^2)-[E(X)]^2$
         \item $\Var(a)=0$
         \item $\Var(aX+b)=a^2\Var(X)$
         \item $\Var(X+Y)=\Var(X)+\Var(Y)$
     \end{enumerate}
+    \todo PROOF
 \end{theorem}
 
 \begin{notsofast}
@@ -615,9 +627,10 @@ The Variance of a DRV is the average of the squared deviation from the mean. In 
     \item Show that $E[(X-E(X))^2]=E(X^2)-[E(X)]^2$
 \end{enumerate}
 
-\section{Named Distributions for DRVs}
+\section{Named Discrete Distributions}
 \subsection{The Bernoulli Distribution}
-Let $X$ be some $p\in[0,1]$ and consider some DRV with the following PMF
+\newcommand{\ber}{\textup{Ber}}
+Let $X$ be some $p\in[0,1]$ and consider a DRV $X$ with the following PMF
 \[
     \begin{array}{c|c}
          x & f(x) \\
@@ -626,9 +639,9 @@ Let $X$ be some $p\in[0,1]$ and consider some DRV with the following PMF
          1 & p
     \end{array}
 \]
-This is a valid PMF since $(1-p)+p=1$. It is a very simple distribution, but an important gateway to several other distributions -- important enough to warrant a name: \textbf{The Bernoulli Distribution}. We may state that a DRV $X$ has a Bernoulli distribution with a given $p$-value as $X\sim\text{Ber}(p)$.
+This is a valid PMF since $(1-p)+p=1$. It is a very simple distribution, but an important gateway to several other distributions -- important enough to warrant a name: \textbf{The Bernoulli Distribution}. We may state that a DRV $X$ has a Bernoulli distribution with a given $p$-value as $X\sim\ber(p)$.
 \begin{theorem}[Properties of the Bernoulli Distribution]
-    Let $X\sim\text{Ber}(p)$ for some $p\in[0,1]$. Then
+    Let $X\sim\ber(p)$ for some $p\in[0,1]$. Then
     \begin{enumerate}
         \item $\E(X)=p$
         \item $\Var(X)=p(1-p)$
@@ -638,17 +651,17 @@ This is a valid PMF since $(1-p)+p=1$. It is a very simple distribution, but an 
 \end{theorem}
 \label{thm:propsbin}
 \subsubsection{Indicator Random Variables}
-Another important use for Bernoulli distribution is \textbf{Indicator Random Variables}. Suppose we have some Event $A$. The \textbf{Indicator Variable} for $A$ is as follows
+Another important use for Bernoulli distribution are \textbf{Indicator Random Variables}. Suppose we have some Event $A$. The \textbf{Indicator Variable} for $A$ is as follows
 \[
-    I_A=\left\{\begin{array}{cl}
+    I_A=\begin{cases}
         1 & \text{if $A$ occurs}\\
         0 & \text{otherwise}
-    \end{array}\right.
+    \end{cases}
 \]
 This gives us a bridge from probabilities to averages.
 \begin{example}[DeMontfort's Problem Revistied]
     Recall DeMontfrot's Problem. Let $X$ be the number of letters that end up in the correct envelope. Find $\E(X)$.
-
+    \solution
     Let $I_i$ be an Indicator Variable signalling hat the $i$th letter is in the correct envelope. We can then write
     \[
         X=\sum_{i=1}^n I_i
@@ -659,9 +672,9 @@ This gives us a bridge from probabilities to averages.
     \]
 \end{example}
 \begin{example}[Bluejays v. Redsox]
-    Suppose the Bluejays are playing 17 games against the Redsox, and that the Bluejays have a 60\% chance of winning any given game. It may happen that the Redsox win one game, but then the Bluejays win the next, or that the Bluejays win one game, and the Redsox win the next. We call this a "turnover". Find the expected number of turnovers $\E(X)$.
-
-    Let $I_i$ be an Indicator Random Varianle signalling that the $i$th game was a turnover. Since the first game cannot be a turnover but all others can, $i\in[2,17]\cap\mathbb Z$. Then
+    Suppose the Bluejays are playing 17 games against the Redsox, and that the Bluejays have a 60\% chance of winning any given game. It may happen that the Redsox win one game, but then the Bluejays win the next, or that the Bluejays win one game, and the Redsox win the next. We call this a ``turnover". Find the expected number of turnovers $\E(X)$.
+    \solution
+    Let $I_i$ be an Indicator Random Variable signalling that the $i$th game was a turnover. Since the first game cannot be a turnover but all others can, $i\in[2,17]\cap\mathbb Z$. Then
     \[
         \E(X)=\sum_{i=2}^{17} E(I_i)=\sum_{i=2}^{17} \frac {60}{100} \times \frac{40}{100}=16\times 0.48 = 7.68
     \]
@@ -669,15 +682,19 @@ This gives us a bridge from probabilities to averages.
 
 \subsection{The Binomial Distribution}
 \newcommand{\simiid}{\overset{iid}\sim}
-Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber}(p)$ (where ``$\simiid$" means ``independent and identically distributed"). Then we say that $X=I_1+I_2+\cdots + I_n$ has a \textbf{Binomial Distribution} or $X\sim \text{Bin}(n,p)$.
+\newcommand{\bin}{\textup{Bin}}
+Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \ber(p)$ (where ``$\simiid$" means ``independent and identically distributed"). Then we say that $X=I_1+I_2+\cdots + I_n$ has a \textbf{Binomial Distribution} or $X\sim \bin(n,p)$.
 
 
 
 
 \begin{theorem}[Properties of the Binomial Distribution]
-    If $X=I_1+I_2+\cdots +I_n \sim \text{Bin}(n,p)$ for some $n\in\{1,2,...\}$ and $p\in[0,1]$. Then
+    If $X=I_1+I_2+\cdots +I_n \sim \bin(n,p)$ for some $n\in\{1,2,...\}$ and $p\in[0,1]$. Then
     \begin{enumerate}
-        \item $\forall x\in\{1,2,...,n\}, P(X=x)=\binom n x p^x(1-p)^{n-x}$
+        \item $P(X=x)=\begin{cases}
+            \displaystyle\binom n x p^x(1-p)^{n-x} & 0\le x \le n \\\\
+            0 & \text{otherwise}
+        \end{cases}$
         \item $\E(X)=np$
         \item $\Var(X)=np(1-p)$
     \end{enumerate}
@@ -685,7 +702,7 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
     
         \begin{enumerate}
             \item[]
-            \item There are $\binom nx$ possible ways for $x$ out of $n$ Bernoulli trials to return 1 and the remaining $(n-x)$ to return 0. The probability of $x$ Independent Bernoulli trials all returning 1 is $p^x$, and the probability of $n-x$ Independent Bernoulli trials all returning $0$ is $(1-p)^{n-x}$. Thus the probability of exactly $x$ out of $n$ Bernoulli trials returning 1 is $P(X=x)=\binom n x p^x(1-p)^{n-x}$. 
+            \item There are $\binom nx$ possible ways for $x$ out of $n$ Bernoulli trials to return 1 and the remaining $n-x$ to return 0. The probability of $x$ Independent Bernoulli trials all returning 1 is $p^x$, and the probability of $n-x$ Independent Bernoulli trials all returning $0$ is $(1-p)^{n-x}$. Thus the probability of exactly $x$ out of $n$ Bernoulli trials returning 1 is $P(X=x)=\binom n x p^x(1-p)^{n-x}$. 
             \item By the Linearity Property
             \[
                 E(X)=\sum_{i=1}^n E(I_i)=np
@@ -695,7 +712,6 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
                 X^2=\sum_{i=1}^n I_i^2 + \sum_{j=1}^n\sum_{\substack{i=1 \\ j\ne i}}^n I_i I_j
             \]
             Notice that since $I_i$ will either return 1 or 0, in all cases $I_i^2=I_i$. Also since for any $i\ne j$, $I_i$ and $I_j$ are independent, and $I_i I_j$ will return 1 if and only if both $I_i$ and $I_j$ return 1 we get
-            
             \[
                 E(I_i I_j)=0+1\times P(I_i=1 \land I_j=1)=P(I_i=1)P(I_j=1)=p^2
             \]
@@ -703,11 +719,11 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
             \[
                 \E(X^2)=\sum_{i=1}^n p + \sum_{i=1}^n\sum_{\substack{i=1 \\ j\ne i}}^n p^2 = np+n(n-1)p^2
             \]
+            giving us
+            \[
+                \Var(X)=E(X^2)-[E(X)]^2= np+n(n-1)p^2 - n^2p^2=np(1-p)
+            \]
         \end{enumerate}
-        Then
-        \[
-            \Var(X)=E(X^2)-[E(X)]^2= np+n(n-1)p^2 - n^2p^2=np(1-p)
-        \]
     \end{proof}
     
     
@@ -746,8 +762,8 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
 \end{example}
 
 \subsection{The Geometric Distribution}
-    \newcommand{\geom}{\text{Geom}}
-    We once again consider a sequence of independent Bernoulli trials, however we will now assume that there are an infinite number of them $I_1,I_2,...\simiid \text{Ber}(p)$. This time we let $X$ be the waiting time for the first success. For instance if $I_1$ is a success then $X$ returns 1. If $I_1$ is a failure and $I_2$ is a success then $X$ returns 2, etc. Or more generally if $I_x=1$ and $I_1=I_2=\cdots =I_{x-1}=0$, then $X=x$. In this case we say $X$ has a \textbf{Geometric Distribution} or
+    \newcommand{\geom}{\textup{Geom}}
+    Let's once again consider a sequence of independent Bernoulli trials, however we will now assume that there are an infinite number of them $I_1,I_2,...\simiid \ber(p)$. This time we let $X$ be the waiting time for the first success. For instance if $I_1$ is a success then $X$ returns 1. If $I_1$ is a failure and $I_2$ is a success then $X$ returns 2, etc. Or more generally if $I_x=1$ and $I_1=I_2=\cdots =I_{x-1}=0$, then $X=x$. In this case we say $X$ has a \textbf{Geometric Distribution} or
     \[
         X\sim\geom(p)
     \]
@@ -805,33 +821,32 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \text{Ber
             \end{enumerate}
         \end{proof}
     \end{theorem}
-
+    Be advised that not all mathematicians are consistent with their precise definition of a Geometric distribution, and though this is the definition we will use in this course, there is another popular one which measures the number of failures \emph{before} the first success. This subtly changes many of the above formulas. However we can easily convert between the two systems. If we let $Y$ be the number of failures before the first success, then $Y=X-1$.
     \begin{example}
-        Jeopardy is a quiz show played by 3 people. Ifyou win Jeopardy you get to come back the next time. An average jeopardy player will have a 1 in 3 chance of winning a game. What is the probability of playing exactly 75 games.
+        Jeopardy is a popular quiz show wherein three contestants face off each episode in a battle of knowledge. Out of the three, only the first-place winner gets to come back and play again in the next episode. Yet one contestant, Ken Jennings, is famous for having won 74 consecutive games. Given that, by definition, an average player has a 1 in 3 chance of winning on any given episode, what is the probability of an average player matching Ken Jenning's luck exactly?
+        \solution
         \[
             \left(\frac 1 3\right)^{74}\times \frac 2 3
         \]
     \end{example}
-
-    \todo I defined $X$ as the waiting time for the first success, but some learned $Y$ as the number of failures before the first success. Some look at number of trials and some look at number of failures. In this class we use the first definition, however there is an easy conversion. $Y=X-1$. This chances the expected value to $q/p$ where $q=1-p$, but it does not change the variance
-    
 \subsection{Negative Binomial}
-We can generalize the geometric distribution, and let $X$ be the number of Bernoulli trials before we get $k$ successes. Then we say $X$ has a \textbf{Negative Binomial Distribution} or $X\sim \text{NB}(p,k)$.
-\begin{theorem}\textbf{Properties of the Negative Binomial Distribution}\\
-    Let $X\sim \text{NB}(p,k)$. Then
+\newcommand{\nbin}{\textup{NB}}
+We can generalize the Geometric Distribution, and let $X$ be the number of Bernoulli trials required to get $k$ successes. Then we say $X$ has a \textbf{Negative Binomial Distribution} or $X\sim \nbin(p,k)$.
+\begin{theorem}[Properties of the Negative Binomial Distribution]
+    Let $X\sim \nbin(p,k)$ for some $p\in[0,1]$ and $k\in\{1,2,...\}$. Then
     \begin{enumerate}
-        \item $P(X=x)=\displaystyle{\left\{\begin{array}{ll}
-                \binom {x-1}{k-1} p^{k-1}(1-p)^{x-k}p & \text{if $x \ge k$}\\
+        \item $P(X=x)=\begin{cases}
+                \displaystyle\binom {x-1}{k-1} p^{k}(1-p)^{x-k} & x \ge k\\\\
                 0 & \text{otherwise}
-            \end{array}\right.}$
-        \item $\E(X)=k/p$
-        \item $\Var(X)=\frac{k(1-p)}{p^2}$
+            \end{cases}$
+        \item $\E(X)=\displaystyle\frac k p$
+        \item $\Var(X)=\displaystyle\frac{k(1-p)}{p^2}$
     \end{enumerate}
 
     \begin{proof}
     \begin{enumerate}
         \item[]
-        \item 
+        \item In order for $X=x$
         \item We can split up the problem and let $T_i$ be the waiting time for the $\ell$th success where $i=1,2,...,k$. Then since $X$ is Memoryless, $T_i\simiid \text{Geom}(p)$, and $X=T_1+T_2+\cdots + T_k$. Hence
         \[
             \E(X)=\sum_{i=1}^k \E(T_i)=\frac k p
@@ -845,7 +860,7 @@ We can generalize the geometric distribution, and let $X$ be the number of Berno
 \end{theorem}
 
 Banach was a smoker. He had two matchboxes, one in each pocket, and he would choose between them by flipping a coin. 
-Suppose each matchbox has $20$ matches. Suppose he finds that matchbox right is empty. What is the probability that there are 7 matches in his left pocket. Let $X$ be the number of matfches in the left matchbox. 
+Suppose each matchbox has $20$ matches. Suppose he finds that matchbox right is empty. What is the probability that there are 7 matches in his left pocket. Let $X$ be the number of matches in the left matchbox. 
 
 \[
     P(L=7)=\binom{33}{20}\todo
@@ -866,22 +881,16 @@ Suppose each matchbox has $20$ matches. Suppose he finds that matchbox right is 
 \end{example}
 
 \subsection{The Hypergeometric Distribution}
-Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ balls in it. $r$ of the balls have the word ``Success" written on them, and the remaining $N-r$ balls have the word ``Failure" on them. Imagine we then reach our hand into the bag and pull out one ball, then another, and another, without replacement until we have $n$ balls. This scenario can be used as a metaphor for many things we might want to do in real life, and so we will name it and study it more in depth. Let $X$ represent the number of successes we draw. We call the distribution that $X$ has ``\textbf{Hypergeometric}" and say $X\sim \text{Hyp}(N,n,r)$. What is the probability $f(x)$ that $x$ of the balls we chose have ``Success" written on them? Let's first think about the bounds of $x$. The number of successes we draw can't be more than the number of balls we draw or greater than the number of successes there are in the bag. In other words, $x\le \min\{r,n\}$. There are similar rules about the number of failures. In other words $n-x\le \min\{N-r, n\}$, which is equivalent to $x\ge \max\{0, n+r-N\}$. Hence $f(x)$ only has non-zero values on the range $\max\{0, n+r-N\}\le x \le \min\{r,n\}$. To find these non-zero values, let us notice that there are $\binom Nn$ different ways we can pick out $n$ balls, and $\binom r x \binom {N-r}{n-x}$ different ways we can select $x$ successes and $n-x$ failures. Thus we define the Hypergeometric Distribution 
-
-
-
-
-\begin{definition}[The Hypergeometric Distribution]
-    For some $r,n,N\in \{0,1,...\}$ such that $N\ge r$ let $X\sim \text{Hyp}(N,n,r)$. Then the PMF of $X$ is 
-    \[
-        f(x)=\left\{\begin{array}{cl}
-                \displaystyle\frac{\binom r x \binom {N-r}{n-x}}{\binom Nn} & \text{for $\max\{0, n+r-N\}\le x \le \min\{r,n\}$} \\\\
-                0 & \text{otherwise}
-            \end{array}\right.
-    \]
-\end{definition}
+\newcommand{\hyp}{\textup{Hyp}}
+Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ balls in it. $r$ of the balls have the word ``Success" written on them, and the remaining $N-r$ balls have the word ``Failure" on them. Imagine we then reach our hand into the bag and pull out one ball, then another, and another, without replacement until we have $n$ balls. This scenario can be used as a metaphor for many things we might want to do in real life, and so we will name it and study it more in depth. Let $X$ represent the number of successes we draw. We call the distribution that $X$ has ``\textbf{Hypergeometric}" and say $X\sim \hyp(N,n,r)$. What is the probability $f(x)$ that $x$ of the balls we chose have ``Success" written on them? Let's first think about the bounds of $x$. The number of successes we draw can't be more than the number of balls we draw or greater than the number of successes there are in the bag. In other words, $x\le \min\{r,n\}$. There are similar rules about the number of failures. In other words $n-x\le \min\{N-r, n\}$, which is equivalent to $x\ge \max\{0, n+r-N\}$. Hence $f(x)$ only has non-zero values on the range $\max\{0, n+r-N\}\le x \le \min\{r,n\}$. To find these non-zero values, let us notice that there are $\binom Nn$ different ways we can pick out $n$ balls, and $\binom r x \binom {N-r}{n-x}$ different ways we can select $x$ successes and $n-x$ failures. Thus we define the Hypergeometric Distribution using the following PMF
+\[
+    f(x)=\begin{cases}
+        \displaystyle\frac{\binom r x \binom {N-r}{n-x}}{\binom Nn} & \max\{0, n+r-N\}\le x \le \min\{r,n\} \\\\
+        0 & \text{otherwise}
+    \end{cases}
+\]
 \begin{theorem}[Properties of the Hypergeometric Distribution]
-    Let $X\sim \text{Hyp}(N,n,p)$. Then
+    Let \\ $X \sim \hyp(N,n,p)$. Then
     \begin{enumerate}
         \item $\E(x)=\todo$
         \item $\Var(x)=\todo$
@@ -898,10 +907,10 @@ Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ bal
 \end{example}
 Suppose we have $N=10, r=5$. Then the probability of success in the first draw is $5/10=0.5$. Then our probability of success on our next draw is $4/9\approx 0.44$ or $5/9\approx 0.56$ depending on whether or not the first draw was a success. However, let's change these numbers to $N=10\,000$ and $r=5\,000$. Just as before the probability of success on the first draw is $5000/10000=0.5$, but then the probability of success on the next draw is $4999/9999\approx 0.5$ if the first draw was a success and $5000/9999\approx 0.5$ if the first draw was a success. Since the numbers are large here, each draw has very little effect on the probability of success on each draw, very similar to a series of Bernoulli trials. However this only goes so far. After the 500th draw, the probability of success may be very different. 
 \begin{lemma}
-    If $N$ is large and $n$ is small then we can approximate a Hypergeometric with $\text{Bin}(n,r/N$
+    If $N$ is large and $n$ is small then we can approximate a Hypergeometric with $\bin(n,r/N$
 
 
-    Let $H_{N,n}\sim\text{Hyp}(N,n,r)$ and let $B\sim\text{Bin}(r/N)$. Then for 
+    Let $H_{N,n}\sim\hyp(N,n,r)$ and let $B\sim\bin(r/N)$. Then for 
     \[
         \lim_{\substack{r\to\infty\\N\to\infty}} h_{N,n,r}(x)=b_{\frac r N}(x)
     \]
@@ -913,7 +922,7 @@ Suppose we have $N=10, r=5$. Then the probability of success in the first draw i
     \begin{proof}
 
 
-        We can model the ball scenario as a series of Bernoulli trials, albeit not independent ones, and not each with the same probability. Let $I_i$ be an Indicator Variable signalling that the $i$th draw was success. Let $I_i\sim\text{Ber}(p_i)$ for $i=1,2,...,n$ be an indicator variable signalling that the $i$th draw was a success. Let $r_i$ be the number of successes in the bag prior to the $i$th draw, and let $N_i$ be the total number of balls in the bag prior to the $i$th draw. Then $p_i=r_i/N_i$, and 
+        We can model the ball scenario as a series of Bernoulli trials, albeit not independent ones, and not each with the same probability. Let $I_i$ be an Indicator Variable signalling that the $i$th draw was success. Let $I_i\sim\ber(p_i)$ for $i=1,2,...,n$ be an indicator variable signalling that the $i$th draw was a success. Let $r_i$ be the number of successes in the bag prior to the $i$th draw, and let $N_i$ be the total number of balls in the bag prior to the $i$th draw. Then $p_i=r_i/N_i$, and 
         \[
             p_{i+1}\in\left\{\frac{r_i-1}{N_i-1}, \frac{r_i}{N_i-1}\right\}
         \]
@@ -940,28 +949,32 @@ Suppose we have $N=10, r=5$. Then the probability of success in the first draw i
 
 
 \subsection{The Poisson Distribution}
-We will now talk about arguably the most important discrete distribution of all: \textbf{The Poisson Distribution}.
-\begin{definition}{The Poisson Distribution}
-    $P(X=x)=\frac{e^{-\lambda \lambda^2}}{x!}$
-\end{definition}
-\begin{theorem}[Poisson Distribution]
+\newcommand{\pois}{\textup{Pois}}
+We will now talk about arguably the most important discrete distribution of all: \textbf{The Poisson Distribution}, which is defined using the following PMF
+\[
+    f(x)=\begin{cases}
+        \displaystyle\frac{e^{-\lambda }\lambda^x}{x!} & x\ge 0
+        \\\\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+for some parameter $\lambda\in(0,\infty)$ often called the ``mean". This distribution is often used for counting the number of times some event happens during some period of time. For instance, the number of earthquakes that occur in Los Angeles during a 6-month period might be a good candidate for the Poisson Distribution. Whether or not a particular phenomenon follows a Poisson distribution is an empirical question, and cannot be answered mathematically. However the the Poisson distribution is often a great starting point. Typically we want phenomena which have a large number of trials each with a very low probability of success. For instance in the case of earthquakes, it is possible but very unlikely that an earthquake will occur at any given second.
+\begin{theorem}[Properties of the Poisson Distribution]
+    Let $X\sim\pois(\lambda)$ and let $Y\sim\pois(\mu)$ for some $\lambda,\mu\in(0,\infty)$ such that $X$ and $Y$ are independent. Then
     \begin{enumerate}
-        \item $\forall x\in\{0,1,..\}, P(X=x)$
         \item $\E(X)=\lambda$
         \item $\Var(X)=\lambda$
+        \item $X+Y\sim\pois(\lambda+\mu)$
     \end{enumerate}
+    \todo PROOF
 \end{theorem}
 
-So why is the Poisson DIstiuion so important. Let's usppose your coop job is very boring. You sit outside a bank and watch how many peiople are walking in. If someone walks in at a particular minute you put a check if not you don't. Your'= boss tells you to be more efficient and use 30 second intervals. 
-
-Suppose we're loojing at eath quakes in LA in 6 months. Every instance, the change of an earth quake is samll. But if we look at every second in six months, that's a lot of trials. 
-
-\subsubsection{Binomial Approximation}
+One useful application of the Poisson distribution is for approximating Binomial distributions with large $n$ and small $p$
 
 
 \begin{lemma}
-    Let $X\sim\text{Bin}(n,p)$ for $p\to 0$ and $n\to \infty$, but where $np=\lambda$. This is a Posson.
-
+    Let $X\sim\bin(n,p)$ for $p\to 0$ and $n\to \infty$, but where $np=\lambda$. This is a Posson.
+    \todo
     \begin{proof}
     
     
@@ -981,16 +994,17 @@ Suppose we're loojing at eath quakes in LA in 6 months. Every instance, the chan
 \end{lemma}
 
 \begin{example}
-    Suppose there are 200 people in a class and you want to find the probability that two of them were born on January 1st. We will assume there are no leap years or twins etc. 
-
-    Let $X\sim\todo$ be the number of people born on January 1st. Then we have $n=200, p=1/365$
+    Suppose there are 200 people in a class. Assuming that there are no leap years or twins etc., find the probability that two of them were born on January 1st.
+    \solution
+    Let $X$ be the number of people born on January 1st. The probability that any given person was born on January 1st is $p=\nicefrac 1 {365}$, and we have $n=200$ trials. Thus $X\sim\bin(200, \nicefrac 1 {365})$. However since $n$ is large and $p$ is small, we may approximate $X$ with a Poisson distribution $X\overset{approx}{\sim}\pois(\nicefrac{200}{365})$. This gives us
     \[
-        P(X=2)=\binom {200}2 \frac 1 {365} \frac{364}{364}
+        f(2)=\frac{e^{-0.55 } 0.55^2}{2!}\approx 0.087
     \]
-    However we could alos use the Poisson approximation $X\sim Poi(200/365)$
+    And thus there is approximately a 9\% chance.
 \end{example}
 
 \subsubsection{The Poisson Process}
+\todo
 Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson process if 
 \begin{enumerate}
     \item $N(0)=0$
@@ -1023,112 +1037,243 @@ Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson
 \end{enumerate}
 
 
-
-\section{Continuous Random Variables}
-Suppose you through a dart at a dartboard. What is the probab
-
-
-Suppose you through a dart in a dartboard. The probability that you hit any one point is $0$, since there are an infinite number of points. $P(X=a)$ in all continuous distributions. We can use a CDF. Just as with DRVs it's 
-PROPERTIES
-\[
-    F(X)=P(X\le x)
-\]
-however because the Point Probability is 0, we can also write
-\[
-    F(X)=P(X<x)
-\]
-
-We can't define a PMF, but we can define a \textbf{Probability Density Function}, which is defined such that for all $a$ and $b$
-\[
-    P(a<X<b)=\int_a^b f(x)dx
-\]
-\begin{notsofast}
-    The density function does not return probabilities . Rather the area underneath the the PDF is a probability
-\end{notsofast}
-The PDF is the analog of the PMF.
-
-Suppose $X$ was discrete. Yo
-\[
-    F(x)=\sum f(x)
-\]
-However in the continuous case
-\[
-    F(x)=\int_a^x f(x)dx
-\]
-
 \section{Moment Generating Functions}
-Let $X$ be a Random Variable (either Discrete or Continuous). 
-We define the \textbf{Moment} of $X$ as
+Let $X$ be a Random Variable. We define the $n$th \textbf{Moment} of $X$ as $\E(X^n)$. Moments don't really represent anything in the real world on their own, but often appear in formulas for various statistics. In fact, we have already encountered Moments when we talked about Variance.
 \[
-    M_X(t)=\E(e^{tx})
+    \Var(X)=E(X^2)-[E(X)]^2
 \]
-Moments don't have
-
-can be useful for finding different statistics such as variance and skewness.
-This is just a mathematical tool with no real-world representation of things. 
-
-
-So why do we care about this? There are three reasons
-\begin{enumerate}
-    \item We can use the Moment Generating Function to find Moments. The $n$th derivative of the Moment generating function at $t=0$ is the $n$th Moment of $X$. 
+In other words, Variance can be thought of as the difference between the second Moment and the square of the first Moment. Moments can of course be calculated directly, however it is often easier to use the \textbf{Moment Generating Function} (MGF), which is defined as follows for any Random Variable $X$
+\[
+    M_X(t)=\E(e^{tX})
+\]
+\begin{theorem}[Properties of the MGF]
+    Let $X$ be a Random Variable (either continuous or discrete)
+    \begin{enumerate}
+        \item The $n$th Moment of $X$ is given by $M_X^{(n)}(0)$
+        \item For any Random Variable $Y$ independent to $X$, $M_Y=M_X$ if and only if $X$ and $Y$ have the same probability distribution
+        \item For any Random Variable $Y$ independent to $X$, $M_{X+Y}(t)=M_X(t)M_Y(t)$
+    \end{enumerate}
     \begin{proof}
-        If we Taylor expand the defintion of $M_X$ we get
-        \[
-            M_X(t)=1+\frac{t\cdot \E(X)}{1!}+\frac{t^2\cdot \E(X^2)}{2!}+\cdots
-        \]
-        Then for some Higher Order Terms (H.O.T.)
-        \[
-            \frac{d^n M_X}{d t^n}=E(X^n)+t\times \text{H.O.T.}
-        \]
-        giving us
-        \[
-            M_X^{(n)}(0)=E(X^n)
-        \]
+        \begin{enumerate}
+            \item[]
+            \item Using linearity of Expectation, we can express $M_X(t)$ as a Taylor series
+            \[
+                M_X(t)=1+t\E(X)+\frac{t^2\E(X^2)}{2!} + \frac{t^3\E(X^3)}{3!} + \cdots 
+            \]
+            From this we see that the $n$th derivative of $M_X(t)$ is
+            \[
+                M_X^{(n)}(t)=0+0+\cdots+\E(X^n)+ t\alpha_1(X) + t^2 \alpha_2(X) + \cdots
+            \]
+            for some $\alpha_1(X), \alpha_2(X),...\in\mathbb R$. Thus
+            \[
+                M_X^{(n)}(t)=\E(X^n)
+            \]
+            \item\todo
+            \item\todo
+        \end{enumerate}
     \end{proof}
-    \item A given MGF uniquely identifies a Random Variable. 
-    \begin{example}
-        Suppose for some Random Variable $Y$
-        \[
-            M_Y(t)=\frac 23 + \frac 13 e^t
-        \]
-        What is $Y$
-        
-        $M_Y(t)$ is the MGF for a Ber($1/3$). Therefore that is the Distribution of $Y$
-    \end{example}
-    \item If $X$ and $Y$ are two Independent Randovm Variables, then
-    \[
-        M_{X+Y}(t)= M_X(t) M_Y(t)
-    \]
-\end{enumerate}
+\end{theorem}
+\label{thm:mgfprops}
 
 \begin{example}
-    Find the MGF of $\text{Bin}(n,p)$
-    
-    Recall that for $I_i\simiid \text{Ber}(p)$ for $i=1,2,...,n$
-    \[
-        \sum_{i=1}^n I_i \sim \text{Bin}(n,p)
-    \] We know that 
-    \[
-        \forall i\in\{1,2,...,n\}, M_{I_i}(t)=q+pe^t
-    \]
-    Hence the MGF for $\text{Bin}(n,p)$ is
-    \[
-        M_{I_1+I_2+\cdots + I_n}(t)=(q+pe^t)^n
-    \]
+    Find the MGF for the following distributions:
+    \begin{enumerate}
+        \item Bernoulli
+        \item Binomial
+    \end{enumerate}
+    \solution 
+    \begin{enumerate}
+        \item Let $I\sim \ber(p)$ for some $p\in[0,1]$ and $q=1-p$. Then
+        \[
+            M_I(t)=E(e^{tI})=e^0 f(0)+ e^t f(1)= q+pe^t
+        \]
+        \item Let $X\sim\bin(n,p)$ for some $n\in\{1,2,...\}$ and $p\in[0,1]$. Recall that by the definition of the binomial distribution we may express as the sum of $n$ Independent Bernoulli trials $I_1,I_2,...,I_n\simiid\ber(p)$. From Part 1 we know that
+        \[
+            \forall i\in\{1,2,...,n\}, M_{I_1}(t)=q+pe^t
+        \]
+        And thus
+        \[
+            M_X(t)=M_{I_1+I_2+\cdots+I_n}=\left[q+pe^t\right]^n
+        \]
+    \end{enumerate}
 \end{example}
+
+\begin{example}
+        Suppose we find for some Random Variable $Y$
+        \[
+            M_Y(t)=\tfrac 23 + \tfrac 13 e^t
+        \]
+        What is the probability distribution of $Y$?
+        \solution
+        We recognize the MGF of $Y$ as that of the Bernoulli distribution with $p=\nicefrac 13$. Since MGFs are unique, it must be the case that $Y\sim\ber(\nicefrac 13)$
+\end{example}
+
+\section{Continuous Random Variables}
+Sometimes we want to experiments that are not discrete and it can be useful to extend the definition of DRVs outside of integer-values. A \textbf{Continuous Random Variable} (CRV) is a function which maps Events to real numbers. This definition is very similar to the one we encountered with DRVs, however it presents some new challenges. For instance, suppose we throw a dart at a dartboard and let $X$ be a CRV measuring the distance of the dart from the centre. What is the probability that $X=0$? There are an uncountably infinite number of points on the board the dart could hit, and only one has a distance of exactly zero from the centre. Thus the probability is zero, as is the probability of hitting any exact location. This makes the definition of PMFs useless for CRVs, however we can still use CDFs. For instance, there is a non-zero probability that $X\le 0.5$. And in fact, one arguable benefit of point probabilities being zero is that in all cases for CRVs
+\[
+    P(X\le x)= P(X< x)
+\]
+Just as in the discrete case, we will often use $F(x)$ to represent the CDF of a CRV, which follows all of the same axioms outlined in \ref{cdf_axioms}, except that it is generally not a step function. And though we cannot use the PMF, we can use the CDF to define its continuous analogue, the \textbf{Probability Density Function} (PDF)
+\[
+    f(x)=F'(x)
+\]
+\todo THIS IS ACTUALLY A BAD DEFINITION, SINCE IT HAS HOLES.
+\begin{theorem}[Properties of the PDF]
+    Let $X$ be some CRV with PDF $f(x)$ and CDF $F(x)$. Then
+    \begin{enumerate}
+        \item $\forall x\in\mathbb R, f(x)\ge 0$
+        \item $F(x)=\int_{-\infty}^x f(z)dz$
+        \item For any $a,b\in\mathbb R$ such that $b>a$, $P(a\le X\le b)=\int_a^b f(x)$
+        \item $\int_{-\infty}^\infty f(x)dx = 1$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Recall from \ref{cdf_axioms} that a CDF is nondecreasing. In other words, its derivative (the PDF) must be nonnegative across its domain.
+            \item This follows from the fundamental theorem of calculus and the properties of a CDF, namely the fact that
+            \[
+                \lim_{x\to-\infty} F(x)=0
+            \]
+            \item Starting with the LHS we get
+            \[
+                P(X\le b)=P(X< a)+P(a\le X\le b)
+            \]
+            giving us
+            \[
+                P(a\le X\le b)=P(X\le b)-P(X<a)=F(b)-F(a)
+            \]
+            which is equal to the RHS by the fundamental theorem of calculus.
+            \item
+            From this we get
+            \[
+                \int_{-\infty}^\infty f(x)dx = \lim_{x\to \infty} F(x) -\lim_{x\to -\infty} F(x)
+            \]
+            which by the properties of a CDF is equal to $1$.
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+\begin{notsofast}
+    The PDF does not return probabilities. Rather the area underneath the the PDF is a probability. This means that it is completely possible for a PDF to return values greater than 1.
+\end{notsofast}
+
+We use the PDF to extend the definition of Expectation to CRVs
+\begin{definition}[Expectation of a CRV]
+Let $X$ be a CRV with PDF $f(x)$. Then
+    \[
+        E(X)=\int_{-\infty}^\infty x f(x) dx
+    \]
+\end{definition}
+From this we are able to determine the Variance of a CRV just as we did in the discrete case.
 
 \section{Named Continuous Distributions}
 \subsection{The Uniform Distribution}
-\todo 
+Once again we start simple. The \textbf{Uniform Distribution} treats all possible values of a CRV $X$ as equally likely, so long as they fall within some finite interval of possible values. This is often a good starting point when we have very little information and must liberally apply Occam's razor. For instance imagine you tie a ribbon to one of the spokes of a bicycle wheel and then let it spin for 3 seconds. Let $X$ be a CRV representing the difference in angle (measured in radians) between the ribbon's starting point and its ending point. If we knew exactly how fast the wheel spun for those 3 seconds, we might be able to predict where exactly the ribbon stopped. But barring that knowledge, it doesn't really make a whole lot of sense to favour any one possibility over another. All we know is that $X$ is between 0 and $2\pi$, and thus it makes sense to treat the PDF of $X$ as a constant on $[0,2\pi)$ (which we will consider equivalent to the closed interval $[0,2\pi]$ since point probabilities are all zero). Symbolically
+\[
+    f(x)=\begin{cases}
+        c & 0\le x \le 2\pi
+        \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+for some constant $c$. To find the exact value of $c$ we can take the integral of $f(x)$
+\[
+    1=\int_{-\infty}^\infty f(x)dx=\int_0^{2\pi} c dx=2\pi c
+\]
+And thus, dividing both sides by $2\pi$ we get $c=\nicefrac 1 {2\pi}$. More generally, we say that if $X$ has a Uniform Distribution over the interval $[a,b]\subset\mathbb R$ (or equivalently $X\sim U(a,b)$), then the PDF of $X$ is
+\[
+    f(x)=\begin{cases}
+        \frac 1 {b-a} & a\le x \le b
+        \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
 
-\begin{example}
+\begin{theorem}[Properties of the Uniform Distribution]
+    Let $X\sim U(a,b)$ for some $a<b$ and let $F(x)$ and $f(x)$ be the CDF and PDF of $X$ respectively. Then
+    \begin{enumerate}
+        \item $F(x) = \begin{cases}
+            0 & x < a\\
+            \displaystyle\frac{x-a}{b-a} & a\le x \le b\\
+            1 & x>b
+        \end{cases}$
+        \item $M_X(t)=\displaystyle\frac{e^{bt}-e^{at}}{(b-a)t}$
+        \item $\E(X)=\displaystyle\frac{a+b} 2$
+        \item $\Var(X)=\displaystyle\frac{(b-a)^2}{12}$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item We first consider the case that $a\le x\le b$. Then
+            \[
+                F(x)=\int_a^x \frac 1 {b-a} dz = \frac{x-a}{b-a}
+            \]
+            In the case that $x<a$, then this is just an integral over zero. And in the case that $x>b$ we can decompose the integral to get
+            \[
+                F(x)=\int_a^b \frac 1 {b-a} dz + \int_b^x \frac 1 {b-a} dz
+            \]
+            The first of the two integrals evaluates to 1 and the second is another integral over zero.
+            \item Using the definitions of the MGF and the Expectation of a CRV we get
+            \[
+                M_X(t)=\E\left(e^{tX}\right)=\int_a^b \frac 1 {b-a} e^{tx} dx=\frac{e^{bt}-e^{at}}{(b-a)t}
+            \]
+            \item Using the definition of Expectation for CRVs we get
+            \[
+                E(X)=\int_a^b \frac x {b-a} dx=\frac{b^2-a^2}{2(b-a)}
+            \]
+            Notice that the denominator is a difference of squares. Hence we can factor it and get
+            \[
+                E(X)=\frac{(b-a)(b+a)}{2(b-a)}=\frac{a+b} 2
+            \]
+            \item For the second Moment, we get the formula
+            \[
+                E(X^2)=\int_a^b \frac {x^2} {b-a} dx=\frac{b^3-a^3}{3(b-a)}=\frac{a^2+ab+b^2} 3 = \frac{4a^2+4ab+4b^2}{12}
+            \]
+            and the square of the first Moment is 
+            \[
+                [E(X)]^2 = \frac{3a^2+6ab+3b^2}{12}
+            \]
+            From this we get
+            \[
+                \Var(X)=\frac{a^2-2ab+b^2} {12}= \frac{(b-a)^2} {12}
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
 
-\end{example}
-$\E(X)=\frac{a+b} 2$
+\subsubsection{Universality of the Uniform Distribution}
+One very useful property of Uniform Distributions is that they are often very easy for computers to simulate, especially $U(0,1)$. It is for this reason that the following theorem is incredibly useful in numerical computation:
+\begin{theorem}[The Universality Theorem]
+    Let $X$ be some CRV with CDF 
+    \[
+        F(x)=\begin{cases}
+            0 & x<a
+            \\
+            \varphi(x) & a\le x < b
+            \\
+            1 & x\le b
+        \end{cases}
+    \]
+    for some invertible function $\varphi(x)$ and $[a,b]\subset\mathbb R$. And let $Y=F(X)$. Since $X$ (not to be confused with $x$) is not a real number but rather a CRV, $F$ acts as a transformation producing CRV $Y$. The distribution of $Y$ is known. Namely $Y\sim U(0,1)$
+    \begin{proof}
+        The CDF of $Y$ is given by
+        \[
+            P(Y\le y) = P(F(X)\le y)
+        \]
+        Since $F$ is a CDF, its range is $[0,1]$. From this we are able to conclude that 
+        \begin{align*}
+            y\ge 1 &\implies P(F(X)\le y)=1
+            \\
+            y<0 &\implies P(F(X)\le y)=0
+        \end{align*}
+        We will now consider the case that $0<y<0$.
+    \end{proof}
+\end{theorem}
 
-Why do we care. First its a good introduction. But there is another very important reason. The universality property. 
-\subsubsection{Universality of the Uniform Distributin}
-Suppose you want to simulate a Continuous Random Variable. it's often easy to generate numbers on a $U(0,1)$, and from this we can generate any other distribution. Suppose we want to generate $n$ outcomes of a random variable $X$ with some CDF $F$. 
+Suppose we want to simulate some CRV $Y$ with CDF $F(y)$.
+
+
+it's often easy to generate numbers on a $U(0,1)$, and from this we can generate any other distribution. Suppose we want to generate $n$ outcomes of a random variable $X$ with some CDF $F$. 
 \begin{enumerate}
     \item[Step 1] Generate $n$ numbers from a $U(0,1)$, $u_1,u_2,...,u_n$.
     \item[Step 2] Then we just take $F^{-1}(u_i)$ for $i=1,2,...,n$. 
@@ -1154,13 +1299,7 @@ $X\sim U(a,b)$
     \end{cases}
 \]
 
-\begin{theorem}
-    {The Universality Theorem}
 
-    \todo
-    
-    \todo
-\end{theorem}
 
 \subsection{The Exponential Distribution}
 $X\sim Exp(\lambda)$ if
@@ -1270,6 +1409,7 @@ From this we see that the Erlang Distribtuion is the continous analogue of the N
 \subsection*{End-of-the-section Problems}
 \begin{enumerate}
     \item Show that the MGF of $X\sim \text{Exp}(\mu)$ \todo
+    \item Find the PDF of $X\sim U(0,\nicefrac 1 2)$ and show that it is a valid PDF, but discuss why it could not be used to represent probabilities
 \end{enumerate}
 
 \chapter{Multivariate and Conditional Distributions}
