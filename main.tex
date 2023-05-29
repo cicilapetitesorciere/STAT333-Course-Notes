@@ -74,11 +74,11 @@
 \chapter{Univariate Distributions and Generating Functions}
 
 \section{Laws of Probability}
+\subsection{Random Experiments}
 Imagine you have have a coin and you flip it twice in a row. One of several things may happen. Perhaps you get two heads ($HH$), or two tails ($TT$), or perhaps some combination of the two ($HT$ or $TH$). We can list all the possibilities of what might happen, \emph{however} we do not know what \emph{will} happen. We will observe many situations like this this course and in real life, and we refer to them as \textbf{Random Experiments}. The \textbf{Sample Space} of a Random Experiment (often denoted as $S$ or $\Omega$) is the set of all possible outcomes we may observe. For instance:
 \[
     \Omega=\{HH,HT,TH,TT\}
 \]
-
 \begin{notsofast}
 The Sample Space is not unique! We may define it differently depending on what properties we are interested in. For instance, suppose we do not care about the order of the coins but simply how many heads we observe. In this case we could define the Sample Space as
 \[
@@ -86,11 +86,12 @@ The Sample Space is not unique! We may define it differently depending on what p
 \]
 which is equally valid.
 \end{notsofast}
-We may also be interested in certain subsets of the Sample Space. For instance: what are the different ways we can get the same coin twice?
+\subsection{Events and Probability}
+We are often interested in subsets of the Sample Space. For instance: what are the different ways we can get the same coin twice?
 \[
     \{HH,TT\}\subseteq \Omega
 \]
-We refer to such subsets as \textbf{Events}. For the purposes of this course, any subset of the Sample Space can be considered an Event (\todo CONFIRM!). Any two Events $A$ and $B$ are \textbf{Mutually Exclusive} if $A\cup B=\emptyset$. From here we get the definition of \textbf{Probability}:
+An \textbf{Events} is any subset of a Sample Space. Since Events are just subsets, the union and intersect of any two Events is also an Event. We say that Events $A$ and $B$ are \textbf{Mutually Exclusive} if $A\cup B=\emptyset$. From here we get the definition of \textbf{Probability}:
 \begin{definition}[Probability]
 A Probability is any function which maps Events to $\mathbb R$ and satisfies the following axioms:
 \begin{enumerate}
@@ -144,7 +145,7 @@ From this one small definition, we can derive the entire field of probability th
 
 One special case of Definition \ref{def:probability} is known as \textbf{The Classical Definition of Probability}. \todo CLASSICAL DEFINITION
 
-\subsection*{End-of-the-section Problems}\label{sec:problaw_eosp}
+\subsection{End-of-the-section Problems}\label{sec:problaw_eosp}
 
 \begin{enumerate}
     \item Which of the following has the highest probability?
@@ -258,7 +259,7 @@ Let $E$ be the probability of having two children die of SIDS, and let $I$ be th
 \todo https://forensicstats.org/blog/2018/02/16/misuse-statistics-courtroom-sally-clark-case/
 
 \section{Statistical Independence}
-\subsection{Two Events}
+\subsection{Independence with two Events}
 Two Events $A$ and $B$ are \textbf{Independent} if they do not have any ``information" about the other. In other words knowing that $B$ has occurred does not change the probability of $A$ having occurred. We can express this symbolically as follows
 \[
     P(A|B)=P(A)
@@ -292,7 +293,7 @@ Let $A$ and $B$ be Independent Events. Then the following pairs are also Indepen
 \end{proof}
 \end{lemma}
 
-\subsection{More than two Events}
+\subsection{Independence with more than two Events}
 
 \subsection{Conditional Independence}
 
@@ -415,35 +416,80 @@ However let's generalize this this to $n$ people. (Answer $\nicefrac 1e$). This 
 
 
 \section{Discrete Random Variables}
-A \textbf{Discrete Random Variable} (DRV) $X$ is a function which map Events to integers. For instance, it could represent the face of a die we roll, or the number of heads we get flipping two coins. There is little in the way of properties which a DRV must satisfy, and it is perfectly possible for them to return negative integers as well as positive ones. For instance, if we measure the difference between the face of two dice or the total profits made from playing a casino game. We should however be able to define either a \textbf{Probability Mass Function} to a \textbf{Cumulative Distribution Function}
-
-\subsection{Probability Mass Function}
-Probability Mass Functions (PMFs) describe the probability of observing a given realization $x$ of a DRV $X$, and are often represented as either $P(X=x)$ or $f(x)$. We may define them in any way so long as they satisfy the following properties:
-\begin{enumerate}
-    \item For all $x\in \mathbb Z$, $f(x)\ge 0$
-    \item $\displaystyle\sum_{x\in\mathbb Z} f(x)=1$
-\end{enumerate}
-Often PMFs are expressed with a table listing $(x, f(x))$ for all $x$-values for which $f(x)\ne 0$.
-
-
-
+Suppose we flip a coin 10 times and we are interested in the number of times we get heads. We could let $P(A)$ be the Probability of getting no heads, $P(B)$ be the Probability of getting one head, and so on. However this can obviously become tedious very quickly. Situations like this come up a lot in statistics, so it is worth creating a framework to deal with them more efficiently. This brings us to the concept of a \textbf{Random Variable}. Unlike traditional variables, the value of a Random Variable is probabilistic in nature. Thus statements made about Random Variables are not true or false but instead have some Probability of being true and some Probability of being false. This makes them perfect for describing Random Experiments. 
 \begin{example}
-    Suppose we toss a (fair) coin twice and let $X$ be a DRV representing the number of heads we observe. Define a PMF which describes this situation and show that it satisfies the necessary properties.
+    Suppose we flip a coin 10 times and let $X$ be a Random Variable representing the number of times we get heads. Find the truth-probability for each of the following statements
+    \begin{enumerate}
+        \item $X\ge 5$
+        \item $X^2\ne 0$ 
+        \item $X=37$
+        \item $X\in\{\pi, \nicefrac{10} 3, \sqrt {-1}\}$
+    \end{enumerate}
     \solution
-    We may use
+    \begin{enumerate}
+        \item There are $2^{10}$ possible sequences we could get in this Experiment, and out of them $\binom {10} 5$ include exactly 5 heads, $\binom {10} 6$ include exactly 6 heads, and so on. Thus
+        \[
+            P(X\ge 5) = \frac 1 {2^{10}} \sum_{i=5}^{10} \binom {10} i
+        \]
+        \item $X^2$ is only equal to zero when no coins come up heads. Thus
+        \[
+            P(X^2\ne 0) = \frac{2^{10}-1}{2^{10}}
+        \]
+        \item Since we only flip the coin 10 times, it's not possible to get 37 heads. Thus
+        \[
+            P(X=37)=0
+        \]
+        \item Since $X$ represents a number of coins it is not possible for it to have a non-integer value. Thus
+        \[
+            P(X\in\{\pi, \nicefrac{10} 3, \sqrt {-1}\})=0
+        \]
+    \end{enumerate}
+\end{example}
+In this section we will consider Random Variables which are known to be integer-valued, i.e. Random Variables with the property $P(X\in\mathbb Z)=1$. This class of Random Variable is known as a \textbf{Discrete Random Variable} or DRV.
+
+\subsection{Probability Mass Functions (PMFs)}
+Now that we have defined what a DRV is the question arises of how to express them. The simplest and most obvious way is to simply try and make a table of all the values the DRV might take along with their respective probabilities. For instance
+\begin{example}
+    Suppose we toss a (fair) coin twice and let $X$ be a DRV representing the number of heads we observe. Describe $X$ using a table
+    \solution
+    The possible values of $X$ and their respective probabilities are as follows
         \[
             \begin{array}{c|c}
-                x & f(x) \\
+                x & P(X=x) \\
                 \hline
                 0 & (\nicefrac 12)^2 \\
                 1 & 2(\nicefrac 12)^2 \\
                 2 & (\nicefrac 12)^2 
             \end{array}
         \]
-    We can see that $f(x)\ge 0$ for all values shown (and equal to zero for all values omitted), thus it satisfies Property 1. If we add the values up we see
+\end{example}
+This can have some drawbacks however. For example suppose $X$ has a large or even infinite number of possible values. One way to address this is to define a function $f: \mathbb Z\to \mathbb R$ which gives the probability of $X$ having a given value $x$. This function $f(x)$ is known as a \textbf{Probability Mass Function} or PMF. We will use PMFs as our basis for describing DRVs. However since the range of a PMF is meant to be a Partition of a Sample Space, we must follow some ground rules when creating them in order to have a DRV that makes sense:
+\begin{definition}[Probability Mass Function]
+    Let $f:\mathbb Z\to \mathbb R$. Then $f$ is a valid PMF if it satisfies the following axioms 
+    \begin{enumerate}
+        \item $\forall x\in\mathbb Z, 0\le f(x) \le 1$
+        \item $\displaystyle\sum_{x\in\mathbb Z} f(x)= 1$
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    Suppose we toss a (fair) coin twice and let $X$ be a DRV representing the number of heads we observe. Describe $X$ using a PMF
+    \solution
     \[
-        \sum_{x\in\mathbb Z}f(x)=\frac 14 + \frac 12 + \frac 14 = 1
+        P(X=x)=f(x)=\begin{cases}
+             \frac {\binom 2 x} 4 & 0\le x \le 2
+            \\
+            0 & \text{otherwise}
+        \end{cases}
     \]
+    We can show that this is a valid PMF.
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Exhaustive checking each $x=0,1,2$ we see that all $f$-values fall between 0 and 1. 
+            \item Adding them up we then get 1.
+        \end{enumerate}
+    \end{proof}
 \end{example}
 \begin{notsofast}
     Do not confuse DRVs with their distributions! For instance, it is sometimes mistakenly assumed that the PMF of $2X$ is simply $2f(x)$. However this is not the case, and it is not even possible for $2f(x)$ to be \emph a PMF in the first place, let alone the PMF which correctly describes $2X$. Transforming DRVs is not so simple.
@@ -476,20 +522,64 @@ Often PMFs are expressed with a table listing $(x, f(x))$ for all $x$-values for
     \end{proof}
 \end{notsofast}
 
-\subsection{The Cumulative Distribution Function}
-Another way we can describe a Random Variable is using the Cumulative Distribution Function (CDF), often represented by $P(X\le x)$ or $F(x)$. This describes, not the probability of observing $x$, but rather the probability of observing some value less than or equal to $x$. CDFs must satisfy the following properties:
-\begin{enumerate}
-    \item For all $x\in\mathbb Z$, $0\le F(x) \le 1$
-    \item $F$ must be nondecreasing. In other words for any $x,y\in\mathbb Z$ such that $x<y$, $F(x)\le F(y)$
-    \item For \emph{Discrete} Random Variables (we will discuss Continuous Random Variables in the next section) the $F$ is a step function
-    \item $F$ is right continuous
-\end{enumerate}
-\label{cdf_axioms}
-It is possible to convert between a CDF and PMF using the following relation:
-\begin{lemma}
-    $f(x)=F(x)-F(x-1)$
-\end{lemma}\label{lem:cdf2pmf}
+\subsection{Cumulative Distribution Functions}
+Another way we can describe a Random Variable is using the Cumulative Distribution Function (CDF), often represented by $F(x)=P(X\le x)$. 
+\begin{theorem}[Properties of the CDF]
+    Let $X$ be some DRV defined by a PMF $f(x)=P(X=x)$ and let $F(x)=P(X\le x)$. Then
+    \begin{enumerate}
+        \item $F(x)=\displaystyle\sum_{k=-\infty}^x f(x)$
+        \item $F(x)$ is a unique identifier for the probability distribution of $X$
+        \item $f(x)=F(x)-F(x-1)$
+        \item $\forall x\in\mathbb Z$, $0\le F(x) \le 1$
+        \item $F$ is nondecreasing. In other words for any $x,y\in\mathbb Z$ such that $x<y$, $F(x)\le F(y)$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item This is trivial given the definition of $F$ and $f$
+            \item Then since we can derive $F$ from $f$ that must mean that $F$ is unique
+            \item From (1) we get
+            \[
+                F(x)-F(x-1)=\sum_{k=-\infty}^x f(k) - \sum_{k=-\infty}^{x-1} f(k) =f(k)
+            \]
+            \item This follows from the fact that $F$ represents a probability 
+            \item Let $x\in\mathbb Z$ and let $y=x+s$ for some positive integer $s$. Using (1) we write
+            \[
+                F(x+s)-F(x)=\sum_{k=-\infty}^{x+s} f(k) - \sum_{k=-\infty}^{x} f(k) = \sum_{k=1}^{x+s} f(k) 
+            \]
+            which is nonnegative since it is the sum of nonnegative values
+        \end{enumerate}
+        
+    \end{proof}
+\end{theorem}
+\begin{theorem}
+    Let $F:\mathbb Z\to\mathbb R$ be a step function with the following properties
+    \begin{enumerate}
+        \item $F$ is right-continuous
+        \item $F$ is nondecreasing
+        \item $\forall x\in\mathbb Z$, $0\le F(x) \le 1$
+        \item $\displaystyle\lim_{x\to\infty} F(x)=1$
+        \item $\displaystyle\lim_{x\to -\infty} F(x)=0$
+    \end{enumerate}
+    Then $F$ is a valid CDF.
+    \begin{proof}
+        Let $f(x)=F(x)-F(x-1)$. Since $F$ is nondecreasing, $f(x)\ge 0$ for all $x\in\mathbb Z$. Furthermore, since $0\le F(x) \le 1$ for all $x\in\mathbb Z$ we know that $f(x)\le 1$. Let $a,b\in\mathbb Z$ such that $a<b$. Then
+        \begin{align*}
+            \sum_{x=a}^b f(x) & = \sum_{x=a}^b\left[F(x)-F(x-1)\right]
+            \\                & = \left[\sum_{x=a}^b F(x)\right] - \left[\sum_{x=a-1}^{b-1} F(x)\right]
+            \\                & = F(b)-F(a-1)+\left[\sum_{x=a}^{b-1} F(x)\right] - \left[\sum_{x=a}^{b-1} F(x)\right]
+            \\                & = F(b)-F(a-1)
+        \end{align*}
+        From this we get
+        \[
+            \sum_{x\in\mathbb Z} f(x)=\lim_{b\to \infty} F(b) - \lim_{a\to -\infty} F(a-1)=1
+        \]
+        Thus $f$ satisfies all the properties of a PMF.
+    \end{proof}
+\end{theorem}
 
+
+So why bother with this entirely different way to define a DRV? The PMF and CDF can both be useful in different situations. For instance
 
 \begin{example}
     Suppose you roll 4 dice and let $X_i$ be the face of the $i$th die. Then let $X=\max\{X_1, X_2, X_3, X_4\}$. Find the PMF of $X$
@@ -506,13 +596,11 @@ It is possible to convert between a CDF and PMF using the following relation:
     \[
         P(X\le x)=\prod_{i=1}^4 P(X_i\le x)=\left(\frac x 6\right)^4
     \]
-    Then using Lemma \ref{lem:cdf2pmf} we get
+    Then
     \[
         P(X=x)= \left(\frac x 6\right)^4-\left(\frac {x-1} 6\right)^4
     \]
 \end{example}
-
-
 
 \subsection{Expectation of a DRV}
 \newcommand{\E}{\textup{E}}
@@ -598,7 +686,7 @@ So suppose you were offered a chance to play this game with a ticket price of $\
 \newcommand{\Var}{\textup{Var}}
 The Variance of a Random Variable is the average of the squared deviation from the mean. In other words
 \begin{definition}[Variance of a Random Variable]
-    Let $X$ be a DRV 
+    Let $X$ be a Random Variable
     \[
         \Var(X)=E[(X-E(X))^2]   
     \]
@@ -621,7 +709,7 @@ The Variance of a Random Variable is the average of the squared deviation from t
 \end{notsofast}
 
 
-\subsection*{End-of-the-section Problems}
+\subsection{End-of-the-section Problems}
 \begin{enumerate}
     \item Prove the linearity property of Expectation
     \item Show that $E[(X-E(X))^2]=E(X^2)-[E(X)]^2$
@@ -780,15 +868,18 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \ber(p)$ 
             \item 
             $
                 P(X=x)=\begin{cases}
-                    q^{x-1}p & x\ge 1 \\
-                    0 & \text{otherwise}
+                    0 & x \le 0
+                    \\
+                    q^{x-1}p & x\ge 1
+                    
                 \end{cases}
             $
             \item 
             $
                 P(X\le x)=\begin{cases}
-                    1-q^x & x\ge 1 \\
-                    0 & \text{otherwise}
+                    0 & x \le 0
+                    \\
+                    1-q^x & x\ge 1
                 \end{cases}
             $
             \item $\E(X)=\displaystyle\frac 1 p$
@@ -829,7 +920,7 @@ Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \ber(p)$ 
             \left(\frac 1 3\right)^{74}\times \frac 2 3
         \]
     \end{example}
-\subsection{Negative Binomial}
+\subsection{The Negative Binomial Distribution}
 \newcommand{\nbin}{\textup{NB}}
 We can generalize the Geometric Distribution, and let $X$ be the number of Bernoulli trials required to get $k$ successes. Then we say $X$ has a \textbf{Negative Binomial Distribution} or $X\sim \nbin(p,k)$.
 \begin{theorem}[Properties of the Negative Binomial Distribution]
@@ -1038,7 +1129,7 @@ Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson
 
 
 \section{Moment Generating Functions}
-Let $X$ be a Random Variable. We define the $n$th \textbf{Moment} of $X$ as $\E(X^n)$. Moments don't really represent anything in the real world on their own, but often appear in formulas for various statistics. In fact, we have already encountered Moments when we talked about Variance.
+Let $X$ be a Random Variable. We define the $n$th \textbf{Moment} of $X$ as $\E(X^n)$. Moments don't really represent anything in the real world on their own, but often appear in formulae for various statistics. In fact, we have already encountered Moments when we talked about Variance.
 \[
     \Var(X)=E(X^2)-[E(X)]^2
 \]
@@ -1108,16 +1199,31 @@ In other words, Variance can be thought of as the difference between the second 
         We recognize the MGF of $Y$ as that of the Bernoulli distribution with $p=\nicefrac 13$. Since MGFs are unique, it must be the case that $Y\sim\ber(\nicefrac 13)$
 \end{example}
 
+
+
+a function which maps Events to real numbers. This definition is very similar to the one we encountered with DRVs, however it presents some new challenges. For instance,
+
 \section{Continuous Random Variables}
-Sometimes we want to experiments that are not discrete and it can be useful to extend the definition of DRVs outside of integer-values. A \textbf{Continuous Random Variable} (CRV) is a function which maps Events to real numbers. This definition is very similar to the one we encountered with DRVs, however it presents some new challenges. For instance, suppose we throw a dart at a dartboard and let $X$ be a CRV measuring the distance of the dart from the centre. What is the probability that $X=0$? There are an uncountably infinite number of points on the board the dart could hit, and only one has a distance of exactly zero from the centre. Thus the probability is zero, as is the probability of hitting any exact location. This makes the definition of PMFs useless for CRVs, however we can still use CDFs. For instance, there is a non-zero probability that $X\le 0.5$. And in fact, one arguable benefit of point probabilities being zero is that in all cases for CRVs
-\[
+Suppose we throw a dart at a dartboard with some radius $r$ and let $X$ and $Y$ be Random Variables measuring the horizontal and vertical distance respectively of the dart from the centre. Since $X$ and $Y$ represent a distances it is entirely possible for it to take non-integer values, hence they are not DRVs but rather a \textbf{Continuous Random Variables} (CRVs). Now let's assume that $X$ and $Y$ are Independent and that the dart is equally likely hit anywhere on the board. What is the Probability of that the dart hits the exact centre of the board $X=Y=0$? This is one possible point out of an infinite number of possibilities, so the Probability is infinitesimally small. This means that PMFs are not particularly useful in when trying to describe CRVs and so we will not use them. However, it is still perfectly reasonable to ask about the probability of the dart landing on the left half of the board, and so we can still describe 
+
+
+
+
+
+
+
+
+What is the probability that $X=0$? There are an uncountably infinite number of points on the board the dart could hit, and only one has a distance of exactly zero from the centre. Thus the probability is zero, as is the probability of hitting any exact location. This makes the definition of PMFs useless for CRVs, however we can still use CDFs. For instance, there is a non-zero probability that $X\le 0.5$. And in fact, one arguable benefit of point probabilities being zero is that in all cases for CRVs\[
     P(X\le x)= P(X< x)
 \]
-Just as in the discrete case, we will often use $F(x)$ to represent the CDF of a CRV, which follows all of the same axioms outlined in \ref{cdf_axioms}, except that it is generally not a step function. And though we cannot use the PMF, we can use the CDF to define its continuous analogue, the \textbf{Probability Density Function} (PDF)
+Just as in the discrete case, we will often use $F(x)$ to represent the CDF of a CRV, which follows all of the same axioms outlined in \ref{cdf_axioms}, except that it is generally not a step function. And though we cannot use the PMF, we can use the CDF to define its continuous analogue, the \textbf{Probability Density Function} (PDF) $f(x)$ such that
 \[
-    f(x)=F'(x)
+    f(x) = \begin{cases}
+        F'(x) & \text{where $F(x)$ is differentiable}
+        \\
+        0 & \text{otherwise}
+    \end{cases}
 \]
-\todo THIS IS ACTUALLY A BAD DEFINITION, SINCE IT HAS HOLES.
 \begin{theorem}[Properties of the PDF]
     Let $X$ be some CRV with PDF $f(x)$ and CDF $F(x)$. Then
     \begin{enumerate}
@@ -1315,73 +1421,215 @@ This gives us an easy way to simulate almost all other possible distributions us
 \todo: THIS FEELS... THERE'S STILL SOME HOLES HERE THAT NEED PATCHING
 
 \subsection{The Exponential Distribution}
-$X\sim Exp(\lambda)$ if
+\newcommand{\expon}{\textup{Exp}}
+Suppose you have a single atom of uranium-235. Being unstable, the atom could spontaneously decay into thorium-231 at any given moment, and you determine that the probability of this happening over the course of any given year is $\lambda$. To model this situation, we could imagine coming into the lab every year on January 1st and checking if the atom has decayed or not. Each year we check is a Bernoulli trial with $p=\lambda$. This means that the number of years $N$ the atom takes to decay would follow a Geometric Distribution and hence the CDF is
 \[
-    f(x)=\begin{cases}
-        \lambda e^{-\lambda x} & x \ge 0
+    F_1(x)
+    = P(N\le x)
+    = \begin{cases}
+        0 & x \le 0
         \\
-        0 & \text{otherwise}
+        1-(1-\lambda)^x & x\ge 1
     \end{cases}
 \]
-Sometimes the Exponential distributoon uses $\mu=1/\lambda $ as its parammeter. We call $\mu$ the mean and $\lambda $ the rate. We get the CDF by integrating
+However, what is the probability that it decays within 2.5 years for example? To tackle this, lets image that we check on the atom every month. These would also be Bernoulli trials, however the probability of a success (i.e. finding thorium instead of uranium) would be twelve times smaller. i.e. 
 \[
-    F(x)=1-e^{-\lambda x}
+    P(N_{\frac 1{12}}\le x)
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-\left(1-\frac \lambda {12}\right)^x & x\ge 1
+    \end{cases}
 \]
-
-$\E(X)=\mu$
-$\Var(X)=\mu^2$
-
-The Exponential Distribution is the only Memoryless distribtuion.
-
-Recall the definition of Memorylessness
+where $N_{\nicefrac 1{12}}$ is the number of months the atom takes to decay. Since $2.5$ years is equivalent to 30 months, the probability that the atom decays within 2.5 years is simply $P(N_{\nicefrac 1{12}} \le 30)$. However, if we still wanted to measure it in years we could create a new CDF for $N$ that supports not only integers, but $\{\nicefrac 1{12} , \nicefrac 2{12}, \nicefrac 3{12},...\}$ as well:
 \[
-    P(X\ge s+t| X>s)=\frac{1-F(s+t)}{1-F(s)}
-    =\frac{e^{-\lambda (s+t)}}{e^{-\lambda s}}
-    =e^{-\lambda s}
-    =P(X>t)
+    F_{\frac 1{12}}(x) 
+    = P\left(N_{\frac 1{12}}\le 12x\right)
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-\left(1-\frac \lambda {12}\right)^{12x} & x\ge \frac 1{12}
+    \end{cases}
 \]
-
-\subsection{The Weibull Distribution}
-Is the Exponential Distribtuion good for measuring human life. Suppose $s=60$
- and $t=40$, By the definition of Memorylessness.
- The Weibull Distribution is like the Exponential Distribution but with some decay.
- 
-\subsection{The Gamma and Erlang Distributions}
-To talk about the \textbf{Gamma Distribution} we must talk about the \textbf{Gamma Function}
+We can generalize this to checking $k$ times per year (at regular intervals) and get
 \[
-    \Gamma(\alpha)=\int_0^\infty x^{\alpha - 1} e^x dx
+    F_{\frac 1k}(x) 
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-\left(1-\frac \lambda k\right)^{kx} & x\ge \frac 1k
+    \end{cases}
 \]
-\begin{theorem}
-    {Properties of the Gamma Function}
+This of course raises the question: what happens as $k\to\infty$, i.e. instead of having distinct trials at regular intervals what if we just watch it 24 hours a day? Doing this we get
+\begin{align*}
+    \lim_{k\to\infty} F_{\frac 1k}(x) 
+    &= 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        \displaystyle\lim_{k\to\infty}\left[1-\left(1-\frac \lambda k\right)^{kx}\right] & x\ge \displaystyle\lim_{k\to\infty}\tfrac 1k
+    \end{cases}
+    \\
+    &= 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-\varphi_\lambda(x) & x > 0
+    \end{cases}
+\end{align*}
+where 
+\[
+    \varphi_\lambda(x) =\displaystyle\lim_{k\to\infty} \left(1-\frac \lambda k\right)^{kx}
+\]
+Taking the logarithm of $\varphi_\lambda(x)$ we get
+\begin{align*}
+    \ln\varphi_\lambda(x) & = \lim_{k\to\infty} kx\ln\left(1-\frac \lambda k\right)
+    \\              & = \lim_{k\to\infty} \frac{\ln\left(1-\frac \lambda k\right)}{\frac 1 {kx}}
+    \\              & = \lim_{k\to\infty} \frac{\left(\frac 1{1-\nicefrac \lambda k}\right)\left(\frac \lambda {k^2}\right)}{-\frac 1 {k^2 x}} \tag{By L'H${\hat{\textup o}}$pital's Rule}
+    \\              & = -\lambda x\lim_{k\to\infty} \left(\frac 1 {1-\frac \lambda k}\right)
+    \\              & = -\lambda x
+\end{align*}
+And hence
+\[
+    \varphi_\lambda(x)=e^{-\lambda x}
+\]
+giving us
+\[
+    \lim_{k\to\infty} F_{\frac 1k}(x) = 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-e^{-\lambda x} & x > 0
+    \end{cases}
+\]
+Let's call this function $F(x)$ and note that since for all $\lambda \in (0,1)$
+\[
+    \lim_{x\to 0} \left[1-e^{-\lambda x}\right]=0 
+\]
+$F(x)$ is continuous and can in fact be written
+\[
+    F(x) = 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-e^{-\lambda x} & x \ge 0
+    \end{cases}
+\]
+We will now show that $F(x)$ is a valid continuous CDF
+\begin{proof}
+    We first show that $F(x)\in[0,1]$ for all $x\in\mathbb R$: Let $x^*\in\mathbb R$. If $x^*\le 0$ then $F(x^*)=0$. If $x^*> 0$ then we know that $e^{-\lambda x^*}\in (0,1)$, and thus $F(x^*)\in (0,1)$. 
+    \\\\
+    We now show that $F$ is nondecreasing: Let $x_1,x_2\in\mathbb R$ such that $x_1<x_2$. Taking the derivative of $F(x)$ we get
+    \[
+        \forall x\in(0,\infty), F'(x)=\lambda e^{-\lambda x}
+    \]
+    which given the properties of the exponential function is positive. Thus if $x_2>x_1>0$ then $F(x_2)>F(x_1)$. In the case that $x_1\le 0$ then we know that $F(x_1)=0$. And since the we have shown that $F$ is nonnegative across its domain, this implies that $F(x_2)\ge F(x_1)$.
+    \\\\
+    Finally since $F$ is continuous it is also right continuous.     
+\end{proof}
+
+It seems we have stumbled upon a new continuous distribution, and in fact this distribution has a name: the \textbf{Exponential Distribution}, often written $X\sim\expon(\lambda)$. The parameter $\lambda$ is known as the ``rate", however there is also another useful quantity $\mu=\nicefrac 1 \lambda$ known as the ``mean". Be advised that some statisticians will use $X\sim\expon(\mu)$ to mean $X$ has an Exponential Distribution with mean $\mu$.
+\begin{theorem}[Properties of the Exponential Distribution]
+    Let $X\sim\expon(\lambda)$ with PDF $f(x)$ and CDF $F(x)$. Then
     \begin{enumerate}
-        \item $\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$
-        \item For any integer $n$, $\Gamma(n+1)=n!$
+        \item $f(x)=\begin{cases}
+        \lambda e^{-\lambda x} & x \ge 0
+        \\
+        0 & x < 0
+        \end{cases}$
+        \item $\E(X)=\displaystyle\frac 1 \lambda$
+        \item $\Var(X)=\displaystyle\frac 1 {\lambda^2}$
     \end{enumerate}
-    \
-    \begin{enumerate}
-        \item We can show this using integration by parts.
-        \item Using the first property, we get that $\Gamma(n)=n\Gamma(n$\todo
-    \end{enumerate}
+    The proofs for all of these properties are very straightforward and are left as an exercise.
 \end{theorem}
 
-From this we define the Gama Distribtuion
+\begin{theorem}[Memorylessness of the Exponential]
+    The Exponential Distribution is the only Memoryless continuous distribution.
+    \begin{proof}
+        Recall the definition of Memorylessness
+        \[
+            P(X\ge s+t| X>s)=\frac{1-F(s+t)}{1-F(s)}
+            =\frac{e^{-\lambda (s+t)}}{e^{-\lambda s}}
+            =e^{-\lambda s}
+            =P(X>t)
+        \]
+        \todo
+    \end{proof}
+\end{theorem}
+
+
+
+\subsection{The Weibull Distribution}
+Is the Exponential Distribution good for measuring human lifetime? Suppose we let $X\sim \expon(\lambda)$ represent the lifespan of a person, and imagine we have two people: newborn baby and an 80-year-old. Which of the two do you suppose is most likely to still be alive in 20 years? Certainly the baby, right? However the model we've constructed would say otherwise. Since the Exponential Distribution is Memoryless, our model would tell us that
+\[
+    P(X\ge 100 | X \ge 80) = P(X\ge 20)
+\]
+In other words, both people apparently have an equal chance of surviving the next 20 years. This is a flaw in the model, however it is solved by a distribution known as the \textbf{Weibull Distribution} which has the following CDF:
+\[
+    F(x) = 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-e^{-[\lambda(x)]x} & x > 0
+    \end{cases}
+\]
+where $\lambda(x)=\lambda_0 x^r$ for some $\lambda_0\in(0,1)$ and $r\in\mathbb R$. Notice that for $r=0$ this is identical to the CDF of the Exponential Distribution with $\lambda =\lambda_0$. However using something like $r=1$ we end up with something resembling an Exponential Distribution, but where the value of $\lambda$ increases linearly with $x$ (i.e. as time passes).  
+
+
+\subsection{The Gamma and Erlang Distributions}
+\newcommand{\gam}{\textup{Gam}}
+To talk about the \textbf{Gamma Distribution} we must first talk about the \textbf{Gamma Function} which is defined for all positive real numbers $\alpha$ as
+\[
+    \Gamma(\alpha)=\int_0^\infty x^{\alpha - 1} e^{-x} dx
+\]
+
+\begin{theorem}[Properties of the Gamma Function]
+    $ $
+    \begin{enumerate}
+        \item $\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$
+        \item $\forall n\in\{1,2,...\},\Gamma(n+1)=n!$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Plugging $\alpha+1$ into the Gamma function we get
+            \begin{align*}
+                \Gamma(\alpha+1) & = \int_0^\infty x^{\alpha} e^{-x} dx
+                \\             & = -x^\alpha e^{-x}\Big\vert_0^\infty - \int_0^\infty (\alpha x^{\alpha-1}) (-e^{-x}) dx \tag{Using integration by parts}
+                \\             & = \alpha \Gamma(\alpha)
+            \end{align*}
+            \item From this we get that for $n\in\{1,2,...\}$
+            \[
+                \Gamma(n+1)=n\Gamma(n)=n(n-1)\Gamma(n-1)= \cdots = n! \Gamma(1) = n!
+            \]
+            since
+            \[
+                \Gamma(1)=\int_0^\infty e^{-x} dx=1
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+
+
+From this we define the Gamma Distribution
 \begin{definition}
-    We say $X\sim\Gamma(\alpha,\beta)$ if the PDF of $X$ is
+    We say $X\sim\gam(\alpha,\beta)$ if the PDF of $X$ is
     \[
         f(x)=\begin{cases}
-            \todo
+            \displaystyle\frac {x^{\alpha-1} e^{\frac x \beta}}{\Gamma(\alpha)\beta^\alpha} & x \ge 0
+            \\
+            0 & x \le 0
         \end{cases}
     \]
 \end{definition}
 We can show that $f(x)$ as defined above is a valid PDF
 \begin{proof}
-    If we let $t=x/\beta$, we get
-    \[
-        f(x)=\int_0^\int \frac{(t\beta)^{}\alpha-1 e^{-t}}{\beta^{\alpha} \Gamma(\alpha)}=\frac{\Gamma(\alpha)}{\Gamma(\alpha)}
-    \]
+    Let $t=x/\beta$, we get
+
 \end{proof}
 
-There are some notable special cases of the $\Gamma $ Distribtuin. If $\alpha = 1 $
+There are some notable special cases of the Gamma Distribution. If $\alpha = 1 $
 \[
     f(x)=\frac 1\beta e^{-\frac x \beta}
 \]
@@ -1398,15 +1646,19 @@ This function is interesting since the numerator is simple te integrand of the d
     
 \end{theorem}
 
+\begin{theorem}[Properties of the Gamma Distribution]
+Let $X\sim\gam(\alpha,\beta)$. Then
+\begin{enumerate}
+    \item $M_X(t)=\frac 1 {(1-\beta t)^\alpha}$
+\end{enumerate}
+    
+\end{theorem}
+
 \begin{theorem}
     {Properties of the Gamma Distribution}
     \begin{enumerate}
-        \item 
-        \item 
+        \item[]
         \item The MGF of $X$ is 
-        \[
-            M_X(t)=\frac 1 {(1-\beta t)^\alpha}
-        \]
         %\item If $\alpha$ is an integer, then $X=Y_1+Y_2+\cdots Y_\alpha$ where $Y_i\simiid \text{Exp(\beta)}$ for $i=1,2,...,\alpha$.
     \end{enumerate}
     \begin{enumerate}
@@ -1419,16 +1671,143 @@ From this we see that the Erlang Distribtuion is the continous analogue of the N
 
 
 
-\subsection*{End-of-the-section Problems}
+\subsection{The Normal Distribution}
+$X\sim N(\mu,\sigma^2)$ if
+\[
+    f(x)=\frac 1 {\sqrt{2\pi}\sigma}e^{-\frac 12 (...)}
+\]
+
+\[
+    \phi(z)=\int_{-\infty}^\infty \frac 1 {2\sqrt{2z}} e^{-\frac {z^2} 2}dz
+\]
+One very important normal is the standard normal $Z\sim N(0,1)$
+
+Let $t=z^2/2$. Then $dt=zdz$. ...
+
+Why do we are about the normal  distribution.
+
+Pivotal value $Z=\frac{X-\mu}\sigma$
+
+68\% of observations lie within $\mu\pm \sigma$, 95\% of observations lie between 2 standard deviations of the mean. And 99\% of the results lie between 3 standard deviations.
+
+Any time you're testing hypothesis, $3\sigma$ test....
+
+
+THe main reason why we care about the normal is the central limit theorem. The great thing about the normal distribution is that if you add up a bunch of things, it will beome normal. 
+
+Law of large numbers
+Let $X_1,X_2,...,X_n$ be some set of Independent and Identically Distriubted Random Variabes on some distribution such that $E(X_i)=\mu$ and $E$
+
+Eventually everything converges to the average
+
+If we take a lot of measurements, the average will go to their mean when we take a lot of observations
+
+The central limit theorem however says that this will approach with a normal distribution.
+
+All averages start behaving like a normal
+
+Say we have a class project where we go around the city anfd try and find the average income of people in waterloo. If we each take a sample of 50 people, it will approach a normal.
+
+It doesn't matter what $X$ is, it can be discrete continuous, geometric, gamma, 
+
+This seems very general, we make almost no solutions on $X$
+
+
+
+
+
+
+
+\subsection{End-of-the-section Problems}
 \begin{enumerate}
     \item Show that the MGF of $X\sim \text{Exp}(\mu)$ \todo
     \item Find the PDF of $X\sim U(0,\nicefrac 1 2)$ and show that it is a valid PDF, but discuss why it could not be used to represent probabilities
 \end{enumerate}
 
 \chapter{Multivariate and Conditional Distributions}
+Suppose you have a portfolio with three stocks, Google $G$, Tesla $Y$, and $W$ (meta).
 
-\chapter{Stochastic Process}
+We have $50\%$ of our investment in $X$, ... in the newspaper we get these things. However they are not independent. So how do they behave together. This  is called joint distributions. 
+
+How does an individual stock behave? These are called (Marginals). The numbers you see in the newspaper for each stock are the marginals.
+
+How are they corrlated? Often its positively correlated. But what if we look at the corrlation of umbrellas and sun tan lotion. They might be negatively cirrelated. So we might want to diversify by investing in both to achieve more stability, 
 
 
+We now extend to vector-valued random variables $(X_1,X_2,...,X_m)\sim\mathbb R^n$. 
+
+We are interested in finding how multiple variables are related. Thats a very important hing in stats, especial
+
+
+\section{Bivariate Discrete Distributions}
+Let $X$ and $Y$ be two DRVs which are not independent. Then we can define the joint PMF as
+\[
+    f(x,y)=P(X=x\land Y=y)
+\]
+and the CDF as
+\[
+    F(x,y)=P(X\le x \land Y\le y)
+\]
+
+\begin{theorem}
+    [Properties of the Discrete Joint PMDF]
+    Let $f(x,y) = P(X=...$ be the PDF of som
+    \begin{enumerate}
+        \item $f(x,y)\ge 0$
+        \item $\sum_{x\in\mathbb Z} \sum_{y\in\mathbb Z} f(x,y)$
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    Let $X,Y$ be DRVs with Joint PDF
+    \[
+        f(x,y)=kq^{x+y-2}p^2
+    \]
+    Find $k$.
+    \solution
+    We use the fact that the PMFs have to add up to 1
+    \[
+        kp^2/q \times \sum q^x \sum q^y
+    \]
+    Recall geometric series and the fact that 
+    \[
+        \sum_y q^y = \frac q {1-q}
+    \]
+\end{example}
+
+\begin{example}
+    \[
+        f(x,y)=q^{x+y-2}p^2
+    \]
+    Find the Marginal of $X$
+    \solution
+    \[
+        P(X=x)= \sum_{y\in\mathbb Z} f(x,y)
+    \]
+\end{example}
+You can always get the marginal with a Joint PMF
+
+\begin{example}
+    Find $P(X<Y)$
+    \solution
+    $P(X<$
+    You fix one value and look how the other behaves
+\end{example}
+
+\section{The Multinomial Distribution}
+\newcommand{\mult}{\textup{Mult}}
+$n$ is the number of trials, and there are $k$ possible outcomes. Outcome $i$ has a probability $p_i$. The probabilies are constant and the trials are independent. $X_1,X_2,...,X_k$ represents the number of outcomes of type $i$. 
+
+Let's say $k=4$ people are run a 100 meter race every week. Each person has a probability of winning $p_i$ for $i=1,2,3,4$. 
+
+
+
+
+The marginal of a mutlinomail is binomial
+
+
+\chapter{Stochastic Processes}
+
+There are three stochastic processes we are going to learn, bernoulli, poisson, and markov chains. We alread have a lott of trhe stuff we need
 
 \end{document}
