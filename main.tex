@@ -416,6 +416,25 @@ However let's generalize this this to $n$ people. (Answer $\nicefrac 1e$). This 
 
 
 \section{Discrete Random Variables}
+A key step when performing any kind of experiment is measurement. Measurement can mean a lot of things, for some experiments it may involve high-tech equipment and analyzers, in others it may involve reading through surveys filled out by participants in a study, or it may be as simple as looking at a coin to see if it came up heads or not. In all cases however, the principals are the same: we perform an experiment (i.e. flipping a coin 3 times), observe some outcome $\omega$ (i.e. heads, tails, heads), and quantify something about that outcome (i.e. counting the number of times heads came up). In this sense measurements can be thought of as mappings from the Sample Space of an Experiment to numbers.
+
+
+\newpage
+
+
+observe some outcome $\omega$ from the experiment's sample 
+
+
+
+
+
+
+
+
+
+
+
+
 Suppose we flip a coin 10 times and we are interested in the number of times we get heads. We could let $P(A)$ be the Probability of getting no heads, $P(B)$ be the Probability of getting one head, and so on. However this can obviously become tedious very quickly. Situations like this come up a lot in statistics, so it is worth creating a framework to deal with them more efficiently. This brings us to the concept of a \textbf{Random Variable}. Unlike traditional variables, the value of a Random Variable is probabilistic in nature. Thus statements made about Random Variables are not true or false but instead have some Probability of being true and some Probability of being false. This makes them perfect for describing Random Experiments. 
 \begin{example}
     Suppose we flip a coin 10 times and let $X$ be a Random Variable representing the number of times we get heads. Find the truth-probability for each of the following statements
@@ -1204,6 +1223,11 @@ In other words, Variance can be thought of as the difference between the second 
 a function which maps Events to real numbers. This definition is very similar to the one we encountered with DRVs, however it presents some new challenges. For instance,
 
 \section{Continuous Random Variables}
+Suppose you throw a dart at a dartboard and measure how far from the centre it lands. How might we model this situation mathematically? We will assume that the dart does in fact hit the board, i.e. we assume $P(X\le r)=1$ where $r$ is the radius of the board.
+
+
+
+
 Suppose we throw a dart at a dartboard with some radius $r$ and let $X$ and $Y$ be Random Variables measuring the horizontal and vertical distance respectively of the dart from the centre. Since $X$ and $Y$ represent a distances it is entirely possible for it to take non-integer values, hence they are not DRVs but rather a \textbf{Continuous Random Variables} (CRVs). Now let's assume that $X$ and $Y$ are Independent and that the dart is equally likely hit anywhere on the board. What is the Probability of that the dart hits the exact centre of the board $X=Y=0$? This is one possible point out of an infinite number of possibilities, so the Probability is infinitesimally small. This means that PMFs are not particularly useful in when trying to describe CRVs and so we will not use them. However, it is still perfectly reasonable to ask about the probability of the dart landing on the left half of the board, and so we can still describe 
 
 
