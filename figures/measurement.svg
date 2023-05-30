@@ -3,7 +3,7 @@
   <title>Layer 1</title>
   <line fill="none" stroke="#000" x1="-43.00003" y1="150.50011" x2="-43.50003" y2="150.50011" id="svg_3" stroke-linejoin="undefined" stroke-linecap="undefined"/>
   <path fill-opacity="0.25" transform="rotate(1.4435, 77.9333, 149.759)" id="svg_1" d="m78.88728,262.4773c-14.11024,-63.00003 -81.49949,-50.86331 -46.08467,-119.48282c35.41482,-68.6195 -17.06147,-103.84143 46.08467,-119.48282c63.14614,-15.64139 15.66425,89.5323 46.08467,119.48282c30.42042,29.95052 -31.97443,182.48285 -46.08467,119.48282z" opacity="undefined" fill="#870fff"/>
-  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_5" y="38.66667" x="25.66668" stroke="#000" fill="#000000">Ω</text>
+  <image x="30" y="20" xlink:href="../symbols/omega.svg"/>
   <text transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_7" y="52.52023" x="26.06228" stroke="#000000" fill="#000000">HHH</text>
   <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_8" y="134.5439" x="42.94551" stroke="#000000" fill="#000000">HTH</text>
   <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_9" y="172.97458" x="-7.7042" stroke="#000000" fill="#000000">HHT</text>
