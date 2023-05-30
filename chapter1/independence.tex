@@ -1,0 +1,50 @@
+\section{Statistical Independence}
+\subsection{Independence with two Events}
+Two Events $A$ and $B$ are \textbf{Independent} if they do not have any ``information" about the other. In other words knowing that $B$ has occurred does not change the probability of $A$ having occurred. We can express this symbolically as follows
+\[
+    P(A|B)=P(A)
+\]
+or equivalently:
+\[
+    P(A\cap B)=P(A)P(B)
+\]
+\begin{notsofast}
+    Independence is \emph{not} the same as Mutual Exclusivity. In fact if $A$ and $B$ are Mutually Exclusive then they cannot be independent. 
+    \begin{proof}
+        Suppose $A$ and $B$ are two Mutually Exclusive Events and we know that $B$ has occurred. Then we also know $A$ must not have occurred. In other words, knowing $B$ has occurred has given us information about the probability of $A$ (namely that the probability is zero). 
+    \end{proof}
+\end{notsofast}
+
+\begin{lemma}
+Let $A$ and $B$ be Independent Events. Then the following pairs are also Independent:
+\begin{enumerate}
+    \item $A$ and $\bar B$
+    \item $\bar A$ and $B$
+    \item $\bar A$ and $\bar B$
+\end{enumerate}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item\todo
+        \item\todo
+        \item \todo
+    \end{enumerate}
+\end{proof}
+\end{lemma}
+
+\subsection{Independence with more than two Events}
+
+\subsection{Conditional Independence}
+
+
+Two events are \textbf{Conditionally Independent} given $C$ if 
+\[
+    P(A\cap B | C)= P(A|C)P(B|C)
+\]
+
+\todo
+
+
+
+

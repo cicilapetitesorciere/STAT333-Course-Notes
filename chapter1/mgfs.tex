@@ -1,0 +1,75 @@
+
+\section{Moment Generating Functions}
+Let $X$ be a Random Variable. We define the $n$th \textbf{Moment} of $X$ as $\E(X^n)$. Moments don't really represent anything in the real world on their own, but often appear in formulae for various statistics. In fact, we have already encountered Moments when we talked about Variance.
+\[
+    \Var(X)=E(X^2)-[E(X)]^2
+\]
+In other words, Variance can be thought of as the difference between the second Moment and the square of the first Moment. Moments can of course be calculated directly, however it is often easier to use the \textbf{Moment Generating Function} (MGF), which is defined as follows for any Random Variable $X$
+\[
+    M_X(t)=\E(e^{tX})
+\]
+\begin{theorem}[Properties of the MGF]
+    Let $X$ be a Random Variable (either continuous or discrete)
+    \begin{enumerate}
+        \item The $n$th Moment of $X$ is given by $M_X^{(n)}(0)$
+        \item For any Random Variable $Y$ independent to $X$, $M_Y=M_X$ if and only if $X$ and $Y$ have the same probability distribution
+        \item For any Random Variable $Y$ independent to $X$, $M_{X+Y}(t)=M_X(t)M_Y(t)$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Using linearity of Expectation, we can express $M_X(t)$ as a Taylor series
+            \[
+                M_X(t)=1+t\E(X)+\frac{t^2\E(X^2)}{2!} + \frac{t^3\E(X^3)}{3!} + \cdots 
+            \]
+            From this we see that the $n$th derivative of $M_X(t)$ is
+            \[
+                M_X^{(n)}(t)=0+0+\cdots+\E(X^n)+ t\alpha_1(X) + t^2 \alpha_2(X) + \cdots
+            \]
+            for some $\alpha_1(X), \alpha_2(X),...\in\mathbb R$. Thus
+            \[
+                M_X^{(n)}(t)=\E(X^n)
+            \]
+            \item\todo
+            \item\todo
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+\label{thm:mgfprops}
+
+\begin{example}
+    Find the MGF for the following distributions:
+    \begin{enumerate}
+        \item Bernoulli
+        \item Binomial
+    \end{enumerate}
+    \solution 
+    \begin{enumerate}
+        \item Let $I\sim \ber(p)$ for some $p\in[0,1]$ and $q=1-p$. Then
+        \[
+            M_I(t)=E(e^{tI})=e^0 f(0)+ e^t f(1)= q+pe^t
+        \]
+        \item Let $X\sim\bin(n,p)$ for some $n\in\{1,2,...\}$ and $p\in[0,1]$. Recall that by the definition of the binomial distribution we may express as the sum of $n$ Independent Bernoulli trials $I_1,I_2,...,I_n\simiid\ber(p)$. From Part 1 we know that
+        \[
+            \forall i\in\{1,2,...,n\}, M_{I_1}(t)=q+pe^t
+        \]
+        And thus
+        \[
+            M_X(t)=M_{I_1+I_2+\cdots+I_n}=\left[q+pe^t\right]^n
+        \]
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+        Suppose we find for some Random Variable $Y$
+        \[
+            M_Y(t)=\tfrac 23 + \tfrac 13 e^t
+        \]
+        What is the probability distribution of $Y$?
+        \solution
+        We recognize the MGF of $Y$ as that of the Bernoulli distribution with $p=\nicefrac 13$. Since MGFs are unique, it must be the case that $Y\sim\ber(\nicefrac 13)$
+\end{example}
+
+
+
+a function which maps Events to real numbers. This definition is very similar to the one we encountered with DRVs, however it presents some new challenges. For instance,

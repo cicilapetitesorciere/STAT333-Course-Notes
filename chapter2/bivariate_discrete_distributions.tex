@@ -1,0 +1,81 @@
+\section{Bivariate Discrete Distributions}
+
+Suppose you have a portfolio with three stocks, Google $G$, Tesla $Y$, and $W$ (meta).
+
+We have $50\%$ of our investment in $X$, ... in the newspaper we get these things. However they are not independent. So how do they behave together. This  is called joint distributions. 
+
+How does an individual stock behave? These are called (Marginals). The numbers you see in the newspaper for each stock are the marginals.
+
+How are they corrlated? Often its positively correlated. But what if we look at the corrlation of umbrellas and sun tan lotion. They might be negatively cirrelated. So we might want to diversify by investing in both to achieve more stability, 
+
+
+We now extend to vector-valued random variables $(X_1,X_2,...,X_m)\sim\mathbb R^n$. 
+
+We are interested in finding how multiple variables are related. Thats a very important hing in stats, especial
+
+\todo make it 2 not 3 so that it works in Bivariate chapter
+
+Let $X$ and $Y$ be two DRVs which are not independent. Then we can define the joint PMF as
+\[
+    f(x,y)=P(X=x\land Y=y)
+\]
+and the CDF as
+\[
+    F(x,y)=P(X\le x \land Y\le y)
+\]
+
+\begin{theorem}
+    [Properties of the Discrete Joint PMDF]
+    Let $f(x,y) = P(X=...$ be the PDF of som
+    \begin{enumerate}
+        \item $f(x,y)\ge 0$
+        \item $\sum_{x\in\mathbb Z} \sum_{y\in\mathbb Z} f(x,y)$
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    Let $X,Y$ be DRVs with Joint PDF
+    \[
+        f(x,y)=kq^{x+y-2}p^2
+    \]
+    Find $k$.
+    \solution
+    We use the fact that the PMFs have to add up to 1
+    \[
+        kp^2/q \times \sum q^x \sum q^y
+    \]
+    Recall geometric series and the fact that 
+    \[
+        \sum_y q^y = \frac q {1-q}
+    \]
+\end{example}
+
+\begin{example}
+    \[
+        f(x,y)=q^{x+y-2}p^2
+    \]
+    Find the Marginal of $X$
+    \solution
+    \[
+        P(X=x)= \sum_{y\in\mathbb Z} f(x,y)
+    \]
+\end{example}
+You can always get the marginal with a Joint PMF
+
+\begin{example}
+    Find $P(X<Y)$
+    \solution
+    $P(X<$
+    You fix one value and look how the other behaves
+\end{example}
+
+\subsection{The Multinomial Distribution}
+\newcommand{\mult}{\textup{Mult}}
+$n$ is the number of trials, and there are $k$ possible outcomes. Outcome $i$ has a probability $p_i$. The probabilies are constant and the trials are independent. $X_1,X_2,...,X_k$ represents the number of outcomes of type $i$. 
+
+Let's say $k=4$ people are run a 100 meter race every week. Each person has a probability of winning $p_i$ for $i=1,2,3,4$. 
+
+
+
+
+The marginal of a mutlinomail is binomial

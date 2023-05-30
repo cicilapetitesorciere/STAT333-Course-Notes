@@ -1,0 +1,451 @@
+\section{Named Continuous Distributions}
+\subsection{The Uniform Distribution}
+Once again we start simple. The \textbf{Uniform Distribution} treats all possible values of a CRV $X$ as equally likely, so long as they fall within some finite interval of possible values. This is often a good starting point when we have very little information and must liberally apply Occam's razor. For instance imagine you tie a ribbon to one of the spokes of a bicycle wheel and then let it spin for 3 seconds. Let $X$ be a CRV representing the difference in angle (measured in radians) between the ribbon's starting point and its ending point. If we knew exactly how fast the wheel spun for those 3 seconds, we might be able to predict where exactly the ribbon stopped. But barring that knowledge, it doesn't really make a whole lot of sense to favour any one possibility over another. All we know is that $X$ is between 0 and $2\pi$, and thus it makes sense to treat the PDF of $X$ as a constant on $[0,2\pi)$ (which we will consider equivalent to the closed interval $[0,2\pi]$ since point probabilities are all zero). Symbolically
+\[
+    f(x)=\begin{cases}
+        c & 0\le x \le 2\pi
+        \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+for some constant $c$. To find the exact value of $c$ we can take the integral of $f(x)$
+\[
+    1=\int_{-\infty}^\infty f(x)dx=\int_0^{2\pi} c dx=2\pi c
+\]
+And thus, dividing both sides by $2\pi$ we get $c=\nicefrac 1 {2\pi}$. More generally, we say that if $X$ has a Uniform Distribution over the interval $[a,b]\subset\mathbb R$ (or equivalently $X\sim U(a,b)$), then the PDF of $X$ is
+\[
+    f(x)=\begin{cases}
+        \frac 1 {b-a} & a\le x \le b
+        \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+
+\begin{theorem}[Properties of the Uniform Distribution]
+    Let $X\sim U(a,b)$ for some $a<b$ and let $F(x)$ and $f(x)$ be the CDF and PDF of $X$ respectively. Then
+    \begin{enumerate}
+        \item $F(x) = \begin{cases}
+            0 & x \le a\\
+            \displaystyle\frac{x-a}{b-a} & a\le x \le b\\
+            1 & x \le b
+        \end{cases}$
+        \item $M_X(t)=\displaystyle\frac{e^{bt}-e^{at}}{(b-a)t}$
+        \item $\E(X)=\displaystyle\frac{a+b} 2$
+        \item $\Var(X)=\displaystyle\frac{(b-a)^2}{12}$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item We first consider the case that $a\le x\le b$. Then
+            \[
+                F(x)=\int_a^x \frac 1 {b-a} dz = \frac{x-a}{b-a}
+            \]
+            In the case that $x<a$, then this is just an integral over zero. And in the case that $x>b$ we can decompose the integral to get
+            \[
+                F(x)=\int_a^b \frac 1 {b-a} dz + \int_b^x \frac 1 {b-a} dz
+            \]
+            The first of the two integrals evaluates to 1 and the second is another integral over zero.
+            \item Using the definitions of the MGF and the Expectation of a CRV we get
+            \[
+                M_X(t)=\E\left(e^{tX}\right)=\int_a^b \frac 1 {b-a} e^{tx} dx=\frac{e^{bt}-e^{at}}{(b-a)t}
+            \]
+            \item Using the definition of Expectation for CRVs we get
+            \[
+                E(X)=\int_a^b \frac x {b-a} dx=\frac{b^2-a^2}{2(b-a)}
+            \]
+            Notice that the denominator is a difference of squares. Hence we can factor it and get
+            \[
+                E(X)=\frac{(b-a)(b+a)}{2(b-a)}=\frac{a+b} 2
+            \]
+            \item For the second Moment, we get the formula
+            \[
+                E(X^2)=\int_a^b \frac {x^2} {b-a} dx=\frac{b^3-a^3}{3(b-a)}=\frac{a^2+ab+b^2} 3 = \frac{4a^2+4ab+4b^2}{12}
+            \]
+            and the square of the first Moment is 
+            \[
+                [E(X)]^2 = \frac{3a^2+6ab+3b^2}{12}
+            \]
+            From this we get
+            \[
+                \Var(X)=\frac{a^2-2ab+b^2} {12}= \frac{(b-a)^2} {12}
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+\subsubsection{Universality of the Uniform Distribution}
+One very useful property of Uniform Distributions is that they are often very easy for computers to simulate, especially $U(0,1)$. It is for this reason that the following theorem is incredibly useful in numerical computation:
+\begin{theorem}[The Universality Theorem]
+    Let $X$ be some continuous CRV with CDF 
+    \[
+        F(x)=\begin{cases}
+            0 & x\le a
+            \\
+            \varphi(x) & a\le x \le b
+            \\
+            1 & x\le b
+        \end{cases}
+    \]
+    for some interval $a\in\mathbb R$, some $b\in\mathbb R\cup\{\infty\}$ and some invertible function $\varphi(x)$ such that $\varphi(a)=0$ and $\lim_{x\to b}\varphi(x)=1$. Then let $Y=F(X)$. Since $X$ (not to be confused with $x$) is not a real number but rather a CRV, $F$ acts as a transformation producing CRV $Y$. The distribution of $Y$ is known. Namely $Y\sim U(0,1)$
+    \begin{proof}
+        The CDF of $Y$ is 
+        \[
+            P(Y\le y)= P(F(X)\le y)
+        \]
+        Since $F$ is a CDF, its range is $[0,1]$. From this we are able to conclude that 
+        \begin{align*}
+            y\ge 1 &\implies P(F(X)\le y)=1
+            \\
+            y\le 0 &\implies P(F(X)\le y)=0
+        \end{align*}
+        We will now consider the case that $0 \le y\le 1$. On this interval, $F(x)=\varphi(x)$ and is therefore invertible, giving us
+        \[
+            P(Y\le y)=P(X\le\varphi^{-1}(y))=\varphi(\varphi^{-1}(y))=y
+        \]
+        Thus we get
+        \[
+            P(Y\le y)=\begin{cases}
+                0 & y \le 0
+                \\
+                y & 0\le y \le 1
+                \\
+                1 & y \ge 1
+            \end{cases}
+        \]
+        which is simply the CDF for a $U(0,1)$.
+    \end{proof}
+\end{theorem}
+
+This gives us an easy way to simulate almost all other possible distributions using just the $U(0,1)$. We start by generating some $u$ from a $U(0,1)$ and then transform it to our new distribution using $F^{-1}(u)$.
+\begin{example}
+    Suppose your boss is interested in a distribution with the following PDF
+    \[
+        f(x)=\begin{cases}
+            e^{-x} & x> 0
+            \\
+            0 & \text{otherwise}
+            \end{cases}
+    \]
+    You are given $n$ readings from a $U(0,1)$: $u_1, u_2,...,u_n$. Generate $n$ samples following the distribution your boss is interested in.
+    \solution
+    We first need to calculate the CDF associated with $f(x)$, which we can do by integrating
+    \[
+        F(x)=\int_{\infty}^x f(z)dz = \begin{cases}
+            0 & x < 0
+            \\
+            1-e^{-x}& x\ge 0
+        \end{cases}
+    \]
+    Notice that for $\phi(x)=1-e^{-x}$
+    \begin{enumerate}
+        \item $\varphi(0)=0$
+        \item $\displaystyle\lim_{x\to\infty}\varphi(x)=1$
+        \item $\varphi(x)$ has an inverse, namely $\varphi^{-1}(x)=-\ln(1-y)$
+    \end{enumerate}
+    Thus $-\ln(1-u_i)$ for $i=1,2,...,n$ follows the distriubtion your boss is interested in.
+\end{example}
+\todo: THIS FEELS... THERE'S STILL SOME HOLES HERE THAT NEED PATCHING
+
+\subsection{The Exponential Distribution}
+\newcommand{\expon}{\textup{Exp}}
+Suppose you have a single atom of uranium-235. Being unstable, the atom could spontaneously decay into thorium-231 at any given moment, and you determine that the probability of this happening over the course of any given year is $\lambda$. To model this situation, we could imagine coming into the lab every year on January 1st and checking if the atom has decayed or not. Each year we check is a Bernoulli trial with $p=\lambda$. This means that the number of years $N$ the atom takes to decay would follow a Geometric Distribution and hence the CDF is
+\[
+    F_1(x)
+    = P(N\le x)
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-(1-\lambda)^x & x\ge 1
+    \end{cases}
+\]
+However, what is the probability that it decays within 2.5 years for example? To tackle this, lets image that we check on the atom every month. These would also be Bernoulli trials, however the probability of a success (i.e. finding thorium instead of uranium) would be twelve times smaller. i.e. 
+\[
+    P(N_{\frac 1{12}}\le x)
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-\left(1-\frac \lambda {12}\right)^x & x\ge 1
+    \end{cases}
+\]
+where $N_{\nicefrac 1{12}}$ is the number of months the atom takes to decay. Since $2.5$ years is equivalent to 30 months, the probability that the atom decays within 2.5 years is simply $P(N_{\nicefrac 1{12}} \le 30)$. However, if we still wanted to measure it in years we could create a new CDF for $N$ that supports not only integers, but $\{\nicefrac 1{12} , \nicefrac 2{12}, \nicefrac 3{12},...\}$ as well:
+\[
+    F_{\frac 1{12}}(x) 
+    = P\left(N_{\frac 1{12}}\le 12x\right)
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-\left(1-\frac \lambda {12}\right)^{12x} & x\ge \frac 1{12}
+    \end{cases}
+\]
+We can generalize this to checking $k$ times per year (at regular intervals) and get
+\[
+    F_{\frac 1k}(x) 
+    = \begin{cases}
+        0 & x \le 0
+        \\
+        1-\left(1-\frac \lambda k\right)^{kx} & x\ge \frac 1k
+    \end{cases}
+\]
+This of course raises the question: what happens as $k\to\infty$, i.e. instead of having distinct trials at regular intervals what if we just watch it 24 hours a day? Doing this we get
+\begin{align*}
+    \lim_{k\to\infty} F_{\frac 1k}(x) 
+    &= 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        \displaystyle\lim_{k\to\infty}\left[1-\left(1-\frac \lambda k\right)^{kx}\right] & x\ge \displaystyle\lim_{k\to\infty}\tfrac 1k
+    \end{cases}
+    \\
+    &= 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-\varphi_\lambda(x) & x > 0
+    \end{cases}
+\end{align*}
+where 
+\[
+    \varphi_\lambda(x) =\displaystyle\lim_{k\to\infty} \left(1-\frac \lambda k\right)^{kx}
+\]
+Taking the logarithm of $\varphi_\lambda(x)$ we get
+\begin{align*}
+    \ln\varphi_\lambda(x) & = \lim_{k\to\infty} kx\ln\left(1-\frac \lambda k\right)
+    \\              & = \lim_{k\to\infty} \frac{\ln\left(1-\frac \lambda k\right)}{\frac 1 {kx}}
+    \\              & = \lim_{k\to\infty} \frac{\left(\frac 1{1-\nicefrac \lambda k}\right)\left(\frac \lambda {k^2}\right)}{-\frac 1 {k^2 x}} \tag{By L'H${\hat{\textup o}}$pital's Rule}
+    \\              & = -\lambda x\lim_{k\to\infty} \left(\frac 1 {1-\frac \lambda k}\right)
+    \\              & = -\lambda x
+\end{align*}
+And hence
+\[
+    \varphi_\lambda(x)=e^{-\lambda x}
+\]
+giving us
+\[
+    \lim_{k\to\infty} F_{\frac 1k}(x) = 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-e^{-\lambda x} & x > 0
+    \end{cases}
+\]
+Let's call this function $F(x)$ and note that since for all $\lambda \in (0,1)$
+\[
+    \lim_{x\to 0} \left[1-e^{-\lambda x}\right]=0 
+\]
+$F(x)$ is continuous and can in fact be written
+\[
+    F(x) = 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-e^{-\lambda x} & x \ge 0
+    \end{cases}
+\]
+We will now show that $F(x)$ is a valid continuous CDF
+\begin{proof}
+    We first show that $F(x)\in[0,1]$ for all $x\in\mathbb R$: Let $x^*\in\mathbb R$. If $x^*\le 0$ then $F(x^*)=0$. If $x^*> 0$ then we know that $e^{-\lambda x^*}\in (0,1)$, and thus $F(x^*)\in (0,1)$. 
+    \\\\
+    We now show that $F$ is nondecreasing: Let $x_1,x_2\in\mathbb R$ such that $x_1<x_2$. Taking the derivative of $F(x)$ we get
+    \[
+        \forall x\in(0,\infty), F'(x)=\lambda e^{-\lambda x}
+    \]
+    which given the properties of the exponential function is positive. Thus if $x_2>x_1>0$ then $F(x_2)>F(x_1)$. In the case that $x_1\le 0$ then we know that $F(x_1)=0$. And since the we have shown that $F$ is nonnegative across its domain, this implies that $F(x_2)\ge F(x_1)$.
+    \\\\
+    Finally since $F$ is continuous it is also right continuous.     
+\end{proof}
+
+It seems we have stumbled upon a new continuous distribution, and in fact this distribution has a name: the \textbf{Exponential Distribution}, often written $X\sim\expon(\lambda)$. The parameter $\lambda$ is known as the ``rate", however there is also another useful quantity $\mu=\nicefrac 1 \lambda$ known as the ``mean". Be advised that some statisticians will use $X\sim\expon(\mu)$ to mean $X$ has an Exponential Distribution with mean $\mu$.
+\begin{theorem}[Properties of the Exponential Distribution]
+    Let $X\sim\expon(\lambda)$ with PDF $f(x)$ and CDF $F(x)$. Then
+    \begin{enumerate}
+        \item $f(x)=\begin{cases}
+        \lambda e^{-\lambda x} & x \ge 0
+        \\
+        0 & x < 0
+        \end{cases}$
+        \item $\E(X)=\displaystyle\frac 1 \lambda$
+        \item $\Var(X)=\displaystyle\frac 1 {\lambda^2}$
+    \end{enumerate}
+    The proofs for all of these properties are very straightforward and are left as an exercise.
+\end{theorem}
+
+\begin{theorem}[Memorylessness of the Exponential]
+    The Exponential Distribution is the only Memoryless continuous distribution.
+    \begin{proof}
+        Recall the definition of Memorylessness
+        \[
+            P(X\ge s+t| X>s)=\frac{1-F(s+t)}{1-F(s)}
+            =\frac{e^{-\lambda (s+t)}}{e^{-\lambda s}}
+            =e^{-\lambda s}
+            =P(X>t)
+        \]
+        \todo
+    \end{proof}
+\end{theorem}
+
+
+
+\subsection{The Weibull Distribution}
+Is the Exponential Distribution good for measuring human lifetime? Suppose we let $X\sim \expon(\lambda)$ represent the lifespan of a person, and imagine we have two people: newborn baby and an 80-year-old. Which of the two do you suppose is most likely to still be alive in 20 years? Certainly the baby, right? However the model we've constructed would say otherwise. Since the Exponential Distribution is Memoryless, our model would tell us that
+\[
+    P(X\ge 100 | X \ge 80) = P(X\ge 20)
+\]
+In other words, both people apparently have an equal chance of surviving the next 20 years. This is a flaw in the model, however it is solved by a distribution known as the \textbf{Weibull Distribution} which has the following CDF:
+\[
+    F(x) = 
+    \begin{cases}
+        0 & x \le 0
+        \\
+        1-e^{-[\lambda(x)]x} & x > 0
+    \end{cases}
+\]
+where $\lambda(x)=\lambda_0 x^r$ for some $\lambda_0\in(0,1)$ and $r\in\mathbb R$. Notice that for $r=0$ this is identical to the CDF of the Exponential Distribution with $\lambda =\lambda_0$. However using something like $r=1$ we end up with something resembling an Exponential Distribution, but where the value of $\lambda$ increases linearly with $x$ (i.e. as time passes).  
+
+
+\subsection{The Gamma and Erlang Distributions}
+\newcommand{\gam}{\textup{Gam}}
+To talk about the \textbf{Gamma Distribution} we must first talk about the \textbf{Gamma Function} which is defined for all positive real numbers $\alpha$ as
+\[
+    \Gamma(\alpha)=\int_0^\infty x^{\alpha - 1} e^{-x} dx
+\]
+
+\begin{theorem}[Properties of the Gamma Function]
+    $ $
+    \begin{enumerate}
+        \item $\Gamma(\alpha+1)=\alpha\Gamma(\alpha)$
+        \item $\forall n\in\{1,2,...\},\Gamma(n+1)=n!$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Plugging $\alpha+1$ into the Gamma function we get
+            \begin{align*}
+                \Gamma(\alpha+1) & = \int_0^\infty x^{\alpha} e^{-x} dx
+                \\             & = -x^\alpha e^{-x}\Big\vert_0^\infty - \int_0^\infty (\alpha x^{\alpha-1}) (-e^{-x}) dx \tag{Using integration by parts}
+                \\             & = \alpha \Gamma(\alpha)
+            \end{align*}
+            \item From this we get that for $n\in\{1,2,...\}$
+            \[
+                \Gamma(n+1)=n\Gamma(n)=n(n-1)\Gamma(n-1)= \cdots = n! \Gamma(1) = n!
+            \]
+            since
+            \[
+                \Gamma(1)=\int_0^\infty e^{-x} dx=1
+            \]
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+
+
+From this we define the Gamma Distribution
+\begin{definition}
+    We say $X\sim\gam(\alpha,\beta)$ if the PDF of $X$ is
+    \[
+        f(x)=\begin{cases}
+            \displaystyle\frac {x^{\alpha-1} e^{\frac x \beta}}{\Gamma(\alpha)\beta^\alpha} & x \ge 0
+            \\
+            0 & x \le 0
+        \end{cases}
+    \]
+\end{definition}
+We can show that $f(x)$ as defined above is a valid PDF
+\begin{proof}
+    Let $t=x/\beta$, we get
+
+\end{proof}
+
+There are some notable special cases of the Gamma Distribution. If $\alpha = 1 $
+\[
+    f(x)=\frac 1\beta e^{-\frac x \beta}
+\]
+We should recognize this as the PDF for the Exponential distribution with mean $\beta$. In other words, the Exponential Distribution is simply a special case of the Gamma Distribution. When $\beta=1$ we get
+\[
+    f(x)=\frac{x^{\alpha-1}e^{-x}}{\Gamma(\alpha)}
+\]
+This function is interesting since the numerator is simple te integrand of the denominator. In cases where $\alpha$ is an integer, we may call the Gamma Distribtuion the Erlang distribution.
+\begin{theorem}
+    Let $k$ be any positive integer and let $X\sim \Gamma(\alpha,\beta)$. Then
+    \[
+        \E(X^k)=\beta^k \frac{\Gamma(\alpha+k)}{F(\alpha}
+    \]
+    
+\end{theorem}
+
+\begin{theorem}[Properties of the Gamma Distribution]
+Let $X\sim\gam(\alpha,\beta)$. Then
+\begin{enumerate}
+    \item $M_X(t)=\frac 1 {(1-\beta t)^\alpha}$
+\end{enumerate}
+    
+\end{theorem}
+
+\begin{theorem}
+    {Properties of the Gamma Distribution}
+    \begin{enumerate}
+        \item[]
+        \item The MGF of $X$ is 
+        %\item If $\alpha$ is an integer, then $X=Y_1+Y_2+\cdots Y_\alpha$ where $Y_i\simiid \text{Exp(\beta)}$ for $i=1,2,...,\alpha$.
+    \end{enumerate}
+    \begin{enumerate}
+        \item This can be shown using Theorem \todo using $k=1$
+        \item We can also find $\E(X^2)$ similarly which gives us
+    \end{enumerate}
+\end{theorem}
+
+From this we see that the Erlang Distribtuion is the continous analogue of the Negative Binomial.
+
+
+
+\subsection{The Normal Distribution}
+$X\sim N(\mu,\sigma^2)$ if
+\[
+    f(x)=\frac 1 {\sqrt{2\pi}\sigma}e^{-\frac 12 (...)}
+\]
+
+\[
+    \phi(z)=\int_{-\infty}^\infty \frac 1 {2\sqrt{2z}} e^{-\frac {z^2} 2}dz
+\]
+One very important normal is the standard normal $Z\sim N(0,1)$
+
+Let $t=z^2/2$. Then $dt=zdz$. ...
+
+Why do we are about the normal  distribution.
+
+Pivotal value $Z=\frac{X-\mu}\sigma$
+
+68\% of observations lie within $\mu\pm \sigma$, 95\% of observations lie between 2 standard deviations of the mean. And 99\% of the results lie between 3 standard deviations.
+
+Any time you're testing hypothesis, $3\sigma$ test....
+
+
+THe main reason why we care about the normal is the central limit theorem. The great thing about the normal distribution is that if you add up a bunch of things, it will beome normal. 
+
+Law of large numbers
+Let $X_1,X_2,...,X_n$ be some set of Independent and Identically Distriubted Random Variabes on some distribution such that $E(X_i)=\mu$ and $E$
+
+Eventually everything converges to the average
+
+If we take a lot of measurements, the average will go to their mean when we take a lot of observations
+
+The central limit theorem however says that this will approach with a normal distribution.
+
+All averages start behaving like a normal
+
+Say we have a class project where we go around the city anfd try and find the average income of people in waterloo. If we each take a sample of 50 people, it will approach a normal.
+
+It doesn't matter what $X$ is, it can be discrete continuous, geometric, gamma, 
+
+This seems very general, we make almost no solutions on $X$
+
+
+
+
+
+
+
+\subsection{End-of-the-section Problems}
+\begin{enumerate}
+    \item Show that the MGF of $X\sim \text{Exp}(\mu)$ \todo
+    \item Find the PDF of $X\sim U(0,\nicefrac 1 2)$ and show that it is a valid PDF, but discuss why it could not be used to represent probabilities
+\end{enumerate}

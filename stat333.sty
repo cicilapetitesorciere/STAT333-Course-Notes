@@ -1,0 +1,50 @@
+\setlength\parindent{0pt}
+
+\newmdtheoremenv[
+    backgroundcolor=green!5!white,
+    linecolor=green!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{example}{Example}[section]
+\NewDocumentCommand{\solution}{o}{%
+    \par\medskip% Add some vertical space
+    \noindent% Remove paragraph indentation
+    \IfValueTF{#1}{% If an optional argument is provided
+        \textbf{\textup{#1:}}% Use the provided argument as the solution heading
+    }{%
+        \textbf{\textup{Solution:}}% Default solution heading
+    }%
+    \quad% Add some horizontal space
+}
+
+\newmdtheoremenv[
+    backgroundcolor=blue!5!white,
+    linecolor=blue!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{definition}{Definition}[section]
+
+\newmdtheoremenv[
+    backgroundcolor=yellow!5!white,
+    linecolor=yellow!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{theorem}{Theorem}[section]
+
+\newmdtheoremenv[
+    backgroundcolor=yellow!5!white,
+    linecolor=yellow!75!black,
+    font=\normalfont\bfseries,
+    innertopmargin=6pt,
+    splittopskip=\topskip,
+]{lemma}{Lemma}[section]
+
+\newtcolorbox[auto counter,number within=section]{notsofast}[1][]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    fonttitle=\bfseries,
+    title=\emph{Not So Fast!}
+}

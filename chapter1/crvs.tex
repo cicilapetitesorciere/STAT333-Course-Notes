@@ -1,0 +1,73 @@
+\section{Continuous Random Variables}
+Suppose you throw a dart at a dartboard and measure how far from the centre it lands. How might we model this situation mathematically? We will assume that the dart does in fact hit the board, i.e. we assume $P(X\le r)=1$ where $r$ is the radius of the board.
+
+
+
+
+Suppose we throw a dart at a dartboard with some radius $r$ and let $X$ and $Y$ be Random Variables measuring the horizontal and vertical distance respectively of the dart from the centre. Since $X$ and $Y$ represent a distances it is entirely possible for it to take non-integer values, hence they are not DRVs but rather a \textbf{Continuous Random Variables} (CRVs). Now let's assume that $X$ and $Y$ are Independent and that the dart is equally likely hit anywhere on the board. What is the Probability of that the dart hits the exact centre of the board $X=Y=0$? This is one possible point out of an infinite number of possibilities, so the Probability is infinitesimally small. This means that PMFs are not particularly useful in when trying to describe CRVs and so we will not use them. However, it is still perfectly reasonable to ask about the probability of the dart landing on the left half of the board, and so we can still describe 
+
+
+
+
+
+
+
+
+What is the probability that $X=0$? There are an uncountably infinite number of points on the board the dart could hit, and only one has a distance of exactly zero from the centre. Thus the probability is zero, as is the probability of hitting any exact location. This makes the definition of PMFs useless for CRVs, however we can still use CDFs. For instance, there is a non-zero probability that $X\le 0.5$. And in fact, one arguable benefit of point probabilities being zero is that in all cases for CRVs\[
+    P(X\le x)= P(X< x)
+\]
+Just as in the discrete case, we will often use $F(x)$ to represent the CDF of a CRV, which follows all of the same axioms outlined in \ref{cdf_axioms}, except that it is generally not a step function. And though we cannot use the PMF, we can use the CDF to define its continuous analogue, the \textbf{Probability Density Function} (PDF) $f(x)$ such that
+\[
+    f(x) = \begin{cases}
+        F'(x) & \text{where $F(x)$ is differentiable}
+        \\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+\begin{theorem}[Properties of the PDF]
+    Let $X$ be some CRV with PDF $f(x)$ and CDF $F(x)$. Then
+    \begin{enumerate}
+        \item $\forall x\in\mathbb R, f(x)\ge 0$
+        \item $F(x)=\int_{-\infty}^x f(z)dz$
+        \item For any $a,b\in\mathbb R$ such that $b>a$, $P(a\le X\le b)=\int_a^b f(x)$
+        \item $\int_{-\infty}^\infty f(x)dx = 1$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Recall from \ref{cdf_axioms} that a CDF is nondecreasing. In other words, its derivative (the PDF) must be nonnegative across its domain.
+            \item This follows from the fundamental theorem of calculus and the properties of a CDF, namely the fact that
+            \[
+                \lim_{x\to-\infty} F(x)=0
+            \]
+            \item Starting with the LHS we get
+            \[
+                P(X\le b)=P(X< a)+P(a\le X\le b)
+            \]
+            giving us
+            \[
+                P(a\le X\le b)=P(X\le b)-P(X<a)=F(b)-F(a)
+            \]
+            which is equal to the RHS by the fundamental theorem of calculus.
+            \item
+            From this we get
+            \[
+                \int_{-\infty}^\infty f(x)dx = \lim_{x\to \infty} F(x) -\lim_{x\to -\infty} F(x)
+            \]
+            which by the properties of a CDF is equal to $1$.
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+\begin{notsofast}
+    The PDF does not return probabilities. Rather the area underneath the the PDF is a probability. This means that it is completely possible for a PDF to return values greater than 1.
+\end{notsofast}
+
+We use the PDF to extend the definition of Expectation to CRVs
+\begin{definition}[Expectation of a CRV]
+Let $X$ be a CRV with PDF $f(x)$. Then
+    \[
+        E(X)=\int_{-\infty}^\infty x f(x) dx
+    \]
+\end{definition}
+From this we are able to determine the Variance of a CRV just as we did in the discrete case.

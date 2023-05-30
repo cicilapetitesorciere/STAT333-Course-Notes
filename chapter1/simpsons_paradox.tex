@@ -1,0 +1,47 @@
+\section{Simpson's Paradox}
+Let us return to one of the problems we considered at the end of \ref{sec:problaw_eosp}: Suppose we have two doctors (we will call them Bart and Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate? Counter-intuitively, the answer is ``yes". How is this possible? Well consider the following data set:
+\vspace{15px}
+\begin{center}
+Dr. Lisa (total success rate: 80\%)\\
+\vspace{5px}
+\begin{tabular}{c|cc }
+& \textbf{Neurosurgery} & \textbf{Bandaging} \\ 
+\hline
+\textbf{Successes} & 70 & 10 \\  
+\textbf{Failures} & 20 & 0 \\
+\hline
+\textbf{Success Rate} & 78\% & 100\% 
+\end{tabular}
+\end{center}
+
+\vspace{15px}
+\begin{center}
+Dr. Bart (total success rate: 83\%)\\
+\vspace{5px}
+\begin{tabular}{c|cc}
+&\textbf{Neurosurgery} & \textbf{Bandaging} \\ 
+\hline
+\textbf{Successes} & 2 & 81 \\  
+\textbf{Failures} & 8 & 9 \\
+\hline
+\textbf{Success Rate} & 20\% & 90\% 
+\end{tabular}
+\vspace{15px}
+\end{center}
+
+The lesson here is that sometimes if we just add up the totals and don't account for confounding variables, our results will be misleading. If you were to choose one of these doctors based on their overall success rate alone, you might choose Dr. Bart, despite the fact that Dr. Lisa is clearly a better doctor. This phenomenon is known as Simpson's paradox, named not after the hit television series but rather British statistician Edward H. Simpson who first described it in 1951 (\todo http://math.bme.hu/~marib/bsmeur/simpson.pdf). And since then, there have been many cases of analysts falling victim to it.
+
+\subsection{Batting averages}
+\todo One of the things that matters in baseball is a players batting average -- i.e. the proportion of times that a batter is successful. 300 means 30\%, which is very very good. Derek Jeter and David Justice. In 1995 and 1996 Justice has a better average than Jeter (CONFIRM). However if you just add them up, 
+??????????????
+\subsection{Racism on death row}
+\todo Florida looked at all convicted murderers, and looked at what proportion were sentanced to death. They wanted to see if black people were sentenced to death more often then white people. Was there discrimination. Is there discrimination when it comes to the death penalty? They found that white defindents got sentenced to death 11\% of the time, but blakc people only got sent to death 7.9\% of the time. So this would seem to oppose the hypothesis. In fact, it seems that white people are being sent to death far more often. 
+
+However lets look a little more deeply into the data and look at the victim's race, where you can see that this is really what matters. ???? Black people murder more black people, white people murder more white people, and those who murder white people get the death penalty more often. 
+
+This is called a confounding variable
+
+
+
+
+

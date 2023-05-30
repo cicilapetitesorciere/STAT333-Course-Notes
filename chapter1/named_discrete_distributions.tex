@@ -1,0 +1,411 @@
+\section{Named Discrete Distributions}
+\subsection{The Bernoulli Distribution}
+\newcommand{\ber}{\textup{Ber}}
+Let $X$ be some $p\in[0,1]$ and consider a DRV $X$ with the following PMF
+\[
+    \begin{array}{c|c}
+         x & f(x) \\
+         \hline
+         0 & 1-p \\
+         1 & p
+    \end{array}
+\]
+This is a valid PMF since $(1-p)+p=1$. It is a very simple distribution, but an important gateway to several other distributions -- important enough to warrant a name: \textbf{The Bernoulli Distribution}. We may state that a DRV $X$ has a Bernoulli distribution with a given $p$-value as $X\sim\ber(p)$.
+\begin{theorem}[Properties of the Bernoulli Distribution]
+    Let $X\sim\ber(p)$ for some $p\in[0,1]$. Then
+    \begin{enumerate}
+        \item $\E(X)=p$
+        \item $\Var(X)=p(1-p)$
+    \end{enumerate}
+
+    The proof of this is left as an exercise to the reader.
+\end{theorem}
+\label{thm:propsbin}
+\subsubsection{Indicator Random Variables}
+Another important use for Bernoulli distribution are \textbf{Indicator Random Variables}. Suppose we have some Event $A$. The \textbf{Indicator Variable} for $A$ is as follows
+\[
+    I_A=\begin{cases}
+        1 & \text{if $A$ occurs}\\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+This gives us a bridge from probabilities to averages.
+\begin{example}[DeMontfort's Problem Revistied]
+    Recall DeMontfrot's Problem. Let $X$ be the number of letters that end up in the correct envelope. Find $\E(X)$.
+    \solution
+    Let $I_i$ be an Indicator Variable signalling hat the $i$th letter is in the correct envelope. We can then write
+    \[
+        X=\sum_{i=1}^n I_i
+    \]
+    Then by Linearity
+    \[
+         E(X)=\sum_{i=1}^n E(I_i) = \sum_{i=1}^n \frac 1n = 1
+    \]
+\end{example}
+\begin{example}[Bluejays v. Redsox]
+    Suppose the Bluejays are playing 17 games against the Redsox, and that the Bluejays have a 60\% chance of winning any given game. It may happen that the Redsox win one game, but then the Bluejays win the next, or that the Bluejays win one game, and the Redsox win the next. We call this a ``turnover". Find the expected number of turnovers $\E(X)$.
+    \solution
+    Let $I_i$ be an Indicator Random Variable signalling that the $i$th game was a turnover. Since the first game cannot be a turnover but all others can, $i\in[2,17]\cap\mathbb Z$. Then
+    \[
+        \E(X)=\sum_{i=2}^{17} E(I_i)=\sum_{i=2}^{17} \frac {60}{100} \times \frac{40}{100}=16\times 0.48 = 7.68
+    \]
+\end{example}
+
+\subsection{The Binomial Distribution}
+\newcommand{\simiid}{\overset{iid}\sim}
+\newcommand{\bin}{\textup{Bin}}
+Let $n$ be any positive integer and for $i=1,2,...,n$ let $I_i \simiid \ber(p)$ (where ``$\simiid$" means ``independent and identically distributed"). Then we say that $X=I_1+I_2+\cdots + I_n$ has a \textbf{Binomial Distribution} or $X\sim \bin(n,p)$.
+
+
+
+
+\begin{theorem}[Properties of the Binomial Distribution]
+    If $X=I_1+I_2+\cdots +I_n \sim \bin(n,p)$ for some $n\in\{1,2,...\}$ and $p\in[0,1]$. Then
+    \begin{enumerate}
+        \item $P(X=x)=\begin{cases}
+            \displaystyle\binom n x p^x(1-p)^{n-x} & 0\le x \le n \\\\
+            0 & \text{otherwise}
+        \end{cases}$
+        \item $\E(X)=np$
+        \item $\Var(X)=np(1-p)$
+    \end{enumerate}
+    \begin{proof}
+    
+        \begin{enumerate}
+            \item[]
+            \item There are $\binom nx$ possible ways for $x$ out of $n$ Bernoulli trials to return 1 and the remaining $n-x$ to return 0. The probability of $x$ Independent Bernoulli trials all returning 1 is $p^x$, and the probability of $n-x$ Independent Bernoulli trials all returning $0$ is $(1-p)^{n-x}$. Thus the probability of exactly $x$ out of $n$ Bernoulli trials returning 1 is $P(X=x)=\binom n x p^x(1-p)^{n-x}$. 
+            \item By the Linearity Property
+            \[
+                E(X)=\sum_{i=1}^n E(I_i)=np
+            \]
+            \item 
+            \[
+                X^2=\sum_{i=1}^n I_i^2 + \sum_{j=1}^n\sum_{\substack{i=1 \\ j\ne i}}^n I_i I_j
+            \]
+            Notice that since $I_i$ will either return 1 or 0, in all cases $I_i^2=I_i$. Also since for any $i\ne j$, $I_i$ and $I_j$ are independent, and $I_i I_j$ will return 1 if and only if both $I_i$ and $I_j$ return 1 we get
+            \[
+                E(I_i I_j)=0+1\times P(I_i=1 \land I_j=1)=P(I_i=1)P(I_j=1)=p^2
+            \]
+            Therefore
+            \[
+                \E(X^2)=\sum_{i=1}^n p + \sum_{i=1}^n\sum_{\substack{i=1 \\ j\ne i}}^n p^2 = np+n(n-1)p^2
+            \]
+            giving us
+            \[
+                \Var(X)=E(X^2)-[E(X)]^2= np+n(n-1)p^2 - n^2p^2=np(1-p)
+            \]
+        \end{enumerate}
+    \end{proof}
+    
+    
+\end{theorem}
+
+\begin{example}
+    Imagine a drunk man staggering home. He takes 20 steps, each in a random direction. What is the probability that he ends up 4 steps from where he started. We will assume that there are only two directions that he can go, and that each step has a fifty-fifty chance for going forwards versus backwards.
+
+    We can cast this as a coin flipping problem. 
+    \todo
+\end{example}
+
+\begin{example}
+    A fair coin is tossed $n$ times. What is the probability that the first toss is a head given that exactly $r $ of the first $n$ tosses are heads.
+
+    Let $A$ be the Event that the first toss was a head and let $B_{n,r}$ be the event that $r$ of the $n$ first tosses were heads. Then the quantity we are trying to find is equal to
+    \[
+        P(A|B_{n,r})=\frac{P(A\cap B_{n,r})}{P(B_{n,r})} 
+    \] 
+    $P(A\cap B_{n,r})$ is equivalent to the probability that the first toss is a head, and that $r-1$ of the remaining $n-1$ coins come up heads, both of which are Independent Events. Hence 
+    \begin{align*}
+        P(A\cap B_{n,r})
+        &=P(A)P(B_{n-1,r-1})
+        \\&=\frac 12 \times \binom{n-1}{r-1} \left(\frac 1 2 \right)^{n-1}
+        \\&=\binom{n-1}{r-1} \left(\frac 1 2 \right)^{n}
+        \\&=\frac{(n-1)!}{(r-1)!(n-r)!} \times \left(\frac 1 2 \right)^{n}
+    \end{align*}
+    We also have
+    \[
+        P(B_{n,r})=\binom{n}{r} \left(\frac 1 2 \right)^{n}=\frac{n!}{r!(n-r)!}\times \left(\frac 1 2 \right)^{n}
+    \]
+    Hence
+    \[
+        P(A|B_{n,r})=\frac{(n-1)(n-2)\cdots 1}{(r-1)(r-2)\cdots 1}\times \frac{r(r-1)\cdots 1}{n(n-1)\cdots 1}=\frac rn
+    \]
+\end{example}
+
+\subsection{The Geometric Distribution}
+    \newcommand{\geom}{\textup{Geom}}
+    Let's once again consider a sequence of independent Bernoulli trials, however we will now assume that there are an infinite number of them $I_1,I_2,...\simiid \ber(p)$. This time we let $X$ be the waiting time for the first success. For instance if $I_1$ is a success then $X$ returns 1. If $I_1$ is a failure and $I_2$ is a success then $X$ returns 2, etc. Or more generally if $I_x=1$ and $I_1=I_2=\cdots =I_{x-1}=0$, then $X=x$. In this case we say $X$ has a \textbf{Geometric Distribution} or
+    \[
+        X\sim\geom(p)
+    \]
+    The parameter $p$ here represents the probability of success on any given trial. Another useful quanitiy is the probability of failure on any given trial $q=1-p$
+    \begin{definition}{Memorylessness}
+        A DRV is said to be \textbf{Memoryless} if for all $s$ and $t$
+        \[
+            P(X>s+t\ |\ X>s)=P(X>t)
+        \]
+    \end{definition}
+    \begin{theorem}[Properties of the Geometric Distribution]
+        Let $X\sim \geom(p)$ for some $p\in [0,1]$ and $q=1-p$. Then
+        \begin{enumerate}
+            \item 
+            $
+                P(X=x)=\begin{cases}
+                    0 & x \le 0
+                    \\
+                    q^{x-1}p & x\ge 1
+                    
+                \end{cases}
+            $
+            \item 
+            $
+                P(X\le x)=\begin{cases}
+                    0 & x \le 0
+                    \\
+                    1-q^x & x\ge 1
+                \end{cases}
+            $
+            \item $\E(X)=\displaystyle\frac 1 p$
+            \item $\Var(X)=\displaystyle \frac q {p^2}$
+            \item The Geometric distribution is Memoryless (in fact it is the only Discrete Distribution with this property)
+        \end{enumerate}
+        \begin{proof}
+            \begin{enumerate}
+                \item[]
+                \item $X$ will return $x$ when the first $x-1$ trials fail and the $x$th trial succeeds. The former probability is $q^{x-1}$ and the latter is $p$.
+                \item We interpret $X>x$ to mean that that $I_1,I_2,...,I_x$ all failed (and $I_{x+1}, I_{x+2},...$ may or may not have failed or succeeded). Thus $P(X>x)=q^x$ and hence $P(X\le x)=1-q^x$.
+                \item By the definition of Expectation of a DRV
+                \[
+                    \E(X)=\sum_{x=1}^\infty xq^{x-1}p=p+2qp+3q^2p+\cdots
+                \]
+                and therefore
+                \[
+                    q\E(X)=\sum_{x=1}^\infty xq^x p=\sum_{x=1}^\infty (x-1)q^{x-1} p =  qp+2q^2p+3q^3p+\cdots
+                \]
+                From these we get
+                \[
+                    p\E(X)=\E(X)-q\E(X)=\sum_{x=1}^\infty q^{x-1}p=\sum_{x=1}^\infty P(X=x)=1
+                \]
+                We then divide both sides by $p$ to get
+                \[
+                    \E(X)=\frac 1p
+                \]
+                \item \todo
+                \item \todo
+            \end{enumerate}
+        \end{proof}
+    \end{theorem}
+    Be advised that not all mathematicians are consistent with their precise definition of a Geometric distribution, and though this is the definition we will use in this course, there is another popular one which measures the number of failures \emph{before} the first success. This subtly changes many of the above formulas. However we can easily convert between the two systems. If we let $Y$ be the number of failures before the first success, then $Y=X-1$.
+    \begin{example}
+        Jeopardy is a popular quiz show wherein three contestants face off each episode in a battle of knowledge. Out of the three, only the first-place winner gets to come back and play again in the next episode. Yet one contestant, Ken Jennings, is famous for having won 74 consecutive games. Given that, by definition, an average player has a 1 in 3 chance of winning on any given episode, what is the probability of an average player matching Ken Jenning's luck exactly?
+        \solution
+        \[
+            \left(\frac 1 3\right)^{74}\times \frac 2 3
+        \]
+    \end{example}
+\subsection{The Negative Binomial Distribution}
+\newcommand{\nbin}{\textup{NB}}
+We can generalize the Geometric Distribution, and let $X$ be the number of Bernoulli trials required to get $k$ successes. Then we say $X$ has a \textbf{Negative Binomial Distribution} or $X\sim \nbin(p,k)$.
+\begin{theorem}[Properties of the Negative Binomial Distribution]
+    Let $X\sim \nbin(p,k)$ for some $p\in[0,1]$ and $k\in\{1,2,...\}$. Then
+    \begin{enumerate}
+        \item $P(X=x)=\begin{cases}
+                \displaystyle\binom {x-1}{k-1} p^{k}(1-p)^{x-k} & x \ge k\\\\
+                0 & \text{otherwise}
+            \end{cases}$
+        \item $\E(X)=\displaystyle\frac k p$
+        \item $\Var(X)=\displaystyle\frac{k(1-p)}{p^2}$
+    \end{enumerate}
+
+    \begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item In order for $X=x$
+        \item We can split up the problem and let $T_i$ be the waiting time for the $\ell$th success where $i=1,2,...,k$. Then since $X$ is Memoryless, $T_i\simiid \text{Geom}(p)$, and $X=T_1+T_2+\cdots + T_k$. Hence
+        \[
+            \E(X)=\sum_{i=1}^k \E(T_i)=\frac k p
+        \]
+        \item Similarly, since they are independent
+        \[
+            \Var(X)=\sum_{i=1}^k \Var(T_i)=\frac{k(1-p)}{p^2}
+        \]
+    \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+Banach was a smoker. He had two matchboxes, one in each pocket, and he would choose between them by flipping a coin. 
+Suppose each matchbox has $20$ matches. Suppose he finds that matchbox right is empty. What is the probability that there are 7 matches in his left pocket. Let $X$ be the number of matches in the left matchbox. 
+
+\[
+    P(L=7)=\binom{33}{20}\todo
+\]
+
+\begin{example}
+    Supose a fair coin is tossed repeatedly and independelnytl and $X$ is the waitng time for 2 heads. Find the $E(X|HTT)$ and $E(X|TTT)$.
+
+    The remaining waiting time is still $\text{Geom}(\nicefrac 12)$. 
+
+    For $TTT$ you wait for the first head and then the second head. The first 3 tosses have happened so we add that . And then its'
+
+    \[
+        E(X|TTT)=3+\frac{1}{\nicefrac 12}+\frac{1}{\nicefrac 12}=7
+    \]
+    \todo
+        
+\end{example}
+
+\subsection{The Hypergeometric Distribution}
+\newcommand{\hyp}{\textup{Hyp}}
+Let $r,n,N\in \{0,1,...\}$ such that $N\ge r$, and imagine some bag with $N$ balls in it. $r$ of the balls have the word ``Success" written on them, and the remaining $N-r$ balls have the word ``Failure" on them. Imagine we then reach our hand into the bag and pull out one ball, then another, and another, without replacement until we have $n$ balls. This scenario can be used as a metaphor for many things we might want to do in real life, and so we will name it and study it more in depth. Let $X$ represent the number of successes we draw. We call the distribution that $X$ has ``\textbf{Hypergeometric}" and say $X\sim \hyp(N,n,r)$. What is the probability $f(x)$ that $x$ of the balls we chose have ``Success" written on them? Let's first think about the bounds of $x$. The number of successes we draw can't be more than the number of balls we draw or greater than the number of successes there are in the bag. In other words, $x\le \min\{r,n\}$. There are similar rules about the number of failures. In other words $n-x\le \min\{N-r, n\}$, which is equivalent to $x\ge \max\{0, n+r-N\}$. Hence $f(x)$ only has non-zero values on the range $\max\{0, n+r-N\}\le x \le \min\{r,n\}$. To find these non-zero values, let us notice that there are $\binom Nn$ different ways we can pick out $n$ balls, and $\binom r x \binom {N-r}{n-x}$ different ways we can select $x$ successes and $n-x$ failures. Thus we define the Hypergeometric Distribution using the following PMF
+\[
+    f(x)=\begin{cases}
+        \displaystyle\frac{\binom r x \binom {N-r}{n-x}}{\binom Nn} & \max\{0, n+r-N\}\le x \le \min\{r,n\} \\\\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+\begin{theorem}[Properties of the Hypergeometric Distribution]
+    Let \\ $X \sim \hyp(N,n,p)$. Then
+    \begin{enumerate}
+        \item $\E(x)=\todo$
+        \item $\Var(x)=\todo$
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}[Loto 649]
+    There is a very famous lottery in Canada called ``Loto 649". Players choose 6 numbers from 49 options. Later, the organizers of the game also choose 6 numbers from the same 49 randomly. If you as a player have all of those same numbers, you win first prize. With that in mind, what is the probability of winning Loto 649?
+
+    We can use the bag metaphor with a success being the commission drawing a number you selected, and a failure being them drawing a number you didn't select. This gives us $N=49$ and $n=r=x=6$ giving us a probability of
+    \[
+        \displaystyle\frac{\binom 6 6 \binom {43}{0}}{\binom {49}{6}}=\frac 1{\binom {49} 6}=\frac 1 {13\,983\,816}
+    \]
+\end{example}
+Suppose we have $N=10, r=5$. Then the probability of success in the first draw is $5/10=0.5$. Then our probability of success on our next draw is $4/9\approx 0.44$ or $5/9\approx 0.56$ depending on whether or not the first draw was a success. However, let's change these numbers to $N=10\,000$ and $r=5\,000$. Just as before the probability of success on the first draw is $5000/10000=0.5$, but then the probability of success on the next draw is $4999/9999\approx 0.5$ if the first draw was a success and $5000/9999\approx 0.5$ if the first draw was a success. Since the numbers are large here, each draw has very little effect on the probability of success on each draw, very similar to a series of Bernoulli trials. However this only goes so far. After the 500th draw, the probability of success may be very different. 
+\begin{lemma}
+    If $N$ is large and $n$ is small then we can approximate a Hypergeometric with $\bin(n,r/N$
+
+
+    Let $H_{N,n}\sim\hyp(N,n,r)$ and let $B\sim\bin(r/N)$. Then for 
+    \[
+        \lim_{\substack{r\to\infty\\N\to\infty}} h_{N,n,r}(x)=b_{\frac r N}(x)
+    \]
+    Furthermore for any large fi
+    \todo
+    tl;dr The Hypergeometric is approximated by the binomail
+
+
+    \begin{proof}
+
+
+        We can model the ball scenario as a series of Bernoulli trials, albeit not independent ones, and not each with the same probability. Let $I_i$ be an Indicator Variable signalling that the $i$th draw was success. Let $I_i\sim\ber(p_i)$ for $i=1,2,...,n$ be an indicator variable signalling that the $i$th draw was a success. Let $r_i$ be the number of successes in the bag prior to the $i$th draw, and let $N_i$ be the total number of balls in the bag prior to the $i$th draw. Then $p_i=r_i/N_i$, and 
+        \[
+            p_{i+1}\in\left\{\frac{r_i-1}{N_i-1}, \frac{r_i}{N_i-1}\right\}
+        \]
+        and hence
+        \[
+            \frac{p_{i+1}}{p_i}\in\left\{\left(1-\frac{1}{r_i}\right)\frac{N_i}{N_i-1},\ \frac{N_i}{N_i-1}\right\}
+        \]
+        From this we get
+        \[
+            \left(1-\frac{1}{r}\right)^{i+1}\left(\frac N {N-1}\right)^{i+1} \le \frac{p_i}{p_1}\le \left(\frac N {N-1}\right)^{i+1}
+        \]
+        Hence by the squeeze theorem 
+        \[
+            \lim_{\substack{r\to\infty\\N\to\infty}}\frac{p_i}{p_1}=1
+        \]
+        implying that as $r$ and $N$ to infinity $p_1,p_2,...,p_n$ converge to a single value $p$. 
+
+        
+        The first draw has a probability of $\nicefrac r N$. This leaves $N-1$ balls in the bag and either $r$ or $r-1$ ``Success" balls depending on whether the first was a success or not. Hence the probability on the next draw will either be $r/(N-1)$ or $(r-1)/(N-1)$
+    \end{proof}
+    
+\end{lemma}
+
+
+
+\subsection{The Poisson Distribution}
+\newcommand{\pois}{\textup{Pois}}
+We will now talk about arguably the most important discrete distribution of all: \textbf{The Poisson Distribution}, which is defined using the following PMF
+\[
+    f(x)=\begin{cases}
+        \displaystyle\frac{e^{-\lambda }\lambda^x}{x!} & x\ge 0
+        \\\\
+        0 & \text{otherwise}
+    \end{cases}
+\]
+for some parameter $\lambda\in(0,\infty)$ often called the ``mean". This distribution is often used for counting the number of times some event happens during some period of time. For instance, the number of earthquakes that occur in Los Angeles during a 6-month period might be a good candidate for the Poisson Distribution. Whether or not a particular phenomenon follows a Poisson distribution is an empirical question, and cannot be answered mathematically. However the the Poisson distribution is often a great starting point. Typically we want phenomena which have a large number of trials each with a very low probability of success. For instance in the case of earthquakes, it is possible but very unlikely that an earthquake will occur at any given second.
+\begin{theorem}[Properties of the Poisson Distribution]
+    Let $X\sim\pois(\lambda)$ and let $Y\sim\pois(\mu)$ for some $\lambda,\mu\in(0,\infty)$ such that $X$ and $Y$ are independent. Then
+    \begin{enumerate}
+        \item $\E(X)=\lambda$
+        \item $\Var(X)=\lambda$
+        \item $X+Y\sim\pois(\lambda+\mu)$
+    \end{enumerate}
+    \todo PROOF
+\end{theorem}
+
+One useful application of the Poisson distribution is for approximating Binomial distributions with large $n$ and small $p$
+
+
+\begin{lemma}
+    Let $X\sim\bin(n,p)$ for $p\to 0$ and $n\to \infty$, but where $np=\lambda$. This is a Posson.
+    \todo
+    \begin{proof}
+    
+    
+        \[
+            f(x)=\binom nx p^x(1-p)^{n-1}
+        \]
+        We can substitute $p=\lambda/n$. This gives us
+        \[
+            f(x)=\frac{n!}{x!(n-x)!} \frac{\lambda^x}{n^x}(1-\frac \lambda n)^n (1-\lambda /n)^{-x}
+        \]
+
+        We expand to
+        \[
+            \frac{n(n-1)\cdots()}{}
+        \]
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Suppose there are 200 people in a class. Assuming that there are no leap years or twins etc., find the probability that two of them were born on January 1st.
+    \solution
+    Let $X$ be the number of people born on January 1st. The probability that any given person was born on January 1st is $p=\nicefrac 1 {365}$, and we have $n=200$ trials. Thus $X\sim\bin(200, \nicefrac 1 {365})$. However since $n$ is large and $p$ is small, we may approximate $X$ with a Poisson distribution $X\overset{approx}{\sim}\pois(\nicefrac{200}{365})$. This gives us
+    \[
+        f(2)=\frac{e^{-0.55 } 0.55^2}{2!}\approx 0.087
+    \]
+    And thus there is approximately a 9\% chance.
+\end{example}
+
+\subsubsection{The Poisson Process}
+\todo
+Let $\{N(t)\}$ be a sequence of a rivals in continuous time. $N(t)$ is a poisson process if 
+\begin{enumerate}
+    \item $N(0)=0$
+    \item The number of arrivals in $[0,t]$ is $Poi(\lambda t)$
+    \item Arrivals in disjoint intervals are independent
+\end{enumerate}
+\begin{example}[Earthquakes]
+    The number of earthquakes in an area follow a Poisson process with $\lambda = 6$ (earthquakes per year). Here you're doing lots of trials. You can think of each second as a trial. Find the probability that there are 4 earthquakes in 6 months. Then find the probability that in the next five years, two ofthem will have exactly five earthquakes. 
+
+    \begin{enumerate}
+        \item Let $N_t$ be the number of earthquakes in 6 months. Then $N_t\sim \text{Poi}(3)$. Thus we just need to find
+        \[
+            P(N_t=4)=e^{-3}\frac {3^4}{4!}
+        \]
+        \item Here we treat each year as a trial, giving us five trials. A success is getting exactly five earthquakes. The number of earthquakes in any one year follows a posson distribution and is
+        \[
+            p=e^{-5}\frac {6^5}{5!}
+        \]
+        And we plug this into a Binomial distribution
+        \[
+            p'=\binom 5 2 p^2(1-p)^{5-2}
+        \]
+    \end{enumerate}   
+\end{example}
+
+\subsection{End-of-the-Section Problems}
+\begin{enumerate}
+    \item Prove Theorem \ref{thm:propsbin}
+    \item Suppose $n$ random strangers meet at a party. Assuming all birthdays are equally likely (and ignoring leap years, twins, etc.). Find the expected number of pairs of people who share a birthday. 
+\end{enumerate}

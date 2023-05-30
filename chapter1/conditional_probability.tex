@@ -1,0 +1,91 @@
+\section{Conditional Probability}
+Let $A$ and $B$ be two Events. Then the probability of $A$ given that $B$ has occurred, denoted b y $P(A\vert B)$ is given by
+\[
+    P(A\vert B)=\frac{P(A\cap B)}{P(B)}
+\]
+We often call $P(A)$ the \textbf{Prior Probability} and $P(A\vert B)$ the \textbf{Posterior Probability}.
+\begin{notsofast}
+    A common mistake is to assume that $P(A\vert B)=P(B\vert A)$, however this is not the case. This mistake is often known as ``the Prosecutor's Fallacy". We will discuss the high-profile case from where this name originated later in the section.
+\end{notsofast}
+
+\begin{figure}
+    \centering
+    \includesvg{figures/dependence.svg}
+    \caption{An illustration of Conditional Probability. The Prior Probability $P(A)$ is $\nicefrac 5{10}$, however the Posterior Probability $P(A|B)$ is $\nicefrac 35$}
+    \label{fig:dependence}
+\end{figure}
+
+\subsection{LOTP and Bayes Rule}
+The definition of $P(A\vert B)$ is deceptively simple, but it has wide-ranging consequences. But first, we must establish yet more terminology: A \textbf{Partition} of $\Omega$ is any set of Mutually Exclusive Events $B_1,B_2,...,B_n$ such that $B_1\cup B_2\cup\cdots \cup B_n=\Omega$.
+
+\begin{theorem}[Law of Total Probability] Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$
+\[
+    P(A)=\sum_{i=1}^n P(A\vert B_i) P(B_i)
+\]
+
+\begin{proof}
+    Since $B_1,B_2,...,B_n$ form a Partition of $\Omega$, we can decompose $A$ into the following union of Mutually Exclusive Events:
+    \[
+        A=(A\cap B_1)\cup (A\cap B_2) \cup \cdots \cup (A\cap B_n)
+    \]
+    \begin{center}
+        \includesvg{figures/lotp.svg}
+    \end{center}
+    Then by Definition \ref{def:probability}
+    \[
+        P(A)=P(A\cap B_1)+ P(A\cap B_2)+ \cdots + P(A\cap B_n)
+    \]
+\end{proof}
+\end{theorem}
+
+\begin{example}
+    Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. One coin is picked at random and tossed 3 times. Find the probability that all three tosses return \emph{Heads}.
+
+    \solution
+    Let $F$ be the Event that a fair coin is chosen out of the two, and let $H^3$ be the probability of observing 3 heads. If we assume that there is an equal chance of choosing each coin, then the Prior Probability of observing $F$ and $\bar F$ are $P(F)=P(\bar F)=\nicefrac 12$, and the Posterior Probabilities of $H^3$ are
+    \[
+        P(H^3 | F) = \left(\frac 12\right)^3;\quad P(H^3 | \bar F) = \left(\frac 34\right)^3
+    \]
+    Since $F$ and $\bar F$ are a Partition of the Sample Space, we may then use the Law of Total Probability to find
+    \[
+        P(H^3) = P(H^3|F)P(F)+P(H^3|\bar F)P(\bar F)= \left(\frac 12\right)^3\times \frac 12 + \left(\frac 34\right)^3\times\frac 12
+    \]
+    or around $27\%$.
+\end{example}
+    
+
+\begin{theorem}[Bayes Rule]
+    Let $B_1,B_2,...,B_n$ be some Partition of $\Omega$. Then for any Event $A$ and any $i\in \{1,2,...,n\}$:
+    \[
+        P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{P(A)}
+    \]
+    or equivalently, using the Law of Total Probability
+    \[
+        P(B_i\vert A) = \frac{P(A\vert B_i)P(B_i)}{\sum_{i=j}^n P(A|B_j)P(B_j)}
+    \]
+    
+    The proof of this is left as an exercise to the reader. 
+\end{theorem}
+
+\begin{example}
+    Suppose you have two coins. One is fair, whereas the other one has $P(H)=\nicefrac 34$. You pick one coin at random and flip it three times. All three tosses turn up heads. What is the probability that the fair coin was chosen?
+
+    We are trying to find $P(F|H^3)$. By Bayes Rule
+    \[
+        P(F | H^3) = \frac {P(H^3| F)P(F)}{P(H^3)} = \frac{(\nicefrac 12)^3\times \nicefrac 12}{\left(\nicefrac 12\right)^3\times \nicefrac 12 + \left(\nicefrac 34\right)^3\times\nicefrac 12}
+    \]
+    or around $23\%$.
+\end{example}
+
+\subsection{The Prosecutor's Fallacy}
+Sally Clark was a British woman who lost both of her two children (apparently) to SIDS the late 1990s. This raised suspicion leading her to be tried for murder. The prosecution's case hinged on Sir Roy Meadows' argument that SIDS is very rare, only affecting around 1 in every 8500 children. Therefore the probability of two children dying of SIDS $(1/8500)^2$. In other words, there is a $99.9999986\%$ chance that she is guilty, which clearly goes beyond any reasonable doubt one could have, and so the jury convicted her (though this conviction was later overturned). There are two issues with Meadows' argument:
+First of all, the it assumes that the two deaths are are Independent Events. But are they? Perhaps there is a genetic component to SIDS which both children had, or something in the shared environment. Hence the probability of two children in the same family dying may not be all that much higher than the probability of just one. This is an important point, however on its own it does little do dispel the evidence against Mrs. Clark, since even the probability of only one child dying is rather low. In fact, had the courts tried Mrs. Clark after her only her first child, they could have made a similar argument and claimed there was a $99.988\%$ chance she was guilty based on that alone. So then by this logic, should all cases of SIDS be treated not only with suspicion but as outright proof of fowl play? Clearly this would be preposterous, and it is here we begin to really see the cracks in the Meadows' argument.
+\\\\
+Let $E$ be the probability of having two children die of SIDS, and let $I$ be the probability of the mother being innocent. If we do assume that each child dying is an Independent Event, then it is true that $P(E|I)=1/8500^2$. However, Meadows claim conflated this with $P(I|E)$. These quantities are not necessarily equal, however they are related, so it is worth asking: what \emph{can} we learn about $P(I|E)$ from $P(E|I)$. Using Bayes Rule, 
+\[
+    P(I|E)=\frac{P(E|I)P(I)}{P(E)}=\frac 1 {72\,250\,000}\times \frac{P(I)}{P(E)}
+\]
+
+\todo finish????
+
+\todo https://forensicstats.org/blog/2018/02/16/misuse-statistics-courtroom-sally-clark-case/

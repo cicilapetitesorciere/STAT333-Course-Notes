@@ -1,0 +1,106 @@
+\section{Laws of Probability}
+\subsection{Random Experiments}
+Imagine you have have a coin and you flip it twice in a row. One of several things may happen. Perhaps you get two heads ($HH$), or two tails ($TT$), or perhaps some combination of the two ($HT$ or $TH$). We can list all the possibilities of what might happen, \emph{however} we do not know what \emph{will} happen. We will observe many situations like this this course and in real life, and we refer to them as \textbf{Random Experiments}. The \textbf{Sample Space} of a Random Experiment (often denoted as $S$ or $\Omega$) is the set of all possible outcomes we may observe. For instance:
+\[
+    \Omega=\{HH,HT,TH,TT\}
+\]
+\begin{notsofast}
+The Sample Space is not unique! We may define it differently depending on what properties we are interested in. For instance, suppose we do not care about the order of the coins but simply how many heads we observe. In this case we could define the Sample Space as
+\[
+    \Omega=\{0,1,2\}
+\]
+which is equally valid.
+\end{notsofast}
+\subsection{Events and Probability}
+We are often interested in subsets of the Sample Space. For instance: what are the different ways we can get the same coin twice?
+\[
+    \{HH,TT\}\subseteq \Omega
+\]
+An \textbf{Events} is any subset of a Sample Space. Since Events are just subsets, the union and intersect of any two Events is also an Event. We say that Events $A$ and $B$ are \textbf{Mutually Exclusive} if $A\cup B=\emptyset$. From here we get the definition of \textbf{Probability}:
+\begin{definition}[Probability]
+\label{def:probability}
+A Probability is any function which maps Events to $\mathbb R$ and satisfies the following axioms:
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item $P(\emptyset) = 0$
+        \item $P(\Omega)=1$
+    \end{enumerate}
+    \item If $A_1, A_2,...$ are Mutually Exclusive Events, then
+    \[
+        P\left(\ \bigcup_{i=1}^\infty A_i\ \right) = \sum_{i=1}^\infty P(A_i)
+    \]
+\end{enumerate}
+\end{definition}
+From this one small definition, we can derive the entire field of probability theory, including the following lemmas:
+\begin{lemma}[Probability of a compliment]
+\label{lem:probability_of_a_compliment}
+    For any Event $A$ with compliment $\bar A$, $P(\bar A)=1-P(A)$
+\begin{proof}
+    Since $A$ and $\bar A$ are compliments of one another, they are mutually exclusive and satisfy
+    \[
+        A\cup \bar A = \Omega
+    \]
+    and hence
+    \[
+        P(A)+P(\bar A) = P(\Omega) = 1
+    \]
+    giving us
+    \[
+        P(\bar A)=1-P(A)
+    \]
+\end{proof}
+\end{lemma}
+
+\begin{lemma}
+    For any two Events $A$ and $B$ such that $A\subseteq B$, $P(A)\le P(B)$.
+    
+    \begin{proof}
+    Consider the Event $B\backslash A$, which is mutually exclusive to $A$. Since $A\subseteq B$ we may express $B$ as
+    \[
+        B=A\cup (B\backslash A)
+    \]
+    giving us
+    \[
+        P(B)=P(A)+P(B\backslash A)
+    \]
+    It can be shown that the probability of any Event is greater than or equal to zero (this is left as an exercise to the reader), and therefore $P(B)\le P(A)$.
+    \end{proof}
+\end{lemma}
+\begin{lemma}
+    \label{lem:probability_of_a_subset}
+    The Probability of any Event is between 0 and 1 inclusive.
+    \begin{proof}
+        Suppose we have a Sample Space $\Omega$ and let $A\subseteq\Omega$ be some Event such that $P(A)<0$. 
+    \end{proof}
+\end{lemma}
+\begin{lemma}
+    \label{lem:probability_range}
+    The Probability of any Event is between 0 and 1 inclusive.
+    \begin{proof}
+        Suppose we have a Sample Space $\Omega$ and let $A\subseteq\Omega$ be some Event. Then since $\emptyset\subseteq A$, we can conclude using Lemma \ref{lem:probability_of_a_subset} that $P(\emptyset)\le P(A) \le P(\Omega)$.
+    \end{proof}
+\end{lemma}
+
+One special case of Definition \ref{def:probability} is known as \textbf{The Classical Definition of Probability}. \todo CLASSICAL DEFINITION
+
+\subsection{End-of-the-section Problems}\label{sec:problaw_eosp}
+
+\begin{enumerate}
+    \item Which of the following has the highest probability?
+    \begin{enumerate}
+        \item Observing at least one six in 6 rolls of a fair die
+        \item At least two sixes in 12 rolls of a fair die
+        \item At least three sixes in 18 rolls of a fair die
+    \end{enumerate}
+    \item Suppose $n$ random strangers meet at a party. Assuming all birthdays are equally likely (and ignoring leap years, twins, etc.) show that if $n\ge 23$ then the probability of two people sharing the same birthday is greater than \nicefrac 12.
+    \item Suppose two fair dice are rolled. What is the probability of getting at least one six?
+    \item\textbf{(The Secretary's Problem)}
+    Suppose you have applied to three jobs and are waiting to hear back. You are pretty sure that all three companies will give you an offer, but you do not know what salary they will offer you. And after each company presents their offer, you will have to decide whether to accept or reject it, and will not have time wait around to see what the next company is planning to offer you. What is the optimal strategy for maximizing your chances of accepting the best offer?
+    \item \textbf{(DeMontfort's Problem)} 
+    \begin{enumerate}
+        \item Suppose you have 4 envelopes and 4 letters which you place in the envelopes at random such that each envelope contains exactly one letter. Find the probability that at least one of of the 4 letters ends up in the correct envelope.
+        \item Find the general solution for $n$ letters and $n$ envelopes, and show what happens when $n\to\infty$.
+    \end{enumerate}
+    \item \textbf{(Simpson's Paradox)} Suppose we have two doctors (we will call them Dr. Bart and Dr. Lisa) each performing two operations (for instance: neurosurgery and bandaging a wound). Both doctors perform each surgery with some success rate. Now here's the riddle: is it possible that Dr. Lisa is better than Dr. Bart at both neurosurgery and bandaging, and yet have a lower overall success-rate? How might this strategy generalize to $n$ offers.
+\end{enumerate}

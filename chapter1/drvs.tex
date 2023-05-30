@@ -1,0 +1,311 @@
+\section{Discrete Random Variables}
+A key step when performing any kind of experiment is measurement. Measurement can mean a lot of things, for some experiments it may involve high-tech equipment and analyzers, in others it may involve reading through surveys filled out by participants in a study, or it may be as simple as looking at a coin to see if it came up heads or not. In all cases however, the principals are the same: we perform an experiment (i.e. flipping a coin 3 times), observe some outcome $\omega$ (i.e. heads, tails, heads), and quantify something about that outcome (i.e. counting the number of times heads came up). In this sense measurements can be thought of as mappings from the Sample Space of an Experiment to numbers. When thought of in this sense, statisticians often refer to measurements as \text{Random Variables}. This is a slight misnomer since Random Variables are in fact not variables, they are functions; however it is the terminology that statisticians generally use so we are stuck with it for better or for worse. Just as there are different classes of numbers (integers, real numbers, etc.) there are also different classes of Random Variables. In this section we will discuss the class of Random Variables known as \textbf{Discrete Random Variables} (DRVs).
+\begin{definition}[Discrete Random Variable]
+    Let $\Omega$ be the Sample Space of some Random Experiment. A Discrete Random Variable (DRV) $X:\Omega\to\mathbb Z$ is a function which maps every possible outcome $\omega\in\Omega$ to some integer.
+\end{definition}
+
+\begin{figure}
+    \centering
+    \includesvg{figures/measurement.svg}
+    
+    \caption{A diagram illustrating how measurement can be thought of as a mapping between a Sample Space to numbers. Here we give the example of flipping a coin three times. The Sample Space consists of 8 possible outcomes which get mapped to 4 different integers corresponding to the number of heads that appear.}
+    \label{fig:measurement}
+\end{figure}
+
+\begin{example}
+    Suppose we flip a coin 3 times. Using DRVs, determine the probability of counting exactly 2 heads.
+    \solution
+    Let $X$ be the DRV illustrated in Figure \ref{fig:measurement}. We are interested in
+    \[
+        P\left(\{\omega\in\Omega: X(\omega) = 2\}\right)
+    \]
+    Examining Figure \ref{fig:measurement} we count that there are 3 outcomes such that $X=2$ (namely THH, HTH, and HHT), out of the 8 possible outcomes total. Thus we conclude
+    \[
+        P\left(\{\omega\in\Omega: X(\omega) = 2\}\right)=\frac 3 8
+    \]
+\end{example}
+We are very often interested in Probabilities like
+\[
+    P(\{\omega\in\Omega: X(\omega) = x\})
+\]
+or
+\[
+    P(\{\omega\in\Omega: X(\omega) \le x\})
+\]
+or
+\[
+    P(\{\omega\in\Omega: (|X(\omega)| \ne x) \land (a \le X(\omega) < b)\})
+\]
+so to save time and make things look a little neater, we often use the following shorthand to express quantities such as those shown above
+\[
+    P(X=x)
+\]
+and
+\[
+    P(X\le x)
+\]
+and
+\[
+    P((|X(\omega)| \ne x) \land (a \le X(\omega) < b))
+\]
+\subsection{Probability Mass and Distribution Functions}
+\begin{definition}[Probability Mass Function]
+    A \textbf{Probability Mass Function} (PMF) is any $f:\mathbb Z\to \mathbb R$ which satisfies the following conditions
+    \begin{enumerate}
+        \item $\forall x\in\mathbb Z, 0\le f(x) \le 1$
+        \item $\displaystyle\sum_{x\in\mathbb Z} f(x)= 1$
+    \end{enumerate}
+\end{definition}
+\begin{theorem}
+    Let $X$ be a DRV. Then the function $f(x)=P(X=x)$ is a PMF.
+    \begin{proof}
+        Since $f$ represents a Probability, we know by Lemma \ref{lem:probability_range} that $0\le f(x)\le 1$ for all $x$. Then notice that
+        \[
+            \bigcup_{x\in\mathbb Z}\{\omega\in\Omega : X(\omega)=x\}
+        \]
+        is a Partition of $\Omega$. Therefore by the second axiom of Definition \ref{def:probability} we can show that the second condition is also satisfied.
+    \end{proof}
+\end{theorem}
+
+
+We will often use PMFs as a way to 
+
+
+\begin{example}
+    Suppose we toss a (fair) coin twice and let $X$ be a DRV representing the number of heads we observe. Describe $X$ using a PMF
+    \solution
+    \[
+        P(X=x)=f(x)=\begin{cases}
+             \frac {\binom 2 x} 4 & 0\le x \le 2
+            \\
+            0 & \text{otherwise}
+        \end{cases}
+    \]
+    We can show that this is a valid PMF.
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item Exhaustive checking each $x=0,1,2$ we see that all $f$-values fall between 0 and 1. 
+            \item Adding them up we then get 1.
+        \end{enumerate}
+    \end{proof}
+\end{example}
+\begin{notsofast}
+    Do not confuse DRVs with their distributions! For instance, it is sometimes mistakenly assumed that the PMF of $2X$ is simply $2f(x)$. However this is not the case, and it is not even possible for $2f(x)$ to be \emph a PMF in the first place, let alone the PMF which correctly describes $2X$. Transforming DRVs is not so simple.
+    \\\\
+    For another common mistake, consider two DRVs $X$ and $Y$ which both have the same PMF. Are $X$ and $Y$ equal? Absolutely not! In fact, it may not even be possible to observe the same value from each of them at the same time. For a concrete example of this, suppose we flip three coins and let $X$ be the number of heads we observe, and let $Y$ be the number of tails we observe. Then the PMFs for $X$ and $Y$ are as follows:
+    \[
+        \begin{array}{ccc}
+            \begin{array}{c|c}
+                x & P(X=x) \\
+                \hline
+                0 & \nicefrac 18 \\
+                1 & \nicefrac 38 \\
+                2 & \nicefrac 38 \\
+                3 & \nicefrac 18
+            \end{array}
+            & \hspace{100px} &
+            \begin{array}{c|c}
+                y & P(Y=y) \\
+                \hline
+                0 & \nicefrac 18 \\
+                1 & \nicefrac 38 \\
+                2 & \nicefrac 38 \\
+                3 & \nicefrac 18
+            \end{array}
+        \end{array}
+    \]
+    Yet there is no scenario in which we can flip three coins and get the same number of heads as tails.
+    \begin{proof}
+        Since all coins must be either heads or tails, $x+y=3$. Suppose that $x=y$. Then we may write $2x=3$ and therefore $x$ (and by extension $y$) must not be an integer, which contradicts the real-world interpretation of $x$ and $y$.
+    \end{proof}
+\end{notsofast}
+
+\subsection{Cumulative Distribution Functions}
+Another way we can describe a Random Variable is using the Cumulative Distribution Function (CDF), often represented by $F(x)=P(X\le x)$. 
+\begin{theorem}[Properties of the CDF]
+    Let $X$ be some DRV defined by a PMF $f(x)=P(X=x)$ and let $F(x)=P(X\le x)$. Then
+    \begin{enumerate}
+        \item $F(x)=\displaystyle\sum_{k=-\infty}^x f(x)$
+        \item $f(x)=F(x)-F(x-1)$
+        \item $\forall x\in\mathbb Z$, $0\le F(x) \le 1$
+        \item $F$ is nondecreasing. In other words for any $x,y\in\mathbb Z$ such that $x<y$, $F(x)\le F(y)$
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item[]
+            \item This is trivial given the definition of $F$ and $f$
+            \item From (1) we get
+            \[
+                F(x)-F(x-1)=\sum_{k=-\infty}^x f(k) - \sum_{k=-\infty}^{x-1} f(k) =f(k)
+            \]
+            \item This follows from the fact that $F$ represents a probability 
+            \item Let $x\in\mathbb Z$ and let $y=x+s$ for some positive integer $s$. Using (1) we write
+            \[
+                F(x+s)-F(x)=\sum_{k=-\infty}^{x+s} f(k) - \sum_{k=-\infty}^{x} f(k) = \sum_{k=1}^{x+s} f(k) 
+            \]
+            which is nonnegative since it is the sum of nonnegative values
+        \end{enumerate}
+        
+    \end{proof}
+\end{theorem}
+\begin{theorem}
+    Let $F:\mathbb Z\to\mathbb R$ be a step function with the following properties
+    \begin{enumerate}
+        \item $F$ is right-continuous
+        \item $F$ is nondecreasing
+        \item $\forall x\in\mathbb Z$, $0\le F(x) \le 1$
+        \item $\displaystyle\lim_{x\to\infty} F(x)=1$
+        \item $\displaystyle\lim_{x\to -\infty} F(x)=0$
+    \end{enumerate}
+    Then $F$ is a valid CDF.
+    \begin{proof}
+        Let $f(x)=F(x)-F(x-1)$. Since $F$ is nondecreasing, $f(x)\ge 0$ for all $x\in\mathbb Z$. Furthermore, since $0\le F(x) \le 1$ for all $x\in\mathbb Z$ we know that $f(x)\le 1$. Let $a,b\in\mathbb Z$ such that $a<b$. Then
+        \begin{align*}
+            \sum_{x=a}^b f(x) & = \sum_{x=a}^b\left[F(x)-F(x-1)\right]
+            \\                & = \left[\sum_{x=a}^b F(x)\right] - \left[\sum_{x=a-1}^{b-1} F(x)\right]
+            \\                & = F(b)-F(a-1)+\left[\sum_{x=a}^{b-1} F(x)\right] - \left[\sum_{x=a}^{b-1} F(x)\right]
+            \\                & = F(b)-F(a-1)
+        \end{align*}
+        From this we get
+        \[
+            \sum_{x\in\mathbb Z} f(x)=\lim_{b\to \infty} F(b) - \lim_{a\to -\infty} F(a-1)=1
+        \]
+        Thus $f$ satisfies all the properties of a PMF.
+    \end{proof}
+\end{theorem}
+From these two theorems, we can see that both the PMF and the CDF have a one-to-one relationship and give us the exact same information, just in a slightly different form. So why bother with this entirely different way to define a DRV? The PMF and CDF can both be useful in different situations. For instance
+
+\begin{example}
+    Suppose you roll 4 dice and let $X_i$ be the face of the $i$th die. Then let $X=\max\{X_1, X_2, X_3, X_4\}$. Find the PMF of $X$
+
+    \solution[The Bad Way]
+    $X$ will return some value between 1 and 6 inclusive. For the maximum to be a $1$, we must have $X_1=X_2=X_3=X_4=1$, which has a probability of $(\nicefrac 1 6)^4$. Then the probability of the maximum being 2 is given by the probability that one of the 4 is 2 and the rest are either 1 or 2. Determining the probability of this Event would be tedious to calculate, and 3 4 and 5 will be just as tedious, so we will stop here hoping we have sufficiently made the point that this is a bad way to determine the PMF.
+    
+    \solution[The Good Way]
+    The CDF of $X_i$ for $i=1,2,3,4$ is
+    \[
+        P(X_i\le x)=\frac x 6
+    \]
+    for all $x=1,2,...,6$ (for all other $x$-values it is zero) Then $X$ will return a value less than or equal to $x=1,2,...,6$ if and only if $X_1, X_2,X_3,X_4$ all return values less than or equal to $x$. Thus
+    \[
+        P(X\le x)=\prod_{i=1}^4 P(X_i\le x)=\left(\frac x 6\right)^4
+    \]
+    Then
+    \[
+        P(X=x)= \left(\frac x 6\right)^4-\left(\frac {x-1} 6\right)^4
+    \]
+\end{example}
+
+\subsection{Expectation of a DRV}
+\newcommand{\E}{\textup{E}}
+The \textbf{Expectation} of a Random Variable describes where the average observation of a Random Variable will tend towards when repeated many many times.
+\begin{definition}[Expectation of a DRV]
+Let $X$ be a DRV with PMF $f(x)$. Then
+    \[
+        E(X)=\sum_{x\in\mathbb Z} x f(x)
+    \]
+    
+\end{definition}
+\begin{theorem}[Properties of Expectation]
+    Let $X$ and $Y$ be two DRVs
+    \begin{enumerate}
+        \item $E(X+Y)=E(X)+E(Y)$
+        \item For any transformation $g:\mathbb R\to\mathbb R$
+        \[
+            E\left[g(X)\right] = \sum_{x\in \mathbb Z} P(X=x) g(x)
+        \]
+    \end{enumerate}
+    The proof of the first property may seem relatively straightforward. However it is trickier than one might expect, especially since it applies even when $X$ and $Y$ are Dependent. We will come back to it later.
+    \todo PROOF OF SECOND
+\end{theorem}
+
+\begin{example}
+    Find $E(X^2)$ where
+    \[
+        \begin{array}{c|c}
+             x & f(x) \\
+             \hline
+             -1 & \nicefrac 13\\
+             0 & \nicefrac 13 \\
+             1 & \nicefrac 13
+        \end{array}
+    \]
+
+    \solution[The Bad Way]
+    Let $Y=X^2$. Then the PMF of $Y$ is as follows
+    \[
+        \begin{array}{c|c}
+             y & f(y) \\
+             \hline
+             0 & \nicefrac 13 \\
+             1 & \nicefrac 13 + \nicefrac 13
+        \end{array}
+    \]
+    Then 
+    \[
+        \E(Y)=\frac 23
+    \]
+    \solution[The Good Way]
+    \[
+        E(X^2)=(-1)^2\times \frac 13 + 0^2\times \frac 13 + 1^2 \frac 13 = \frac 13
+    \]
+\end{example}
+
+\subsection{The St. Petersberg Paradox}
+There was ostensibly once a casino in St. Petersberg which offered a certain coin-flipping game. For some relatively large ticket-price, you could flip a coin. If the coin lands on heads, you would get your payout (starting out at a value much smaller than the ticket price). On the other hand, if the coin landed tails you got another flip with the payout doubled. The game could go on and on like this until the coin hits heads.
+\begin{example}
+    Calculate the Expected payout for the coin flip game of the St. Petersberg paradox, assuming that the initial payout is $\$2$.
+    \solution
+    Let $X$ be the payout received from playing the coin game. Then the PMF of $X$ is
+    \[
+        \begin{array}{c|c}
+             x & f(x) \\
+             \hline
+             2 & \nicefrac 12 \\
+             4 & \nicefrac 14 \\
+             16 & \nicefrac 1{16} \\
+             \vdots & \vdots
+        \end{array}
+    \]
+    From this we get
+    \[
+        E(X) = 2\times \frac 12 + 4 \times \frac 1 4 + \cdots = \infty
+    \]
+\end{example}
+Thus this would not seem to be a particularly profitable game for a casino to run, since no matter what ticket price we set, the casino would in theory always lose money. 
+
+So suppose you were offered a chance to play this game with a ticket price of $\$50$. Would you take take it? Though the Expectation is technically infinite, we only have a 1 in 64 chance of actually winning any money. In other words, we could easily find ourselves over $\$3\,000$ in debt before seeing any winnings.  So clearly Expectation is not everything. This brings us to \textbf{Variance}.
+
+\subsection{Variance}
+\newcommand{\Var}{\textup{Var}}
+The Variance of a Random Variable is the average of the squared deviation from the mean. In other words
+\begin{definition}[Variance of a Random Variable]
+    Let $X$ be a Random Variable
+    \[
+        \Var(X)=E[(X-E(X))^2]   
+    \]
+\end{definition}
+
+
+\begin{theorem}[Properties of the Variance]
+    Suppose $X$ and $Y$ are two Independent DRVs, and $a$ and $b$ are constants
+    \begin{enumerate}
+        \item $\Var(X)=E(X^2)-[E(X)]^2$
+        \item $\Var(a)=0$
+        \item $\Var(aX+b)=a^2\Var(X)$
+        \item $\Var(X+Y)=\Var(X)+\Var(Y)$
+    \end{enumerate}
+    \todo PROOF
+\end{theorem}
+
+\begin{notsofast}
+    The above Property 3 only applies if $X$ and $Y$ are Independent. For Dependent Random Variables, there are different rules.
+\end{notsofast}
+
+
+\subsection{End-of-the-section Problems}
+\begin{enumerate}
+    \item Prove the linearity property of Expectation
+    \item Show that $E[(X-E(X))^2]=E(X^2)-[E(X)]^2$
+\end{enumerate}
