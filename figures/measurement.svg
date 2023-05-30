@@ -1,0 +1,47 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" version="1.0">
+ <g>
+  <title>Layer 1</title>
+  <line fill="none" stroke="#000" x1="-43.00003" y1="150.50011" x2="-43.50003" y2="150.50011" id="svg_3" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <path fill-opacity="0.25" transform="rotate(1.4435, 77.9333, 149.759)" id="svg_1" d="m78.88728,262.4773c-14.11024,-63.00003 -81.49949,-50.86331 -46.08467,-119.48282c35.41482,-68.6195 -17.06147,-103.84143 46.08467,-119.48282c63.14614,-15.64139 15.66425,89.5323 46.08467,119.48282c30.42042,29.95052 -31.97443,182.48285 -46.08467,119.48282z" opacity="undefined" fill="#870fff"/>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_5" y="38.66667" x="25.66668" stroke="#000" fill="#000000">Ω</text>
+  <text transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_7" y="52.52023" x="26.06228" stroke="#000000" fill="#000000">HHH</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_8" y="134.5439" x="42.94551" stroke="#000000" fill="#000000">HTH</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_9" y="172.97458" x="-7.7042" stroke="#000000" fill="#000000">HHT</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_10" y="221.15632" x="51.38713" stroke="#000000" fill="#000000">TTH</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_11" y="265.32292" x="0.73742" stroke="#000000" fill="#000000">THT</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_12" y="314.65185" x="58.14042" stroke="#000000" fill="#000000">HTT</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_13" y="384.0565" x="53.07545" stroke="#000000" fill="#000000">TTT</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_14" y="95.53963" x="31.9714" stroke="#000000" fill="#000000">THH</text>
+  <ellipse fill-opacity="0.25" ry="72.83334" rx="44" id="svg_15" cy="133.20876" cx="231.24588" stroke-width="0" fill="#007fff"/>
+  <ellipse ry="0.33333" id="svg_16" cy="45.66667" cx="336.00002" fill-opacity="0.25" stroke-width="0" stroke="#000000" fill="#007fff"/>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_18" y="124.79285" x="424.50667" stroke="#000000" fill="#000000">3</text>
+  <text style="cursor: move;" transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_19" y="178.71051" x="462.49395" stroke="#000000" fill="#000000">2</text>
+  <text transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_20" y="230.11882" x="421.97418" stroke="#000000" fill="#000000">1</text>
+  <text transform="matrix(0.394869, 0, 0, 0.581133, 57.2169, 22.4196)" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="24" stroke-width="0" id="svg_21" y="289.4138" x="459.1173" stroke="#000000" fill="#000000">0</text>
+  <path id="svg_24" d="m177.46058,193.50047l0.23624,-0.23705l-0.45676,0l-0.45675,0l0,-0.14674l0,-0.14674l0.45151,0c0.24833,0 0.45151,-0.00744 0.45151,-0.01653c0,-0.00909 -0.09886,-0.11576 -0.21969,-0.23705l-0.21969,-0.22052l0.20306,0l0.20306,0l0.31012,0.31071l0.31012,0.31071l-0.31071,0.31012l-0.31071,0.31012l-0.21377,0l-0.21377,0l0.23624,-0.23705l0,0z" fill-opacity="0.25" stroke-width="0" stroke="#000000" fill="#007fff"/>
+  <path id="svg_28" d="m147.2675,147.9214l0.74251,-0.16627l0.74251,0.16627l-0.37125,0l0,0.16707l-0.74251,0l0,-0.16707l-0.37125,0z" fill-opacity="0.25" stroke-width="0" stroke="#000000" fill="#007fff"/>
+  <path id="svg_29" d="m144.94584,119.48489l0.74251,-0.74001l0.74251,0.74001l-0.37125,0l0,0.74357l-0.74251,0l0,-0.74357l-0.37125,0z" fill-opacity="0.25" stroke-width="0" stroke="#000000" fill="#007fff"/>
+  <path id="svg_31" d="m278.15044,20.65023l-0.74449,-0.74526l0.49031,0l0.74449,0.74526l-0.74449,0.74526l-0.49031,0l0.74449,-0.74526z" fill-opacity="0.25" stroke-width="0" stroke="#000000" fill="#007fff"/>
+  <path transform="rotate(17.7751, 216.868, 85.7524)" id="svg_30" d="m217.34784,85.7524l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <line id="svg_33" y2="85.9987" x2="217.74798" y1="48.74891" x1="96.99864" stroke="#000000" fill="none"/>
+  <line id="svg_34" y2="97.49864" x2="169.74824" y1="97.62364" x1="169.74824" stroke="#000000" fill="none"/>
+  <line id="svg_35" y2="118.12353" x2="233.99789" y1="73.12378" x1="96.74865" stroke="#000000" fill="none"/>
+  <line id="svg_36" y2="135.37343" x2="148.12336" y1="135.37343" x1="147.99836" stroke="#000000" fill="none"/>
+  <line id="svg_37" y2="120.74851" x2="226.12294" y1="96.12365" x1="101.99862" stroke="#000000" fill="none"/>
+  <line id="svg_38" y2="141.8734" x2="181.12318" y1="142.1234" x1="181.12318" stroke="#000000" fill="none"/>
+  <line id="svg_39" y2="126.87348" x2="224.62294" y1="117.87353" x1="86.1237" stroke="#000000" fill="none"/>
+  <line id="svg_40" y2="150.12335" x2="217.87298" y1="146.99837" x1="106.87359" stroke="#000000" fill="none"/>
+  <line transform="rotate(-0.170995, 148.841, 162.943)" id="svg_41" y2="154.75595" x2="212.93164" y1="171.12949" x1="84.74965" stroke="#000000" fill="none"/>
+  <line id="svg_42" y2="185.74816" x2="232.7479" y1="238.37263" x1="100.49867" stroke="#000000" fill="none"/>
+  <path transform="rotate(17.7751, 233.547, 117.986)" id="svg_43" d="m234.027,117.98628l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <path transform="rotate(11.8497, 225.551, 120.61)" id="svg_45" d="m226.031,120.60997l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <path transform="rotate(8.68479, 223.864, 127.044)" id="svg_46" d="m224.34434,127.04425l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <path transform="rotate(2.56804, 217.055, 150.095)" id="svg_47" d="m217.53525,150.09523l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <path transform="rotate(-4.89515, 211.933, 154.593)" id="svg_48" d="m212.41281,154.59298l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <path transform="rotate(-6.37491, 232.172, 185.952)" id="svg_50" d="m232.65269,185.9523l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <line id="svg_51" y2="161.1249" x2="208.37496" y1="198.74988" x1="105" stroke="#000000" fill="none"/>
+  <line id="svg_52" y2="209.49988" x2="199.99997" y1="209.49988" x1="199.49997" stroke="#000000" fill="none"/>
+  <path transform="rotate(-23.7066, 207.183, 161.343)" id="svg_53" d="m207.66282,161.34296l-2.81366,-3.5l1.85301,0l2.81366,3.5l-2.81366,3.5l-1.85301,0l2.81366,-3.5z" stroke-width="0" stroke="#000000" fill="#000000"/>
+ </g>
+
+</svg>
